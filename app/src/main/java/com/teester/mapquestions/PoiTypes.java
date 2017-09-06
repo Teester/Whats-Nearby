@@ -23,9 +23,10 @@ public class PoiTypes {
 	public OsmObjectType restaurant = new OsmObjectType("restaurant", "amenity", R.drawable.ic_restaurant, new String[]{"wheelchair", "wheelchair_toilets", "wifi", "wifi_fee", "outdoor_seating", "vegetarian", "vegan", "takeaway", "deliver", "reservation", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 
 	//Shops
+	public OsmObjectType alcohol = new OsmObjectType("alcohol", "shop", R.drawable.ic_alcohol, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	public OsmObjectType bakery = new OsmObjectType("bakery", "shop", R.drawable.ic_bakery, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	public OsmObjectType beauty = new OsmObjectType("beauty", "shop", R.drawable.ic_beauty, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
-	public OsmObjectType bookmaker = new OsmObjectType("bookmaker", "shop", R.drawable.ic_no, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
+	public OsmObjectType bicycle = new OsmObjectType("bicycle", "shop", R.drawable.ic_bicycle, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	public OsmObjectType butcher = new OsmObjectType("butcher", "shop", R.drawable.ic_butcher, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless", "halal", "kosher", "organic"});
 	public OsmObjectType chemist = new OsmObjectType("chemist", "shop", R.drawable.ic_chemist, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	public OsmObjectType clothes = new OsmObjectType("clothes", "shop", R.drawable.ic_clothes, new String[]{"wheelchair", "men", "women", "cash", "cheques", "credit_card", "debit_card", "contactless"});
@@ -35,7 +36,7 @@ public class PoiTypes {
 	public OsmObjectType florist = new OsmObjectType("florist", "shop", R.drawable.ic_florist, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	public OsmObjectType hairdresser = new OsmObjectType("hairdresser", "shop", R.drawable.ic_hairdresser, new String[]{"wheelchair", "men", "women", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	public OsmObjectType jewelry = new OsmObjectType("jewelry", "shop", R.drawable.ic_jewelry, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
-	public OsmObjectType mobile_phone = new OsmObjectType("mobile_phone", "shop", R.drawable.ic_no, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
+	public OsmObjectType mobile_phone = new OsmObjectType("mobile_phone", "shop", R.drawable.ic_mobile_phone, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	public OsmObjectType optician = new OsmObjectType("optician", "shop", R.drawable.ic_optician, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	public OsmObjectType photo = new OsmObjectType("photo", "shop", R.drawable.ic_photo, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	public OsmObjectType shoes = new OsmObjectType("photo", "shop", R.drawable.ic_shoes, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
@@ -49,11 +50,12 @@ public class PoiTypes {
 	Map<String, OsmObjectType> map = new HashMap<>();
 
 	public PoiTypes() {
+		map.put("alcohol", this.alcohol);
 		map.put("bakery", this.bakery);
 		map.put("bank", this.bank);
 		map.put("bar", this.bar);
 		map.put("beauty", this.beauty);
-		map.put("bookmaker", this.bookmaker);
+		map.put("bicycle", this.bicycle);
 		map.put("butcher", this.butcher);
 		map.put("cafe", this.cafe);
 		map.put("chemist", this.chemist);
