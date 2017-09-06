@@ -56,17 +56,19 @@ public class QuestionsActivity extends AppCompatActivity
 		this.poiList = poiList;
 
 		// Set up a viewPager
-		String poiType = poiList.get(0).getType();
-		PoiTypes poiTypes = new PoiTypes();
-		this.listOfQuestions = poiTypes.getPoiType(poiType);
-		this.listOfQuestions.shuffleQuestions();
+		if (poiList != null) {
+			String poiType = poiList.get(0).getType();
+			PoiTypes poiTypes = new PoiTypes();
+			this.listOfQuestions = poiTypes.getPoiType(poiType);
+			this.listOfQuestions.shuffleQuestions();
 
-		viewPager = (ViewPager) findViewById(R.id.viewPager);
-		adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), poiList.get(0), listOfQuestions, getApplicationContext());
-		viewPager.setAdapter(adapterViewPager);
+			viewPager = (ViewPager) findViewById(R.id.viewPager);
+			adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), poiList.get(0), listOfQuestions, getApplicationContext());
+			viewPager.setAdapter(adapterViewPager);
 
-		TextView textView = (TextView) findViewById(R.id.answer_not_here);
-		textView.setText(String.format(getResources().getString(R.string.nothere), poiList.get(0).getName()));
+			TextView textView = (TextView) findViewById(R.id.answer_not_here);
+			textView.setText(String.format(getResources().getString(R.string.nothere), poiList.get(0).getName()));
+		}
 	}
 
 	@Override
