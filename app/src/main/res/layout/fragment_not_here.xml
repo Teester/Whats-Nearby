@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.teester.mapquestions.NotHereFragment"
+    android:padding="36dp"
+    android:background="#333333">
+
+    <TextView
+        android:id="@+id/question_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/select_current_location"
+        android:paddingBottom="24dp"
+        android:paddingTop="24dp"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/white"
+        android:background="@color/colorAccent"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/question_textview"
+        android:layout_above="@+id/textView2"
+        android:background="@color/colorPrimary"
+        tools:listitem="@layout/poi_list_item"/>
+    <Button
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/none_of_these_places"
+        android:paddingBottom="24dp"
+        android:paddingTop="24dp"
+        android:gravity="center_horizontal"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"/>
+</RelativeLayout>

@@ -1,3 +1,53 @@
 <resources>
     <string name="app_name">Map Questions</string>
+    <string name="title_activity_questions">QuestionsActivity</string>
+
+    <!-- Questions -->
+    <string name="wheelchair">Is %s wheelchair accessible?</string>
+    <string name="wheelchair_toilets">Does %s have wheelchair accessible toilets?</string>
+    <string name="outdoor_seating">Does %s have outdoor seating?</string>
+    <string name="wifi">Does %s have Wifi for customers?</string>
+    <string name="wifi_fee">Does %s charge for wifi access?</string>
+    <string name="vegetarian">Does %s cater for vegetarians?</string>
+    <string name="vegan">Does %s cater for vegans?</string>
+    <string name="men">Does %s cater to men?</string>
+    <string name="women">Does %s cater to women?</string>
+    <string name="drive_through">Does %s have a drive-through?</string>
+    <string name="takeaway">Does %s offer takeaway?</string>
+    <string name="deliver">Does %s deliver?</string>
+    <string name="reservation">Does %s require a reservation?</string>
+    <string name="cash">Does %s take cash?</string>
+    <string name="cheques">Does %s take cheques?</string>
+    <string name="credit_card">Does %s take credit cards?</string>
+    <string name="debit_card">Does %s take debit cards?</string>
+    <string name="contactless">Does %s offer contactless?</string>
+    <string name="dispensing">Does %s dispense prescriptions?</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="unsure">Not sure</string>
+    <string name="nothere">I\'m not at %s</string>
+    <string name="distance_away">%.0fm away</string>
+    <string name="at_location">At %s?</string>
+    <string name="answer_questions">Answer questions to help OpenStreetMap.</string>
+    <string name="ok">OK</string>
+    <string name="not_here">I\'m not here</string>
+    <string name="halal">Does %s offer halal meats?</string>
+    <string name="kosher">Does %s offer kosher produce?</string>
+    <string name="organic">Does %s sell organic produce?</string>
+    <string name="upload_thanks">Thanks for answering. Your answers have helped to improve OpenStreetmap for everyone</string>
+    <string name="icon_content_description">icon</string>
+    <string name="authorise_openstreetmap">Authorise OpenStreetmap</string>
+    <string name="not_logged_in">You are not logged into OpenStreetmap. Your answers cannot be uploaded until you have logged in.  Please press the button below to log in or create an account with OpenStreetMap</string>
+    <string name="osm_login_description">Before you can answer any questions, you must log in to your OpenStreetMap account.</string>
+    <string name="osm_login_button">Log in to OpenStreetMap</string>
+    <string name="select_current_location">Select the place you are currently located</string>
+    <string name="none_of_these_places">None of these places</string>
+    <string name="check_pois_instruction">Click the button below to check for points of interest around your current location.</string>
+    <string name="check_now_button">Check Now!</string>
+    <string name="logged_in_as">You are currently logged in to OpenStreetMap.\n\nMapQuestions will notify you when you\'re in a location where there is missing information in OpenStreetMap.</string>
+    <string name="log_out">Log Out</string>
+
 </resources>
