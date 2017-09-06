@@ -204,12 +204,14 @@ public class QueryOverpass {
 								if (tags.has("leisure")) {
 									type = tags.getString("leisure");
 								}
-
-								OsmObject object = new OsmObject(id, osmType, name, type, lat, lon, elementLocation.distanceTo(queryLocation));
-
-								// adding location to location list
-								poiList.add(object);
-								Log.i(TAG, ""+tags.names());
+								PoiTypes poiTypes = new PoiTypes();
+								OsmObjectType poitype = poiTypes.getPoiType(type);
+								if (poitype != null) {
+									OsmObject object = new OsmObject(id, osmType, name, type, lat, lon, elementLocation.distanceTo(queryLocation));
+									// adding location to location list
+									poiList.add(object);
+									Log.i(TAG, "" + tags.names());
+								}
 							}
 						}
 					}
