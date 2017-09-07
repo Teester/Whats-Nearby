@@ -134,27 +134,6 @@ public class QuestionsActivity extends AppCompatActivity
 
 	}
 
-	public void onYesClicked(View v) {
-		addAnswer(v, "yes");
-	}
-
-	public void onNoClicked(View v) {
-		addAnswer(v, "no");
-	}
-
-	public void onUnsureClicked(View v) {
-		addAnswer(v, "unsure");
-	}
-
-	public void addAnswer(View v, String answer) {
-		ArrayList<QuestionObject> questions = this.listOfQuestions.getQuestionObjects();
-		QuestionObject questionObject = questions.get(viewPager.getCurrentItem());
-
-		v.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), questionObject.getColor()));
-		answers.add(new Answer(poiList.get(0).getId(), poiList.get(0).getOsmType(), questionObject, answer));
-
-	}
-
 	public static class MyPagerAdapter extends FragmentPagerAdapter {
 		private OsmObject poi;
 		private int count;

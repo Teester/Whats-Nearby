@@ -57,8 +57,7 @@
             android:drawableTop="@drawable/ic_yes"
             android:drawablePadding="5dp"
             android:paddingTop="24dp"
-            android:paddingBottom="24dp"
-            android:onClick="onYesClicked"/>
+            android:paddingBottom="24dp"/>
         <Button
             android:id="@+id/answer_no"
             android:layout_width="48dp"
@@ -70,8 +69,7 @@
             android:drawableTop="@drawable/ic_no"
             android:drawablePadding="5dp"
             android:paddingTop="24dp"
-            android:paddingBottom="24dp"
-            android:onClick="onNoClicked"/>
+            android:paddingBottom="24dp"/>
 
         <Button
             android:id="@+id/answer_unsure"
@@ -84,7 +82,6 @@
             android:drawableTop="@drawable/ic_unsure"
             android:drawablePadding="5dp"
             android:paddingTop="24dp"
-            android:paddingBottom="24dp"
-            android:onClick="onUnsureClicked"/>
+            android:paddingBottom="24dp"/>
     </LinearLayout>
 </RelativeLayout>

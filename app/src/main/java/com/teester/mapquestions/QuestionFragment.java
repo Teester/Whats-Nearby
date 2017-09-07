@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Use the {@link QuestionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class QuestionFragment extends Fragment {
+public class QuestionFragment extends Fragment implements View.OnClickListener {
 	private static final String TAG = QuestionFragment.class.getSimpleName();
 
 	protected static final String ARG_PARAM1 = "param1";
@@ -86,17 +86,13 @@ public class QuestionFragment extends Fragment {
 		this.answer_yes = questionFragmentView.findViewById(R.id.answer_yes);
 		this.answer_no = questionFragmentView.findViewById(R.id.answer_no);
 		this.answer_unsure = questionFragmentView.findViewById(R.id.answer_unsure);
+
+		this.answer_yes.setOnClickListener(this);
+		this.answer_no.setOnClickListener(this);
+		this.answer_unsure.setOnClickListener(this);
+
 		return questionFragmentView;
 	}
-
-//	private void setOnClick(final Button btn, final int color, final int position, final String answer){
-//		btn.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				v.setBackgroundColor(ContextCompat.getColor(getContext(), color));
-//			}
-//		});
-//	}
 
 	public void onButtonPressed(ArrayList<OsmObject> uri) {
 		if (mListener != null) {
@@ -159,4 +155,35 @@ public class QuestionFragment extends Fragment {
 	public interface OnFragmentInteractionListener {
 		void onQuestionFragmentInteraction(ArrayList<OsmObject> poiList);
 	}
+
+	@Override
+	public void onClick(View v) {
+		ArrayList<QuestionObject> questions = this.listOfQuestions.getQuestionObjects();
+		QuestionObject questionObject = questions.get(position);
+		int selectedColor = ContextCompat.getColor(getContext(), questionObject.getColor());
+		int unselectedColor = ContextCompat.getColor(getContext(), R.color.colorPrimary);
+
+		switch (v.getId()) {
+			case R.id.answer_yes:
+				this.answer_yes.setBackgroundColor(selectedColor);
+				this.answer_no.setBackgroundColor(unselectedColor);
+				this.answer_unsure.setBackgroundColor(unselectedColor);
+				QuestionsActivity.answers.add(new Answer(poi.getId(), poi.getOsmType(), questionObject, "yes"));
+				break;
+			case R.id.answer_no:
+				this.answer_yes.setBackgroundColor(unselectedColor);
+				this.answer_no.setBackgroundColor(selectedColor);
+				this.answer_unsure.setBackgroundColor(unselectedColor);
+				QuestionsActivity.answers.add(new Answer(poi.getId(), poi.getOsmType(), questionObject, "no"));
+				break;
+			case R.id.answer_unsure:
+				this.answer_yes.setBackgroundColor(unselectedColor);
+				this.answer_no.setBackgroundColor(unselectedColor);
+				this.answer_unsure.setBackgroundColor(selectedColor);
+				break;
+			default:
+				break;
+		}
+	}
+
 }
