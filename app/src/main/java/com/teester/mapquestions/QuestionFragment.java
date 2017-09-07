@@ -168,13 +168,13 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 				this.answer_yes.setBackgroundColor(selectedColor);
 				this.answer_no.setBackgroundColor(unselectedColor);
 				this.answer_unsure.setBackgroundColor(unselectedColor);
-				QuestionsActivity.answers.add(new Answer(poi.getId(), poi.getOsmType(), questionObject, "yes"));
+				QuestionsActivity.answers.add(new Answer(poi, questionObject, "yes"));
 				break;
 			case R.id.answer_no:
 				this.answer_yes.setBackgroundColor(unselectedColor);
 				this.answer_no.setBackgroundColor(selectedColor);
 				this.answer_unsure.setBackgroundColor(unselectedColor);
-				QuestionsActivity.answers.add(new Answer(poi.getId(), poi.getOsmType(), questionObject, "no"));
+				QuestionsActivity.answers.add(new Answer(poi, questionObject, "no"));
 				break;
 			case R.id.answer_unsure:
 				this.answer_yes.setBackgroundColor(unselectedColor);

@@ -35,7 +35,7 @@ public class UploadToOSM {
 	String changeset_app = "Map Questions";
 	String changeset_app_version = BuildConfig.VERSION_NAME;;
 	String changeset_source = "survey";
-	String changeset_comment = "Added details";
+	String changeset_comment = "Added details to %s";
 	Context context;
 	Element currentElement;
 
@@ -53,7 +53,7 @@ public class UploadToOSM {
 		long objectId = this.answers.get(0).getObjectId();
 
 		OAuthConsumer oAuthConsumer = getConsumer();
-		DownloadElement downloadFromOsm = new DownloadElement(this, objectId, type, oAuthConsumer, context);
+		DownloadElement downloadFromOsm = new DownloadElement(objectId, type, oAuthConsumer, context);
 		downloadFromOsm.execute();
 
 		return null;
@@ -74,7 +74,7 @@ public class UploadToOSM {
 	{
 		Map<String,String> changesetTags = new HashMap<>();
 		// TODO: Add POI name to changeset comment
-		changesetTags.put("comment", changeset_comment);
+		changesetTags.put("comment", String.format(changeset_comment, answers.get(0).getObjectName()));
 		changesetTags.put("created_by", changeset_app);
 		changesetTags.put("version", changeset_app_version);
 		changesetTags.put("source", changeset_source);
@@ -86,13 +86,11 @@ public class UploadToOSM {
 
 		private long id;
 		private String type;
-		private UploadToOSM upload;
 		private Context context;
 
-		public DownloadElement(UploadToOSM upload, long id, String type, OAuthConsumer consumer, Context context ) {
+		public DownloadElement(long id, String type, OAuthConsumer consumer, Context context ) {
 			this.id = id;
 			this.type = type;
-			this.upload = upload;
 			this.context = context;
 		}
 
@@ -139,7 +137,6 @@ public class UploadToOSM {
 				} catch (OsmAuthorizationException e) {
 					Log.i(TAG, e.toString());
 				}
-				Log.i(TAG, ""+upload);
 			}
 			return null;
 		}
