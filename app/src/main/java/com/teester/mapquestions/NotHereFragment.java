@@ -142,7 +142,8 @@ public class NotHereFragment extends Fragment {
 
 			// Get the data item for this position
 			OsmObject poi = getItem(position);
-			Log.d(TAG, ""+poi);
+			PoiTypes poiTypes = new PoiTypes();
+			Log.d(TAG, "" + poi);
 			// Check if an existing view is being reused, otherwise inflate the view
 			if (convertView == null) {
 				convertView = LayoutInflater.from(getContext()).inflate(R.layout.poi_list_item, parent, false);
@@ -157,13 +158,11 @@ public class NotHereFragment extends Fragment {
 			type.setText(poi.getType());
 			distance.setText(String.format(getString(R.string.distance_away), poi.getDistance()));
 
-			String drawableId = "ic_" + poi.getType();
-			int drawableIdentifier = getResources().getIdentifier(drawableId, "drawable", getActivity().getPackageName());
-			if (drawableIdentifier == 0) {
-				image.setImageResource(R.drawable.ic_unsure);
-			} else {
-				image.setImageResource(drawableIdentifier);
-			}
+			int drawable;
+			OsmObjectType objectType = poiTypes.getPoiType(poi.getType());
+			drawable = objectType.getDrawable(getContext());
+			image.setImageResource(drawable);
+
 			// Return the completed view to render on screen
 			return convertView;
 		}
