@@ -1,11 +1,12 @@
 package com.teester.mapquestions;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -54,10 +55,15 @@ public class LocationService extends Service {
 							lastQueryLocation = location;
 							Log.d(TAG, "Distance from last location query is " + lastQueryLocation.distanceTo(location) + " m");
 							Log.d(TAG, "Querying Overpass");
+
+							// Cancel all notifications before we run a new query.  If we're querying,
+							// Overpass, we're no longer in the same place as the last notification.
+							getApplicationContext();
+							NotificationManager notificationManager= (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+							notificationManager.cancelAll();
 							new QueryOverpass(location, getApplicationContext());
 						} else {
 							Log.d(TAG, "Not querying Overpass, distance from last location query is " + lastQueryLocation.distanceTo(location) + " m");
-							Log.d(TAG, "MINQUERYDISTANCE is " + MINQUERYDISTANCE + " m");
 						}
 					} else {
 						Log.d(TAG, "Not querying Overpass, distance from last location is " + distance + " m");
