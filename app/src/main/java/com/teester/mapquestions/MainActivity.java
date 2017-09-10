@@ -9,13 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 	private static final String TAG = MainActivity.class.getSimpleName();
 
 	private TextView textView;
 	private Button button;
 	private SharedPreferences sharedPreferences;
+
+	private boolean loggedIn;
+	private final String LOGGED_IN_PREF = "logged_in_to_osm";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,50 +33,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-
+	protected void onResume() {
+		super.onResume();
 		this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		String token = sharedPreferences.getString("oauth_token", "");
+		this.loggedIn = sharedPreferences.getBoolean(LOGGED_IN_PREF, false);
 
-		if (token == "") {
-			logIn();
+		if (loggedIn == true) {
+			this.textView.setText(getResources().getString(R.string.logged_in_as));
+			this.button.setText(getResources().getString(R.string.log_out));
 		} else {
-			logOut();
+			this.textView.setText(getResources().getString(R.string.not_logged_in));
+			this.button.setText(getResources().getString(R.string.authorise_openstreetmap));
 		}
-
 	}
 
-	void logIn() {
-		this.textView.setText(getResources().getString(R.string.not_logged_in));
-		this.button.setText(getResources().getString(R.string.authorise_openstreetmap));
+	@Override
+	public void onClick(View view) {
+		if (view == findViewById(R.id.button)) {
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+			editor.putString("oauth_verifier", "");
+			editor.putString("oauth_token", "");
+			editor.putString("oauth_token_secret", "");
+			editor.apply();
 
-		this.button.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				SharedPreferences.Editor editor = sharedPreferences.edit();
-				editor.putString("oauth_verifier", "");
-				editor.putString("oauth_token", "");
-				editor.putString("oauth_token_secret", "");
+			if (loggedIn == true) {
+				editor.putBoolean(LOGGED_IN_PREF, false);
 				editor.apply();
-
+			} else {
 				OAuth oAuth = new OAuth(getApplicationContext());
 				oAuth.execute();
 			}
-		});
-	}
-
-	void logOut() {
-		this.textView.setText(getResources().getString(R.string.logged_in_as));
-		this.button.setText(getResources().getString(R.string.log_out));
-
-		this.button.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				SharedPreferences.Editor editor = sharedPreferences.edit();
-				editor.putString("oauth_verifier", "");
-				editor.putString("oauth_token", "");
-				editor.putString("oauth_token_secret", "");
-				editor.apply();
-			}
-		});
+		}
 	}
 }
