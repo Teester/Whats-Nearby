@@ -1,6 +1,7 @@
 package com.teester.mapquestions;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,16 +22,9 @@ import android.widget.Button;
  * Use the {@link OsmLoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OsmLoginFragment extends Fragment {
+public class OsmLoginFragment extends Fragment implements View.OnClickListener {
 
 	private static final String TAG = OsmLoginFragment.class.getSimpleName();
-
-	// TODO: Rename parameter arguments, choose names that match
-	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-	// TODO: Rename and change types of parameters
-	private String mParam1;
-	private String mParam2;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -42,11 +36,8 @@ public class OsmLoginFragment extends Fragment {
 	 * Use this factory method to create a new instance of
 	 * this fragment using the provided parameters.
 	 *
-	 * @param param1 Parameter 1.
-	 * @param param2 Parameter 2.
 	 * @return A new instance of fragment OsmLoginFragment.
 	 */
-	// TODO: Rename and change types and number of parameters
 	public static OsmLoginFragment newInstance() {
 		OsmLoginFragment fragment = new OsmLoginFragment();;
 		return fragment;
@@ -63,26 +54,11 @@ public class OsmLoginFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View osmLoginFragmentView =  inflater.inflate(R.layout.fragment_osm_login, container, false);
 		Button button = osmLoginFragmentView.findViewById(R.id.osmLoginButton);
-		button.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-
-				SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-				editor.putString("oauth_verifier", "");
-				editor.putString("oauth_token", "");
-				editor.putString("oauth_token_secret", "");
-				editor.apply();
-				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-				Log.i(TAG, preferences.getString("oauth_verifier", "None"));
-				OAuth oAuth = new OAuth(getContext());
-				oAuth.execute();
-			}
-		});
-
+		button.setOnClickListener(this);
 
 		return osmLoginFragmentView;
 	}
 
-	// TODO: Rename method, update argument and hook method into UI event
 	public void onButtonPressed(Uri uri) {
 		if (mListener != null) {
 			mListener.onOsmLoginFragmentInteraction(uri);
@@ -106,19 +82,6 @@ public class OsmLoginFragment extends Fragment {
 		mListener = null;
 	}
 
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.i(TAG, "in onResume");
-//		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-//		editor.putString("oauth_verifier", "");
-//		editor.putString("oauth_token", "");
-//		editor.apply();
-//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-//		Log.i(TAG, "Pref: " + preferences.getString("oauth_verifier", "None"));
-	}
-
 	/**
 	 * This interface must be implemented by activities that contain this
 	 * fragment to allow an interaction in this fragment to be communicated
@@ -130,7 +93,28 @@ public class OsmLoginFragment extends Fragment {
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
 	public interface OnFragmentInteractionListener {
-		// TODO: Update argument type and name
 		void onOsmLoginFragmentInteraction(Uri uri);
+	}
+
+	@Override
+	public void onClick(View view) {
+		if (view.getId() == R.id.osmLoginButton) {
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+
+			editor.putString("oauth_verifier", "");
+			editor.putString("oauth_token", "");
+			editor.putString("oauth_token_secret", "");
+			editor.apply();
+
+			OAuth oAuth = new OAuth(getContext());
+			oAuth.execute();
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Log.i(TAG, "in inActivityResult");
 	}
 }

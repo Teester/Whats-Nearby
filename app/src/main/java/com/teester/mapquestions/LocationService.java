@@ -3,7 +3,6 @@ package com.teester.mapquestions;
 import android.Manifest;
 import android.app.NotificationManager;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -27,6 +26,7 @@ public class LocationService extends Service {
 	private static final int INTERVAL = 1 * 60 * 1000;
 	private static final int MINQUERYINTERVAL = 3 * 60 * 1000;
 	private static final double MINQUERYDISTANCE = 20;
+	private static final int MINLOCATIONACCURACY = 100;
 	private long lastQueryTime;
 	private Location lastQueryLocation;
 
@@ -39,7 +39,7 @@ public class LocationService extends Service {
 			Log.d(TAG, "lat: "+location.getLatitude()+ " lon: " + location.getLongitude() + " distance: " + location.distanceTo(lastLocation) + "m");
 
 			// Only query Overpass if the location is accurate to within 100m
-			if (location.getAccuracy() < 100) {
+			if (location.getAccuracy() < MINLOCATIONACCURACY) {
 				Log.d(TAG, "Location accuracy is " + location.getAccuracy() + "m");
 				// Only query Overpass if over 1 hour has passed since the last query
 				long timeInterval = System.currentTimeMillis() - lastQueryTime;

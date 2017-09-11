@@ -1,21 +1,16 @@
 package com.teester.mapquestions;
 
-import android.app.Application;
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Parcelable;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
@@ -33,7 +28,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.TreeMap;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -69,19 +63,17 @@ public class QueryOverpass {
 		String leisure = String.format(nwr, overpassLocation, "leisure");
 		String tourism = String.format(nwr, overpassLocation, "tourism");
 
-		String overpassUrl = String.format("http://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s%s);out%%20center;", shop, amenity, leisure, tourism);
+		String overpassUrl = String.format("http://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s%s);out%%20center%%20meta%%20qt;", shop, amenity, leisure, tourism);
 		Log.d(TAG, overpassUrl);
 		return overpassUrl;
 	}
 
-	void notifyLocation(ArrayList<OsmObject> object) {
+	private void notifyLocation(ArrayList<OsmObject> object) {
 		OsmObject poi = object.get(0);
-		int drawable;
-
 		String poiType = poi.getType();
 		PoiTypes poiTypes = new PoiTypes();
 		OsmObjectType type = poiTypes.getPoiType(poiType);
-		drawable = type.getDrawable(this.context);
+		int drawable = type.getDrawable(this.context);
 
 		Intent resultIntent = new Intent(this.context, QuestionsActivity.class);
 		resultIntent.putExtra("poilist", object);
@@ -101,7 +93,7 @@ public class QueryOverpass {
 
 	}
 
-	public static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
+	private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
 		Drawable drawable = ContextCompat.getDrawable(context, drawableId);
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 			drawable = (DrawableCompat.wrap(drawable)).mutate();
@@ -117,13 +109,6 @@ public class QueryOverpass {
 	}
 
 	public class CallAPI extends AsyncTask<String, String, String> {
-
-		public String jsonString;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-		}
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -152,19 +137,18 @@ public class QueryOverpass {
 
 		@Override
 		protected void onPostExecute(String result) {
-			//Update the UI
-			jsonString = result;
 
 			ArrayList<OsmObject> poiList = new ArrayList<OsmObject>();
 
-			if (jsonString != null) {
+			if (result != null) {
 				try {
-					JSONObject jsonObj = new JSONObject(jsonString);
+					PoiTypes poiTypes = new PoiTypes();
+					JSONObject jsonObj = new JSONObject(result);
 
 					// Getting JSON Array node
 					JSONArray elements = jsonObj.getJSONArray("elements");
 
-					// looping through All Contacts
+					// looping through All elements
 					for (int i = 0; i < elements.length(); i++) {
 						JSONObject e = elements.getJSONObject(i);
 						if (e.has("tags")) {
@@ -185,10 +169,6 @@ public class QueryOverpass {
 								elementLocation.setLatitude(lat);
 								elementLocation.setLongitude(lon);
 								double distance = queryLocation.distanceTo(elementLocation);
-								// tmp hash map for single location
-								TreeMap<String, String> location = new TreeMap<>();
-
-								Log.d(TAG, "" + e.get("tags"));
 								String name = tags.getString("name");
 								String type = "";
 
@@ -204,13 +184,10 @@ public class QueryOverpass {
 								if (tags.has("leisure")) {
 									type = tags.getString("leisure");
 								}
-								PoiTypes poiTypes = new PoiTypes();
 								OsmObjectType poitype = poiTypes.getPoiType(type);
 								if (poitype != null) {
 									OsmObject object = new OsmObject(id, osmType, name, type, lat, lon, elementLocation.distanceTo(queryLocation));
-									// adding location to location list
 									poiList.add(object);
-									Log.i(TAG, "" + tags.names());
 								}
 							}
 						}
@@ -220,7 +197,7 @@ public class QueryOverpass {
 				}
 				Log.d(TAG, "" + poiList);
 
-				// TODO: Arrange the locations by distance from location
+				// Arrange the locations by distance from location
 				Collections.sort(poiList, new Comparator<OsmObject>() {
 					public int compare(OsmObject p1, OsmObject p2) {
 						return (int) (queryLocation.distanceTo(p1.getLocation()) - queryLocation.distanceTo(p2.getLocation()));

@@ -15,6 +15,20 @@ public class QuestionObject implements Parcelable {
 	private int icon;
 	private int color;
 	private String tag;
+	private String answer_yes;
+	private String answer_no;
+	private String answer_unsure;
+
+	public QuestionObject(int id, int question, int icon, int color, String tag, String answer_yes, String answer_no, String answer_unsure) {
+		this.id = id;
+		this.question = question;
+		this.icon = icon;
+		this.color = color;
+		this.tag = tag;
+		this.answer_yes = answer_yes;
+		this.answer_no = answer_no;
+		this.answer_unsure = answer_unsure;
+	}
 
 	public String getTag() {
 		return tag;
@@ -48,40 +62,15 @@ public class QuestionObject implements Parcelable {
 		this.answer_unsure = answer_unsure;
 	}
 
-	private String answer_yes;
-	private String answer_no;
-	private String answer_unsure;
-
-	public QuestionObject(int id, int question, int icon) {
-		this.id = id;
-		this.question = question;
-		this.icon = icon;
-		this.color = R.color.colorAccent;
-	}
-
-	public QuestionObject(int id, int question, int icon, int color) {
-		this.id = id;
-		this.question = question;
-		this.icon = icon;
-		this.color = color;
-	}
-
-	public QuestionObject(int id, int question, int icon, int color, String tag, String answer_yes, String answer_no, String answer_unsure) {
-		this.id = id;
-		this.question = question;
-		this.icon = icon;
-		this.color = color;
-		this.tag = tag;
-		this.answer_yes = answer_yes;
-		this.answer_no = answer_no;
-		this.answer_unsure = answer_unsure;
-	}
-
 	protected QuestionObject(Parcel in) {
 		id = in.readInt();
 		question = in.readInt();
 		icon = in.readInt();
 		color = in.readInt();
+		tag = in.readString();
+		answer_yes = in.readString();
+		answer_no = in.readString();
+		answer_unsure = in.readString();
 	}
 
 	public static final Creator<QuestionObject> CREATOR = new Creator<QuestionObject>() {
@@ -145,5 +134,9 @@ public class QuestionObject implements Parcelable {
 		parcel.writeInt(question);
 		parcel.writeInt(icon);
 		parcel.writeInt(color);
+		parcel.writeString(tag);
+		parcel.writeString(answer_yes);
+		parcel.writeString(answer_no);
+		parcel.writeString(answer_unsure);
 	}
 }
