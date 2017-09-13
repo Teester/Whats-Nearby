@@ -1,13 +1,11 @@
 package com.teester.mapquestions;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,11 +108,5 @@ public class OsmLoginFragment extends Fragment implements View.OnClickListener {
 			OAuth oAuth = new OAuth(getContext());
 			oAuth.execute();
 		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		Log.i(TAG, "in inActivityResult");
 	}
 }

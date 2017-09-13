@@ -17,7 +17,6 @@ import de.westnordost.osmapi.common.errors.OsmAuthorizationException;
 import de.westnordost.osmapi.map.MapDataDao;
 import de.westnordost.osmapi.map.data.Element;
 import oauth.signpost.OAuthConsumer;
-import oauth.signpost.OAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
@@ -73,14 +72,12 @@ public class UploadToOSM {
 	private Map<String,String> createChangesetTags()
 	{
 		Map<String,String> changesetTags = new HashMap<>();
-		// TODO: Add POI name to changeset comment
 		changesetTags.put("comment", String.format(changeset_comment, answers.get(0).getObjectName()));
 		changesetTags.put("created_by", changeset_app);
 		changesetTags.put("version", changeset_app_version);
 		changesetTags.put("source", changeset_source);
 		return changesetTags;
 	}
-
 
 	public class DownloadElement extends AsyncTask<Void, Void, Void> {
 

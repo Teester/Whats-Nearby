@@ -1,6 +1,5 @@
 package com.teester.mapquestions;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +9,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,14 +16,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import oauth.signpost.exception.OAuthCommunicationException;
-import oauth.signpost.exception.OAuthExpectationFailedException;
-import oauth.signpost.exception.OAuthMessageSignerException;
-import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 public class QuestionsActivity extends AppCompatActivity
 		 implements QuestionFragment.OnFragmentInteractionListener,
@@ -138,16 +128,14 @@ public class QuestionsActivity extends AppCompatActivity
 		private OsmObject poi;
 		private int count;
 		public OsmObjectType listOfQuestions;
-		private Context context;
 
 		public MyPagerAdapter(FragmentManager fragmentManager, OsmObject poi, OsmObjectType listOfQuestions, Context context) {
 			super(fragmentManager);
 			this.poi = poi;
-			this.context = context;
 			this.listOfQuestions = listOfQuestions;
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-			if ( prefs.contains("oauth_token") && prefs.contains("oauth_token_secret")) {
+			if (prefs.getBoolean("logged_in_to_osm", false) == true) {
+			//if ( prefs.contains("oauth_token") && prefs.contains("oauth_token_secret")) {
 				this.count = listOfQuestions.getNoOfQuestions() +1;
 			} else {
 				this.count = 1;

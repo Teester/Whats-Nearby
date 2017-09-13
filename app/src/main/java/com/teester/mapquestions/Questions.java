@@ -1,6 +1,5 @@
 package com.teester.mapquestions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +17,8 @@ public class Questions {
 	public QuestionObject deliver = new QuestionObject(11, R.string.deliver, R.drawable.ic_unsure, R.color.purple, "deliver", "yes", "no", "");
 	public QuestionObject dispensing = new QuestionObject(18, R.string.dispensing, R.drawable.ic_unsure, R.color.turquoise, "dispensing", "yes", "no", "");
 	public QuestionObject drive_through = new QuestionObject(9, R.string.drive_through, R.drawable.ic_unsure, R.color.purple, "drive_through", "yes", "no", "");
-	public QuestionObject halal = new QuestionObject(18, R.string.halal, R.drawable.ic_unsure, R.color.red, "halal", "yes", "no", "");
-	public QuestionObject kosher = new QuestionObject(18, R.string.kosher, R.drawable.ic_unsure, R.color.red, "kosher", "yes", "no", "");
+	public QuestionObject halal = new QuestionObject(18, R.string.halal, R.drawable.ic_halal, R.color.red, "halal", "yes", "no", "");
+	public QuestionObject kosher = new QuestionObject(18, R.string.kosher, R.drawable.ic_kosher, R.color.red, "kosher", "yes", "no", "");
 	public QuestionObject men = new QuestionObject(7, R.string.men, R.drawable.ic_men, R.color.red, "men", "yes", "no", "");
 	public QuestionObject organic = new QuestionObject(7, R.string.organic, R.drawable.ic_unsure, R.color.red, "organic", "yes", "no", "");
 	public QuestionObject outdoor_seating = new QuestionObject(2, R.string.outdoor_seating, R.drawable.ic_unsure, R.color.red, "outdoor_seating", "yes", "no", "");

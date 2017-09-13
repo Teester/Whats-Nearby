@@ -2,10 +2,9 @@ package com.teester.mapquestions;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,6 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 
-import static android.content.Context.MODE_PRIVATE;
-
 /**
  * Fragment to upload to osm
  */
@@ -33,7 +30,7 @@ public class UploadFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 	private ArrayList<Answer> answers;
-	public static boolean logged_in = false;
+	public boolean logged_in = false;
 
 	private TextView thanks_textview;
 	private ImageView thanks_imageView;
@@ -70,13 +67,15 @@ public class UploadFragment extends Fragment {
 		return questionFragmentView;
 	}
 
-
 	@Override
 	public void onStart() {
 		super.onStart();
 
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+		this.logged_in = sharedPreferences.getBoolean("logged_in_to_osm", false);
+
 		//this.answers = QuestionsActivity.answers;
-		if (logged_in = true) {
+		if (this.logged_in = true) {
 			this.thanks_imageView.setImageResource(R.drawable.ic_yes);
 			this.thanks_textview.setText(R.string.upload_thanks);
 			this.authorise.setVisibility(View.INVISIBLE);
@@ -112,12 +111,6 @@ public class UploadFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 		mListener = null;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.i(TAG, "In onResume()");
 	}
 
 	public interface OnFragmentInteractionListener {
