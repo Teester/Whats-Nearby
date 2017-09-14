@@ -9,7 +9,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +26,7 @@ public class QuestionsActivity extends AppCompatActivity
 	private ArrayList<OsmObject> poiList;
 	private OsmObjectType listOfQuestions;
 	FragmentPagerAdapter adapterViewPager;
-	ViewPager viewPager;
+	NonSwipeableViewPager viewPager;
 
 	public static QuestionObject question;
 	public static QuestionObject previousQuestion;
@@ -52,7 +51,7 @@ public class QuestionsActivity extends AppCompatActivity
 			this.listOfQuestions = poiTypes.getPoiType(poiType);
 			this.listOfQuestions.shuffleQuestions();
 
-			viewPager = (ViewPager) findViewById(R.id.viewPager);
+			viewPager = (NonSwipeableViewPager) findViewById(R.id.viewPager);
 			adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), poiList.get(0), listOfQuestions, getApplicationContext());
 			viewPager.setAdapter(adapterViewPager);
 
@@ -85,7 +84,9 @@ public class QuestionsActivity extends AppCompatActivity
 	}
 
 	@Override
-	public void onQuestionFragmentInteraction(ArrayList<OsmObject> poiList) {
+	public void onQuestionFragmentInteraction() {
+		int currPos=viewPager.getCurrentItem();
+		viewPager.setCurrentItem(currPos+1);
 	}
 
 	@Override

@@ -94,12 +94,6 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 		return questionFragmentView;
 	}
 
-	public void onButtonPressed(ArrayList<OsmObject> uri) {
-		if (mListener != null) {
-			mListener.onQuestionFragmentInteraction(uri);
-		}
-	}
-
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -153,7 +147,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
 	public interface OnFragmentInteractionListener {
-		void onQuestionFragmentInteraction(ArrayList<OsmObject> poiList);
+		void onQuestionFragmentInteraction();
 	}
 
 	@Override
@@ -184,6 +178,8 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 			default:
 				break;
 		}
+
+		mListener.onQuestionFragmentInteraction();
 	}
 
 }
