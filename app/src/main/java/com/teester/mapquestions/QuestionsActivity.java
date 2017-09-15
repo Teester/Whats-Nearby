@@ -43,6 +43,7 @@ public class QuestionsActivity extends AppCompatActivity
 		// noinspection unchecked
 		ArrayList<OsmObject> poiList = (ArrayList<OsmObject>) getIntent().getExtras().get(("poilist"));
 		this.poiList = poiList;
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
 		// Set up a viewPager
 		if (poiList != null) {
@@ -51,12 +52,17 @@ public class QuestionsActivity extends AppCompatActivity
 			this.listOfQuestions = poiTypes.getPoiType(poiType);
 			this.listOfQuestions.shuffleQuestions();
 
-			viewPager = (NonSwipeableViewPager) findViewById(R.id.viewPager);
-			adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), poiList.get(0), listOfQuestions, getApplicationContext());
-			viewPager.setAdapter(adapterViewPager);
+			if (sharedPreferences.getBoolean("logged_in_to_osm", false) == true) {
+				viewPager = (NonSwipeableViewPager) findViewById(R.id.viewPager);
+				adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), poiList.get(0), listOfQuestions, getApplicationContext());
+				viewPager.setAdapter(adapterViewPager);
 
-			TextView textView = (TextView) findViewById(R.id.answer_not_here);
-			textView.setText(String.format(getResources().getString(R.string.nothere), poiList.get(0).getName()));
+				TextView textView = (TextView) findViewById(R.id.answer_not_here);
+				textView.setText(String.format(getResources().getString(R.string.nothere), poiList.get(0).getName()));
+			} else {
+				Intent intent = new Intent(this, MainActivity.class);
+				startActivity(intent);
+			}
 		}
 	}
 
@@ -155,9 +161,9 @@ public class QuestionsActivity extends AppCompatActivity
 		public Fragment getItem(int position) {
 			Log.i(TAG, ""+position);
 			Log.i(TAG, ""+count);
-			if (this.count == 1) {
-				return OsmLoginFragment.newInstance();
-			}
+//			if (this.count == 1) {
+//				return OsmLoginFragment.newInstance();
+//			}
 			if (position < count -1) {
 				return QuestionFragment.newInstance(this.poi, position, this.listOfQuestions);
 			} else {

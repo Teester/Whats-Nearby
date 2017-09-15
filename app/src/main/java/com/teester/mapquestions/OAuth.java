@@ -62,6 +62,7 @@ public class OAuth extends AsyncTask<Void, Void, Void> {
 				context.startActivity(browserIntent);
 			} else {
 				consumer.setTokenWithSecret(token, tokenSecret);
+				provider.setOAuth10a(true);
 				provider.retrieveAccessToken(consumer, verifier);
 
 				editor.putString("oauth_token_secret", consumer.getTokenSecret());
