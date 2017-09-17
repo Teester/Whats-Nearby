@@ -13,13 +13,11 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final String TAG = MainActivity.class.getSimpleName();
-
+	private final String LOGGED_IN_PREF = "logged_in_to_osm";
 	private TextView textView;
 	private Button button;
 	private SharedPreferences sharedPreferences;
-
 	private boolean loggedIn;
-	private final String LOGGED_IN_PREF = "logged_in_to_osm";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +44,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		super.onResume();
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
+		if (sharedPreferences.getBoolean(LOGGED_IN_PREF, false) == true) {
+			this.textView.setText(getResources().getString(R.string.logged_in_as));
+			this.button.setText(getResources().getString(R.string.log_out));
+		} else {
+			this.textView.setText(getResources().getString(R.string.not_logged_in));
+			this.button.setText(getResources().getString(R.string.authorise_openstreetmap));
+		}
 		Intent intent = getIntent();
 		Uri uri = intent.getData();
 		if (uri != null) {
