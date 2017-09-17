@@ -1,4 +1,4 @@
-package com.teester.mapquestions;
+package com.teester.whatsnearby;
 
 import android.Manifest;
 import android.app.NotificationManager;

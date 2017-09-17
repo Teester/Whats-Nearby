@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.teester.mapquestions.NotHereFragment"
+             tools:context="com.teester.whatsnearby.NotHereFragment"
     android:padding="36dp"
     android:background="#333333">
 

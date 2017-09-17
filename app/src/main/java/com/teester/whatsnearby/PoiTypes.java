@@ -1,4 +1,4 @@
-package com.teester.mapquestions;
+package com.teester.whatsnearby;
 
 import java.util.HashMap;
 import java.util.Map;

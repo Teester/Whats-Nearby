@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Map Questions</string>
+    <string name="app_name">What\'s Nearby?</string>
     <string name="title_activity_questions">QuestionsActivity</string>
 
     <!-- Questions -->

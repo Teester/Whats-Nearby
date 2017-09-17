@@ -1,6 +1,5 @@
-package com.teester.mapquestions;
+package com.teester.whatsnearby;
 
-import android.content.res.Resources;
 import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;

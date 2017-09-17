@@ -8,7 +8,7 @@
     android:theme="@style/AppTheme"
     android:background="#333333">
 
-    <com.teester.mapquestions.NonSwipeableViewPager
+    <com.teester.whatsnearby.NonSwipeableViewPager
         android:id="@+id/viewPager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

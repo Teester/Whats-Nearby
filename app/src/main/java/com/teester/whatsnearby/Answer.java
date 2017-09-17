@@ -1,9 +1,7 @@
-package com.teester.mapquestions;
+package com.teester.whatsnearby;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.Map;
 
 /**
  * Answers to questions

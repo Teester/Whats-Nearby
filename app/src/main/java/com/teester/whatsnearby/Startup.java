@@ -1,4 +1,4 @@
-package com.teester.mapquestions;
+package com.teester.whatsnearby;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

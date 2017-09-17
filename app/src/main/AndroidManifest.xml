@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.teester.mapquestions">
+          package="com.teester.whatsnearby">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -13,11 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name="com.teester.whatsnearby.MainActivity"
                   android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -25,14 +27,14 @@
                       android:host="oauth" />
             </intent-filter>
         </activity>
-        <service android:name=".LocationService"/>
+        <service android:name="com.teester.whatsnearby.LocationService"/>
         <activity
-            android:name=".QuestionsActivity"
+            android:name="com.teester.whatsnearby.QuestionsActivity"
             android:label="@string/title_activity_questions"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <receiver android:name="com.teester.mapquestions.Startup" >
+        <receiver android:name="com.teester.whatsnearby.Startup" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

@@ -1,7 +1,6 @@
-package com.teester.mapquestions;
+package com.teester.whatsnearby;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
