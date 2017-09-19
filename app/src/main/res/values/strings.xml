@@ -49,5 +49,7 @@
     <string name="check_now_button">Check Now!</string>
     <string name="logged_in_as">You are currently logged in to OpenStreetMap.\n\nMapQuestions will notify you when you\'re in a location where there is missing information in OpenStreetMap.</string>
     <string name="log_out">Log Out</string>
+    <string name="changeset_comment">Added details to %s</string>
+    <string name="changeset_source">survey</string>
 
 </resources>

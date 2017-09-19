@@ -2,6 +2,7 @@ package com.teester.whatsnearby;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -29,22 +30,22 @@ import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 public class UploadToOSM {
 	private static final String TAG = UploadToOSM.class.getSimpleName();
-
-	ArrayList<Answer> answers;
-	String changeset_app = "Map Questions";
-	String changeset_app_version = BuildConfig.VERSION_NAME;;
-	String changeset_source = "survey";
-	String changeset_comment = "Added details to %s";
-	Context context;
-	Element currentElement;
-
 	private static final String CONSUMER_KEY = "1LJqwD4kMz96HTbv9I1U1XBM0AL1RpcjuFOPvW0B";
 	private static final String CONSUMER_SECRET = "KDCLveu82AZawLELpC6yIP3EI8fJa0JqF0ALukbl";
+	ArrayList<Answer> answers;
+	Context context;
+	Element currentElement;
 
 	public UploadToOSM (ArrayList<Answer> answers, Context context) throws OAuthNotAuthorizedException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthMessageSignerException {
 		this.answers = answers;
 		this.context = context;
 		Upload();
+	}
+
+	public static String getApplicationName(Context context) {
+		ApplicationInfo applicationInfo = context.getApplicationInfo();
+		int stringId = applicationInfo.labelRes;
+		return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
 	}
 
 	public Void Upload() {
@@ -72,10 +73,10 @@ public class UploadToOSM {
 	private Map<String,String> createChangesetTags()
 	{
 		Map<String,String> changesetTags = new HashMap<>();
-		changesetTags.put("comment", String.format(changeset_comment, answers.get(0).getObjectName()));
-		changesetTags.put("created_by", changeset_app);
-		changesetTags.put("version", changeset_app_version);
-		changesetTags.put("source", changeset_source);
+		changesetTags.put("comment", String.format(context.getString(R.string.changeset_comment), answers.get(0).getObjectName()));
+		changesetTags.put("created_by", context.getResources().getString(R.string.app_name));
+		changesetTags.put("version", BuildConfig.VERSION_NAME);
+		changesetTags.put("source", context.getString(R.string.changeset_source));
 		return changesetTags;
 	}
 
