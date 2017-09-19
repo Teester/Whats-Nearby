@@ -19,14 +19,13 @@ import com.mapzen.android.lost.api.LostApiClient;
 public class LocationService extends Service {
 
 	private static final String TAG = LocationService.class.getSimpleName();
-
-	LostApiClient client;
-	private Location lastLocation;
 	private static final int PRIORITY = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
 	private static final int INTERVAL = 1 * 60 * 1000;
 	private static final int MINQUERYINTERVAL = 3 * 60 * 1000;
 	private static final double MINQUERYDISTANCE = 20;
 	private static final int MINLOCATIONACCURACY = 100;
+	LostApiClient client;
+	private Location lastLocation;
 	private long lastQueryTime;
 	private Location lastQueryLocation;
 
@@ -97,7 +96,10 @@ public class LocationService extends Service {
 
 						if (ActivityCompat.checkSelfPermission(getApplicationContext(),
 								Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-							// TODO: Handle missing permission
+
+							Intent intent = new Intent(getBaseContext(), MainActivity.class);
+							startActivity(intent);
+
 							return;
 						}
 						LocationServices.FusedLocationApi.requestLocationUpdates(client, request, listener);
