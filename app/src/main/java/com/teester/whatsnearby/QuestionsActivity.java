@@ -1,5 +1,6 @@
 package com.teester.whatsnearby;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,14 +24,13 @@ public class QuestionsActivity extends AppCompatActivity
 					OsmLoginFragment.OnFragmentInteractionListener {
 
 	private static final String TAG = QuestionsActivity.class.getSimpleName();
-	private ArrayList<OsmObject> poiList;
-	private OsmObjectType listOfQuestions;
-	FragmentPagerAdapter adapterViewPager;
-	NonSwipeableViewPager viewPager;
-
 	public static QuestionObject question;
 	public static QuestionObject previousQuestion;
 	public static ArrayList<Answer> answers = new ArrayList<Answer>();
+	FragmentPagerAdapter adapterViewPager;
+	NonSwipeableViewPager viewPager;
+	private ArrayList<OsmObject> poiList;
+	private OsmObjectType listOfQuestions;
 	private String oauth_verifier;
 	private String oauth_token;
 
@@ -38,6 +38,9 @@ public class QuestionsActivity extends AppCompatActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_container);
+
+		NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.cancelAll();
 
 		// Get the POI list from the intent which activated the activity
 		// noinspection unchecked
@@ -132,9 +135,9 @@ public class QuestionsActivity extends AppCompatActivity
 	}
 
 	public static class MyPagerAdapter extends FragmentPagerAdapter {
+		public OsmObjectType listOfQuestions;
 		private OsmObject poi;
 		private int count;
-		public OsmObjectType listOfQuestions;
 
 		public MyPagerAdapter(FragmentManager fragmentManager, OsmObject poi, OsmObjectType listOfQuestions, Context context) {
 			super(fragmentManager);

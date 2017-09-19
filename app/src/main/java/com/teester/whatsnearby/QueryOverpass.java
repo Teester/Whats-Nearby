@@ -47,6 +47,21 @@ public class QueryOverpass {
 		overpassQuery.execute(overpassUrl);
 	}
 
+	private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
+		Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+			drawable = (DrawableCompat.wrap(drawable)).mutate();
+		}
+
+		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+				drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+		drawable.draw(canvas);
+
+		return bitmap;
+	}
+
 	private String getOverpassUri(Location location) {
 		float accuracy = location.getAccuracy();
 		if (accuracy < 20) {
@@ -86,26 +101,13 @@ public class QueryOverpass {
 						.setLargeIcon(getBitmapFromVectorDrawable(context, drawable))
 						.setContentTitle(String.format(context.getResources().getString(R.string.at_location), poi.getName()))
 						.setContentText(context.getResources().getString(R.string.answer_questions))
-						.addAction(R.drawable.ic_yes, context.getResources().getString(R.string.ok), resultPendingIntent);
+						.addAction(R.drawable.ic_yes, context.getResources().getString(R.string.ok), resultPendingIntent)
+						.setContentIntent(resultPendingIntent)
+						.setAutoCancel(true);
 
 		NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 		mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
-	}
-
-	private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
-		Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			drawable = (DrawableCompat.wrap(drawable)).mutate();
-		}
-
-		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-				drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(bitmap);
-		drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-		drawable.draw(canvas);
-
-		return bitmap;
 	}
 
 	public class CallAPI extends AsyncTask<String, String, String> {
