@@ -14,6 +14,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import oauth.signpost.exception.OAuthCommunicationException;
+import oauth.signpost.exception.OAuthExpectationFailedException;
+import oauth.signpost.exception.OAuthMessageSignerException;
+import oauth.signpost.exception.OAuthNotAuthorizedException;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,12 +29,10 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class QuestionFragment extends Fragment implements View.OnClickListener {
-	private static final String TAG = QuestionFragment.class.getSimpleName();
-
 	protected static final String ARG_PARAM1 = "param1";
 	protected static final String ARG_PARAM2 = "param2";
 	protected static final String ARG_PARAM3 = "param3";
-
+	private static final String TAG = QuestionFragment.class.getSimpleName();
 	private OnFragmentInteractionListener mListener;
 
 	private TextView question_textView;
@@ -136,20 +139,6 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 		mListener = null;
 	}
 
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated
-	 * to the activity and potentially other fragments contained in that
-	 * activity.
-	 * <p>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
-	public interface OnFragmentInteractionListener {
-		void onQuestionFragmentInteraction();
-	}
-
 	@Override
 	public void onClick(View v) {
 		ArrayList<QuestionObject> questions = this.listOfQuestions.getQuestionObjects();
@@ -179,7 +168,35 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 				break;
 		}
 
+		if (position == listOfQuestions.getNoOfQuestions() - 1) {
+			try {
+				new UploadToOSM(QuestionsActivity.answers, this.getContext());
+			} catch (OAuthNotAuthorizedException e) {
+				e.printStackTrace();
+			} catch (OAuthExpectationFailedException e) {
+				e.printStackTrace();
+			} catch (OAuthCommunicationException e) {
+				e.printStackTrace();
+			} catch (OAuthMessageSignerException e) {
+				e.printStackTrace();
+			}
+		}
+
 		mListener.onQuestionFragmentInteraction();
+	}
+
+	/**
+	 * This interface must be implemented by activities that contain this
+	 * fragment to allow an interaction in this fragment to be communicated
+	 * to the activity and potentially other fragments contained in that
+	 * activity.
+	 * <p>
+	 * See the Android Training lesson <a href=
+	 * "http://developer.android.com/training/basics/fragments/communicating.html"
+	 * >Communicating with Other Fragments</a> for more information.
+	 */
+	public interface OnFragmentInteractionListener {
+		void onQuestionFragmentInteraction();
 	}
 
 }

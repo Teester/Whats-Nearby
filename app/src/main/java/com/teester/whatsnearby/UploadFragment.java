@@ -14,24 +14,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import oauth.signpost.exception.OAuthCommunicationException;
-import oauth.signpost.exception.OAuthExpectationFailedException;
-import oauth.signpost.exception.OAuthMessageSignerException;
-import oauth.signpost.exception.OAuthNotAuthorizedException;
-
 /**
  * Fragment to upload to osm
  */
 
 public class UploadFragment extends Fragment {
-	private static final String TAG = UploadFragment.class.getSimpleName();
-
 	protected static final String ARG_PARAM1 = "param1";
-
+	private static final String TAG = UploadFragment.class.getSimpleName();
+	public boolean logged_in = false;
 	private OnFragmentInteractionListener mListener;
 	private ArrayList<Answer> answers;
-	public boolean logged_in = false;
-
 	private TextView thanks_textview;
 	private ImageView thanks_imageView;
 	private Button authorise;
@@ -79,17 +71,6 @@ public class UploadFragment extends Fragment {
 			this.thanks_imageView.setImageResource(R.drawable.ic_yes);
 			this.thanks_textview.setText(R.string.upload_thanks);
 			this.authorise.setVisibility(View.INVISIBLE);
-			try {
-				new UploadToOSM(this.answers, this.getContext());
-			} catch (OAuthNotAuthorizedException e) {
-				e.printStackTrace();
-			} catch (OAuthExpectationFailedException e) {
-				e.printStackTrace();
-			} catch (OAuthCommunicationException e) {
-				e.printStackTrace();
-			} catch (OAuthMessageSignerException e) {
-				e.printStackTrace();
-			}
 		} else {
 			OAuth oAuth = new OAuth(this.getContext());
 			oAuth.execute();
