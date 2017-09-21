@@ -2,51 +2,51 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="com.teester.whatsnearby.QuestionFragment"
+                android:background="#333333"
+                android:paddingBottom="36dp"
                 android:paddingLeft="36dp"
                 android:paddingRight="36dp"
-                android:paddingBottom="36dp"
                 android:paddingTop="108dp"
-                android:background="#333333">
+                tools:context="com.teester.whatsnearby.QuestionFragment">
 
     <RelativeLayout
         android:id="@+id/upload_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:background="@color/colorPrimary">
         <TextView
             android:id="@+id/thanks_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@string/not_logged_in"
             android:paddingBottom="24dp"
-            android:paddingTop="56dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:textColor="#fff"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+            android:paddingTop="56dp"
+            android:text="@string/upload_thanks"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#fff"/>
 
         <ImageView
             android:id="@+id/thanks_imageView"
-            android:contentDescription="@string/icon_content_description"
             android:layout_width="36dp"
             android:layout_height="44dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_no"
-            android:tint="@color/white"
-            android:paddingTop="8dp"/>
+            android:contentDescription="@string/icon_content_description"
+            android:paddingTop="8dp"
+            android:src="@drawable/ic_yes"
+            android:tint="@color/white"/>
     </RelativeLayout>
     <Button
         android:id="@+id/authorise"
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/upload_relative_layout"
-        style="?android:attr/buttonBarButtonStyle"
-        android:text="@string/authorise_openstreetmap"
         android:background="@color/colorAccent"
+        android:text="@string/close"
         android:textColor="@color/white"/>
 </RelativeLayout>

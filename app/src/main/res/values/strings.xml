@@ -51,5 +51,6 @@
     <string name="log_out">Log Out</string>
     <string name="changeset_comment">Added details to %s</string>
     <string name="changeset_source">survey</string>
+    <string name="close">Close</string>
 
 </resources>
