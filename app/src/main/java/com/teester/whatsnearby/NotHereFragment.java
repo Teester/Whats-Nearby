@@ -1,6 +1,7 @@
 package com.teester.whatsnearby;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -8,12 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -24,19 +27,16 @@ import java.util.ArrayList;
  * Use the {@link NotHereFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotHereFragment extends Fragment {
-	// TODO: Rename parameter arguments, choose names that match
-	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class NotHereFragment extends Fragment implements AdapterView.OnItemClickListener {
 	public static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
 	private static final String TAG = NotHereFragment.class.getSimpleName();
 
 
-	// TODO: Rename and change types of parameters
 	private String mParam1;
-	private String mParam2;
 	private ArrayList<OsmObject> poiList;
+	private List<OsmObject> alternateList;
 	private ListView listView;
+	private TextView textView;
 
 
 	private OnFragmentInteractionListener mListener;
@@ -50,10 +50,8 @@ public class NotHereFragment extends Fragment {
 	 * this fragment using the provided parameters.
 	 *
 	 * @param param1 Parameter 1.
-	 * @param param2 Parameter 2.
 	 * @return A new instance of fragment BlankFragment.
 	 */
-	// TODO: Rename and change types and number of parameters
 	public static NotHereFragment newInstance(Parcelable param1) {
 		NotHereFragment fragment = new NotHereFragment();
 		Bundle args = new Bundle();
@@ -67,6 +65,7 @@ public class NotHereFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
 			this.poiList = getArguments().getParcelableArrayList(ARG_PARAM1);
+			this.alternateList = this.poiList.subList(1, this.poiList.size());
 		}
 
 		Log.d(TAG, ""+this.poiList);
@@ -77,11 +76,12 @@ public class NotHereFragment extends Fragment {
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View notHereFragmentView = inflater.inflate(R.layout.fragment_not_here, container, false);
+		this.textView = notHereFragmentView.findViewById(R.id.question_textview);
 		this.listView = notHereFragmentView.findViewById(R.id.listView);
+		this.listView.setOnItemClickListener(this);
 		return notHereFragmentView;
 	}
 
-	// TODO: Rename method, update argument and hook method into UI event
 	public void onButtonPressed(ArrayList<OsmObject> uri) {
 		if (mListener != null) {
 			mListener.onNotHereFragmentInteraction(uri);
@@ -91,10 +91,11 @@ public class NotHereFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
+		this.textView.setText(String.format(getResources().getString(R.string.select_current_location), this.poiList.get(0).getName()));
 		// Construct the data source
 		ArrayList<OsmObject> arrayOfUsers = new ArrayList<OsmObject>();
 		// Create the adapter to convert the array to views
-		UsersAdapter adapter = new UsersAdapter(this.getContext(), this.poiList);
+		UsersAdapter adapter = new UsersAdapter(this.getContext(), this.alternateList);
 		// Attach the adapter to a ListView
 		this.listView.setAdapter(adapter);
 	}
@@ -116,6 +117,16 @@ public class NotHereFragment extends Fragment {
 		mListener = null;
 	}
 
+	@Override
+	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+		ArrayList<OsmObject> intentList = new ArrayList<OsmObject>();
+		intentList.add(0, this.alternateList.get(i));
+
+		Intent intent = new Intent(getActivity(), QuestionsActivity.class);
+		intent.putExtra("poilist", intentList);
+		startActivity(intent);
+	}
+
 	/**
 	 * This interface must be implemented by activities that contain this
 	 * fragment to allow an interaction in this fragment to be communicated
@@ -130,9 +141,8 @@ public class NotHereFragment extends Fragment {
 		void onNotHereFragmentInteraction(ArrayList<OsmObject> poiList);
 	}
 
-
 	public class UsersAdapter extends ArrayAdapter<OsmObject> {
-		public UsersAdapter(Context context, ArrayList<OsmObject> users) {
+		public UsersAdapter(Context context, List<OsmObject> users) {
 			super(context, 0, users);
 		}
 
@@ -157,13 +167,16 @@ public class NotHereFragment extends Fragment {
 			type.setText(poi.getType());
 			distance.setText(String.format(getString(R.string.distance_away), poi.getDistance()));
 
-			int drawable;
 			OsmObjectType objectType = poiTypes.getPoiType(poi.getType());
-			drawable = objectType.getDrawable(getContext());
+			int drawable = objectType.getDrawable(getContext());
 			image.setImageResource(drawable);
 
+			if (position == 0) {
+
+			}
 			// Return the completed view to render on screen
 			return convertView;
 		}
+
 	}
 }

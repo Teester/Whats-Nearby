@@ -61,7 +61,11 @@ public class QuestionsActivity extends AppCompatActivity
 				viewPager.setAdapter(adapterViewPager);
 
 				TextView textView = (TextView) findViewById(R.id.answer_not_here);
-				textView.setText(String.format(getResources().getString(R.string.nothere), poiList.get(0).getName()));
+				if (this.poiList.size() == 1) {
+					textView.setVisibility(View.INVISIBLE);
+				} else {
+					textView.setText(String.format(getResources().getString(R.string.nothere), poiList.get(0).getName()));
+				}
 			} else {
 				Intent intent = new Intent(this, MainActivity.class);
 				startActivity(intent);
