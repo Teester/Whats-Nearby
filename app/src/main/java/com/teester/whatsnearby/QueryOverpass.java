@@ -104,7 +104,7 @@ public class QueryOverpass {
 						.addAction(R.drawable.ic_yes, context.getResources().getString(R.string.ok), resultPendingIntent)
 						.setContentIntent(resultPendingIntent)
 						.setAutoCancel(true);
-
+		mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
 		NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 		mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
