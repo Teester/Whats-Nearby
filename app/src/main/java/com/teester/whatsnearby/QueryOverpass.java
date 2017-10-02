@@ -92,8 +92,9 @@ public class QueryOverpass {
 
 		Intent resultIntent = new Intent(this.context, QuestionsActivity.class);
 		resultIntent.putExtra("poilist", object);
+		resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-		PendingIntent resultPendingIntent =	PendingIntent.getActivity(this.context,	0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent resultPendingIntent = PendingIntent.getActivity(this.context, 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 		int mNotificationId = 001;
 		NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(this.context)
