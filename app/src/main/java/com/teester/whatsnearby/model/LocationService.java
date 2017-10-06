@@ -1,4 +1,4 @@
-package com.teester.whatsnearby;
+package com.teester.whatsnearby.model;
 
 import android.Manifest;
 import android.app.NotificationManager;
@@ -15,13 +15,14 @@ import com.mapzen.android.lost.api.LocationListener;
 import com.mapzen.android.lost.api.LocationRequest;
 import com.mapzen.android.lost.api.LocationServices;
 import com.mapzen.android.lost.api.LostApiClient;
+import com.teester.whatsnearby.main.MainActivity;
 
 public class LocationService extends Service {
 
 	private static final String TAG = LocationService.class.getSimpleName();
 	private static final int PRIORITY = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
 	private static final int INTERVAL = 1 * 60 * 1000;
-	private static final int MINQUERYINTERVAL = 3 * 60 * 1000;
+	private static final int MINQUERYINTERVAL = 60 * 60 * 1000;
 	private static final double MINQUERYDISTANCE = 20;
 	private static final int MINLOCATIONACCURACY = 100;
 	LostApiClient client;
@@ -73,6 +74,7 @@ public class LocationService extends Service {
 			} else {
 				Log.d(TAG, "Not querying Overpass, location accuracy is " + location.getAccuracy() + "m");
 			}
+
 			lastLocation = location;
 		}
 	};

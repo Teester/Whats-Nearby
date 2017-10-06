@@ -1,11 +1,13 @@
-package com.teester.whatsnearby;
+package com.teester.whatsnearby.model;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.teester.whatsnearby.BuildConfig;
+import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.model.data.Answers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,14 +32,16 @@ import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 public class UploadToOSM {
 	private static final String TAG = UploadToOSM.class.getSimpleName();
+
 	private static final String CONSUMER_KEY = "1LJqwD4kMz96HTbv9I1U1XBM0AL1RpcjuFOPvW0B";
 	private static final String CONSUMER_SECRET = "KDCLveu82AZawLELpC6yIP3EI8fJa0JqF0ALukbl";
+
 	ArrayList<Answer> answers;
 	Context context;
 	Element currentElement;
 
-	public UploadToOSM (ArrayList<Answer> answers, Context context) throws OAuthNotAuthorizedException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthMessageSignerException {
-		this.answers = answers;
+	public UploadToOSM(Context context) throws OAuthNotAuthorizedException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthMessageSignerException {
+		this.answers = Answers.getInstance().getAnswerList();
 		this.context = context;
 		Upload();
 	}
@@ -61,9 +65,9 @@ public class UploadToOSM {
 
 	private OAuthConsumer getConsumer() {
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		String oauth_token_secret = prefs.getString("oauth_token_secret", "");
-		String oauth_token = prefs.getString("oauth_token", "");
+		Preferences preferences = new Preferences(context);
+		String oauth_token_secret = preferences.getStringPreference("oauth_token_secret");
+		String oauth_token = preferences.getStringPreference("oauth_token");
 
 		OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		consumer.setTokenWithSecret(oauth_token, oauth_token_secret);
@@ -98,7 +102,7 @@ public class UploadToOSM {
 			OAuthConsumer consumer = getConsumer();
 			OsmConnection osm = new OsmConnection(
 					"https://api.openstreetmap.org/api/0.6/",
-					"Map Questions", consumer);
+					"What's Nearby?", consumer);
 
 			// Download the relevant object from OSM
 			Element downloadedElement = null;

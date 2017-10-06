@@ -5,10 +5,10 @@
     android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme"
-    android:background="#333333">
+    android:background="#333333"
+    android:theme="@style/AppTheme">
 
-    <com.teester.whatsnearby.NonSwipeableViewPager
+    <com.teester.whatsnearby.view.NonSwipeableViewPager
         android:id="@+id/viewPager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,14 +16,14 @@
 
     <Button
         android:id="@+id/answer_not_here"
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        style="?android:attr/buttonBarButtonStyle"
-        android:text="@string/nothere"
-        android:textColor="#FFFFFF"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="36dp"
+        android:gravity="center_horizontal"
         android:onClick="notHereClicked"
-        android:layout_alignParentBottom="true"/>
+        android:paddingBottom="36dp"
+        android:text="@string/nothere"
+        android:textColor="#FFFFFF"/>
 </RelativeLayout>

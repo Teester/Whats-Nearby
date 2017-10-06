@@ -7,7 +7,7 @@
                 android:paddingLeft="36dp"
                 android:paddingRight="36dp"
                 android:paddingTop="108dp"
-                tools:context="com.teester.whatsnearby.QuestionFragment">
+                tools:context=".questions.question.QuestionFragment">
 
     <RelativeLayout
         android:id="@+id/upload_relative_layout"

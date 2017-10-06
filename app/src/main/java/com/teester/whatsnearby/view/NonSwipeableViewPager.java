@@ -1,4 +1,4 @@
-package com.teester.whatsnearby;
+package com.teester.whatsnearby.view;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
@@ -8,9 +8,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
 import java.lang.reflect.Field;
-/**
- * Created by mark on 15/09/17.
- */
 
 public class NonSwipeableViewPager extends ViewPager {
 

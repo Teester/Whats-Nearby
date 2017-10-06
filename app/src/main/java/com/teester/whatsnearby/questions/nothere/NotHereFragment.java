@@ -1,9 +1,9 @@
-package com.teester.whatsnearby;
+package com.teester.whatsnearby.questions.nothere;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +14,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.model.OsmObject;
+import com.teester.whatsnearby.model.OsmObjectType;
+import com.teester.whatsnearby.model.data.PoiTypes;
+import com.teester.whatsnearby.questions.QuestionsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +33,13 @@ import java.util.List;
  * Use the {@link NotHereFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotHereFragment extends Fragment implements AdapterView.OnItemClickListener {
-	public static final String ARG_PARAM1 = "param1";
+public class NotHereFragment extends Fragment implements AdapterView.OnItemClickListener, NotHereFragmentContract.View {
+
 	private static final String TAG = NotHereFragment.class.getSimpleName();
 
-
-	private String mParam1;
-	private ArrayList<OsmObject> poiList;
-	private List<OsmObject> alternateList;
 	private ListView listView;
 	private TextView textView;
-
+	private NotHereFragmentContract.Presenter notHerePresenter;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -45,59 +47,40 @@ public class NotHereFragment extends Fragment implements AdapterView.OnItemClick
 		// Required empty public constructor
 	}
 
-	/**
-	 * Use this factory method to create a new instance of
-	 * this fragment using the provided parameters.
-	 *
-	 * @param param1 Parameter 1.
-	 * @return A new instance of fragment BlankFragment.
-	 */
-	public static NotHereFragment newInstance(Parcelable param1) {
-		NotHereFragment fragment = new NotHereFragment();
-		Bundle args = new Bundle();
-		args.putParcelable(ARG_PARAM1, param1);
-		fragment.setArguments(args);
-		return fragment;
+	public static NotHereFragment newInstance() {
+		return new NotHereFragment();
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getArguments() != null) {
-			this.poiList = getArguments().getParcelableArrayList(ARG_PARAM1);
-			this.alternateList = this.poiList.subList(1, this.poiList.size());
-		}
+		notHerePresenter = new NotHerePresenter(this);
+	}
 
-		Log.d(TAG, ""+this.poiList);
+	@Override
+	public void onResume() {
+		super.onResume();
+		notHerePresenter.getPoiDetails();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		View notHereFragmentView = inflater.inflate(R.layout.fragment_not_here, container, false);
-		this.textView = notHereFragmentView.findViewById(R.id.question_textview);
-		this.listView = notHereFragmentView.findViewById(R.id.listView);
+		return inflater.inflate(R.layout.fragment_not_here, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		this.textView = view.findViewById(R.id.question_textview);
+		this.listView = view.findViewById(R.id.listView);
 		this.listView.setOnItemClickListener(this);
-		return notHereFragmentView;
 	}
 
 	public void onButtonPressed(ArrayList<OsmObject> uri) {
 		if (mListener != null) {
-			mListener.onNotHereFragmentInteraction(uri);
+			mListener.onNotHereFragmentInteraction();
 		}
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		this.textView.setText(String.format(getResources().getString(R.string.select_current_location), this.poiList.get(0).getName()));
-		// Construct the data source
-		ArrayList<OsmObject> arrayOfUsers = new ArrayList<OsmObject>();
-		// Create the adapter to convert the array to views
-		UsersAdapter adapter = new UsersAdapter(this.getContext(), this.alternateList);
-		// Attach the adapter to a ListView
-		this.listView.setAdapter(adapter);
 	}
 
 	@Override
@@ -119,12 +102,31 @@ public class NotHereFragment extends Fragment implements AdapterView.OnItemClick
 
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-		ArrayList<OsmObject> intentList = new ArrayList<OsmObject>();
-		intentList.add(0, this.alternateList.get(i));
+		notHerePresenter.onItemClicked(i);
+	}
 
+	@Override
+	public void setTextview(String name) {
+		Log.w(TAG, name);
+		textView.setText(String.format(getString(R.string.select_current_location), name));
+	}
+
+	@Override
+	public void setAdapter(List<OsmObject> alternateList) {
+		UsersAdapter adapter = new UsersAdapter(getContext(), alternateList);
+		listView.setAdapter(adapter);
+	}
+
+	@Override
+	public void startActivity(ArrayList<OsmObject> intentList) {
 		Intent intent = new Intent(getActivity(), QuestionsActivity.class);
 		intent.putExtra("poilist", intentList);
 		startActivity(intent);
+	}
+
+	@Override
+	public void setPresenter(NotHereFragmentContract.Presenter presenter) {
+		notHerePresenter = presenter;
 	}
 
 	/**
@@ -138,7 +140,7 @@ public class NotHereFragment extends Fragment implements AdapterView.OnItemClick
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
 	public interface OnFragmentInteractionListener {
-		void onNotHereFragmentInteraction(ArrayList<OsmObject> poiList);
+		void onNotHereFragmentInteraction();
 	}
 
 	public class UsersAdapter extends ArrayAdapter<OsmObject> {
@@ -168,7 +170,7 @@ public class NotHereFragment extends Fragment implements AdapterView.OnItemClick
 			distance.setText(String.format(getString(R.string.distance_away), poi.getDistance()));
 
 			OsmObjectType objectType = poiTypes.getPoiType(poi.getType());
-			int drawable = objectType.getDrawable(getContext());
+			int drawable = objectType.getObjectIcon();
 			image.setImageResource(drawable);
 
 			if (position == 0) {

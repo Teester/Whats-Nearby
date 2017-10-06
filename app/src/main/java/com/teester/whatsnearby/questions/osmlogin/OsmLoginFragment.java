@@ -1,16 +1,19 @@
-package com.teester.whatsnearby;
+package com.teester.whatsnearby.questions.osmlogin;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.model.OAuth;
+import com.teester.whatsnearby.model.Preferences;
+import com.teester.whatsnearby.model.PreferencesContract;
 
 
 /**
@@ -21,10 +24,11 @@ import android.widget.Button;
  * Use the {@link OsmLoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OsmLoginFragment extends Fragment implements View.OnClickListener {
+public class OsmLoginFragment extends Fragment implements View.OnClickListener, OsmLoginFragmentContract.View {
 
 	private static final String TAG = OsmLoginFragment.class.getSimpleName();
 
+	private OsmLoginFragmentContract.Presenter osmLoginPresenter;
 	private OnFragmentInteractionListener mListener;
 
 	public OsmLoginFragment() {
@@ -38,24 +42,28 @@ public class OsmLoginFragment extends Fragment implements View.OnClickListener {
 	 * @return A new instance of fragment OsmLoginFragment.
 	 */
 	public static OsmLoginFragment newInstance() {
-		OsmLoginFragment fragment = new OsmLoginFragment();;
-		return fragment;
+		return new OsmLoginFragment();
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		PreferencesContract preferences = new Preferences(getContext());
+		osmLoginPresenter = new OsmLoginPresenter(this, preferences);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View osmLoginFragmentView =  inflater.inflate(R.layout.fragment_osm_login, container, false);
-		Button button = osmLoginFragmentView.findViewById(R.id.osmLoginButton);
-		button.setOnClickListener(this);
+		return inflater.inflate(R.layout.fragment_osm_login, container, false);
+	}
 
-		return osmLoginFragmentView;
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		Button button = view.findViewById(R.id.osmLoginButton);
+		button.setOnClickListener(this);
 	}
 
 	public void onButtonPressed(Uri uri) {
@@ -81,6 +89,17 @@ public class OsmLoginFragment extends Fragment implements View.OnClickListener {
 		mListener = null;
 	}
 
+	@Override
+	public void onClick(View view) {
+		osmLoginPresenter.onClicked(view.getId());
+	}
+
+	@Override
+	public void startOAuth() {
+		OAuth oAuth = new OAuth(getContext());
+		oAuth.execute();
+	}
+
 	/**
 	 * This interface must be implemented by activities that contain this
 	 * fragment to allow an interaction in this fragment to be communicated
@@ -93,22 +112,5 @@ public class OsmLoginFragment extends Fragment implements View.OnClickListener {
 	 */
 	public interface OnFragmentInteractionListener {
 		void onOsmLoginFragmentInteraction(Uri uri);
-	}
-
-	@Override
-	public void onClick(View view) {
-		Log.i(TAG, "in onClick");
-		if (view.getId() == R.id.osmLoginButton) {
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-			SharedPreferences.Editor editor = sharedPreferences.edit();
-
-			editor.putString("oauth_verifier", "");
-			editor.putString("oauth_token", "");
-			editor.putString("oauth_token_secret", "");
-			editor.apply();
-
-			OAuth oAuth = new OAuth(getContext());
-			oAuth.execute();
-		}
 	}
 }

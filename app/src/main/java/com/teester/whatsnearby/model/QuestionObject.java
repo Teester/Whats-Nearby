@@ -1,14 +1,12 @@
-package com.teester.whatsnearby;
+package com.teester.whatsnearby.model;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * Details about the specific question
  */
 
-public class QuestionObject implements Parcelable {
+public class QuestionObject {
 
 	private int id;
 	private int question;
@@ -62,29 +60,6 @@ public class QuestionObject implements Parcelable {
 		this.answer_unsure = answer_unsure;
 	}
 
-	protected QuestionObject(Parcel in) {
-		id = in.readInt();
-		question = in.readInt();
-		icon = in.readInt();
-		color = in.readInt();
-		tag = in.readString();
-		answer_yes = in.readString();
-		answer_no = in.readString();
-		answer_unsure = in.readString();
-	}
-
-	public static final Creator<QuestionObject> CREATOR = new Creator<QuestionObject>() {
-		@Override
-		public QuestionObject createFromParcel(Parcel in) {
-			return new QuestionObject(in);
-		}
-
-		@Override
-		public QuestionObject[] newArray(int size) {
-			return new QuestionObject[size];
-		}
-	};
-
 	public int getId() {
 		return this.id;
 	}
@@ -121,22 +96,5 @@ public class QuestionObject implements Parcelable {
 				answer = "";
 		}
 		return answer;
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel parcel, int i) {
-		parcel.writeInt(id);
-		parcel.writeInt(question);
-		parcel.writeInt(icon);
-		parcel.writeInt(color);
-		parcel.writeString(tag);
-		parcel.writeString(answer_yes);
-		parcel.writeString(answer_no);
-		parcel.writeString(answer_unsure);
 	}
 }

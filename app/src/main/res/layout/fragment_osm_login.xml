@@ -1,32 +1,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-                android:padding="36dp"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="#333333"
-             tools:context="com.teester.whatsnearby.OsmLoginFragment">
+                android:padding="36dp"
+                tools:context=".questions.osmlogin.OsmLoginFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/osmLoginTextview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
-        android:textColor="@color/white"
+        android:gravity="center_horizontal"
         android:padding="36dp"
+        android:text="@string/osm_login_description"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="@string/osm_login_description"/>
+        android:textColor="@color/white"/>
     <Button
         android:id="@+id/osmLoginButton"
-        android:layout_below="@+id/osmLoginTextview"
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:background="@color/colorAccent"
+        android:layout_below="@+id/osmLoginTextview"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        style="?android:attr/buttonBarButtonStyle"
-        android:text="@string/osm_login_button"/>
+        android:background="@color/colorAccent"
+        android:text="@string/osm_login_button"
+        android:textColor="@color/white"/>
 </RelativeLayout>

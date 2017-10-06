@@ -1,4 +1,4 @@
-package com.teester.whatsnearby;
+package com.teester.whatsnearby.model;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,6 +15,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 
+import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.model.data.PoiList;
+import com.teester.whatsnearby.model.data.PoiTypes;
+import com.teester.whatsnearby.questions.QuestionsActivity;
+
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +33,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -42,11 +48,18 @@ public class QueryOverpass {
 		this.context = context;
 		this.queryLocation = location;
 
-		String overpassUrl = getOverpassUri(location);
+		String overpassUrl = getOverpassUri(location.getLatitude(), location.getLongitude(), location.getAccuracy());
 		CallAPI overpassQuery = new CallAPI();
 		overpassQuery.execute(overpassUrl);
 	}
 
+	/**
+	 * Gets a bitmap of a drawable from a given drawable id
+	 *
+	 * @param context    application context
+	 * @param drawableId the id of the required drawable
+	 * @return A bitmap image
+	 */
 	private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
 		Drawable drawable = ContextCompat.getDrawable(context, drawableId);
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -62,15 +75,22 @@ public class QueryOverpass {
 		return bitmap;
 	}
 
-	private String getOverpassUri(Location location) {
-		float accuracy = location.getAccuracy();
+	/**
+	 * Gets an overpass query url from a given location and accuracy
+	 *
+	 * @param latitude  location latitude
+	 * @param longitude location longitude
+	 * @param accuracy  accuracy of location in metres
+	 * @return an Overpass url getting items in a radius of the location
+	 */
+	private String getOverpassUri(double latitude, double longitude, float accuracy) {
 		if (accuracy < 20) {
 			accuracy = 20;
 		}
 
 		// Build the Overpass query
 		// getting the centre of nodes, ways and relations a given radius around a location for different types
-		String overpassLocation = String.format("around:%s,%s,%s", accuracy, location.getLatitude(), location.getLongitude());
+		String overpassLocation = String.format("around:%s,%s,%s", accuracy, latitude, longitude);
 		String nwr = "node['%2$s'](%1$s);way['%2$s'](%1$s);relation['%2$s'](%1$s);";
 
 		String shop = String.format(nwr, overpassLocation, "shop");
@@ -79,19 +99,24 @@ public class QueryOverpass {
 		String tourism = String.format(nwr, overpassLocation, "tourism");
 
 		String overpassUrl = String.format("http://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s%s);out%%20center%%20meta%%20qt;", shop, amenity, leisure, tourism);
-		Log.d(TAG, overpassUrl);
+
 		return overpassUrl;
 	}
 
-	private void notifyLocation(ArrayList<OsmObject> object) {
+	/**
+	 * Creates an android notification for a given object
+	 *
+	 * @param object the object to be notified about
+	 */
+	private void notifyLocation() {
+		List<OsmObject> object = PoiList.getInstance().getPoiList();
 		OsmObject poi = object.get(0);
 		String poiType = poi.getType();
 		PoiTypes poiTypes = new PoiTypes();
 		OsmObjectType type = poiTypes.getPoiType(poiType);
-		int drawable = type.getDrawable(this.context);
+		int drawable = type.getObjectIcon();
 
 		Intent resultIntent = new Intent(this.context, QuestionsActivity.class);
-		resultIntent.putExtra("poilist", object);
 		resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		PendingIntent resultPendingIntent = PendingIntent.getActivity(this.context, 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -105,7 +130,7 @@ public class QueryOverpass {
 						.addAction(R.drawable.ic_yes, context.getResources().getString(R.string.ok), resultPendingIntent)
 						.setContentIntent(resultPendingIntent)
 						.setAutoCancel(true);
-		mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
+		//mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
 		NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 		mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
@@ -213,7 +238,8 @@ public class QueryOverpass {
 
 				}
 				if (poiList.size() > 0) {
-					notifyLocation(poiList);
+					PoiList.getInstance().setPoiList(poiList);
+					notifyLocation();
 				}
 			}
 		}

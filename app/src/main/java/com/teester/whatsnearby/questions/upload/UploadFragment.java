@@ -1,7 +1,8 @@
-package com.teester.whatsnearby;
+package com.teester.whatsnearby.questions.upload;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.teester.whatsnearby.R;
+
 /**
  * Fragment to upload to osm
  */
 
-public class UploadFragment extends Fragment implements View.OnClickListener {
+public class UploadFragment extends Fragment implements View.OnClickListener, UploadFragmentContract.View {
 
 	private static final String TAG = UploadFragment.class.getSimpleName();
 
@@ -23,6 +26,7 @@ public class UploadFragment extends Fragment implements View.OnClickListener {
 	private TextView thanks_textview;
 	private ImageView thanks_imageView;
 	private Button authorise;
+	private UploadPresenter uploadPresenter;
 
 	public UploadFragment() {
 		// Required empty public constructor
@@ -32,17 +36,27 @@ public class UploadFragment extends Fragment implements View.OnClickListener {
 		return new UploadFragment();
 	}
 
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		uploadPresenter.init(this);
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		View questionFragmentView = inflater.inflate(R.layout.fragment_upload, container, false);
-		this.thanks_textview = questionFragmentView.findViewById(R.id.thanks_textview);
-		this.thanks_imageView = questionFragmentView.findViewById(R.id.thanks_imageView);
-		this.authorise = questionFragmentView.findViewById(R.id.authorise);
+		return inflater.inflate(R.layout.fragment_upload, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		this.thanks_textview = view.findViewById(R.id.thanks_textview);
+		this.thanks_imageView = view.findViewById(R.id.thanks_imageView);
+		this.authorise = view.findViewById(R.id.authorise);
 
 		this.authorise.setOnClickListener(this);
-
-		return questionFragmentView;
 	}
 
 	@Override
