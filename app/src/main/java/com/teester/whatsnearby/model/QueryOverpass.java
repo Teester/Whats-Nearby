@@ -1,24 +1,12 @@
 package com.teester.whatsnearby.model;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 
-import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.model.data.PoiList;
 import com.teester.whatsnearby.model.data.PoiTypes;
-import com.teester.whatsnearby.questions.QuestionsActivity;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -33,9 +21,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class QueryOverpass {
 
@@ -51,28 +36,6 @@ public class QueryOverpass {
 		String overpassUrl = getOverpassUri(location.getLatitude(), location.getLongitude(), location.getAccuracy());
 		CallAPI overpassQuery = new CallAPI();
 		overpassQuery.execute(overpassUrl);
-	}
-
-	/**
-	 * Gets a bitmap of a drawable from a given drawable id
-	 *
-	 * @param context    application context
-	 * @param drawableId the id of the required drawable
-	 * @return A bitmap image
-	 */
-	private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
-		Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			drawable = (DrawableCompat.wrap(drawable)).mutate();
-		}
-
-		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-				drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(bitmap);
-		drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-		drawable.draw(canvas);
-
-		return bitmap;
 	}
 
 	/**
@@ -101,39 +64,6 @@ public class QueryOverpass {
 		String overpassUrl = String.format("http://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s%s);out%%20center%%20meta%%20qt;", shop, amenity, leisure, tourism);
 
 		return overpassUrl;
-	}
-
-	/**
-	 * Creates an android notification for a given object
-	 *
-	 * @param object the object to be notified about
-	 */
-	private void notifyLocation() {
-		List<OsmObject> object = PoiList.getInstance().getPoiList();
-		OsmObject poi = object.get(0);
-		String poiType = poi.getType();
-		PoiTypes poiTypes = new PoiTypes();
-		OsmObjectType type = poiTypes.getPoiType(poiType);
-		int drawable = type.getObjectIcon();
-
-		Intent resultIntent = new Intent(this.context, QuestionsActivity.class);
-		resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-		PendingIntent resultPendingIntent = PendingIntent.getActivity(this.context, 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-		int mNotificationId = 001;
-		NotificationCompat.Builder mBuilder =
-				new NotificationCompat.Builder(this.context)
-						.setSmallIcon(R.drawable.ic_small_icon)
-						.setLargeIcon(getBitmapFromVectorDrawable(context, drawable))
-						.setContentTitle(String.format(context.getResources().getString(R.string.at_location), poi.getName()))
-						.setContentText(context.getResources().getString(R.string.answer_questions))
-						.addAction(R.drawable.ic_yes, context.getResources().getString(R.string.ok), resultPendingIntent)
-						.setContentIntent(resultPendingIntent)
-						.setAutoCancel(true);
-		//mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
-		NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-		mNotifyMgr.notify(mNotificationId, mBuilder.build());
-
 	}
 
 	public class CallAPI extends AsyncTask<String, String, String> {
@@ -170,7 +100,6 @@ public class QueryOverpass {
 
 			if (result != null) {
 				try {
-					PoiTypes poiTypes = new PoiTypes();
 					JSONObject jsonObj = new JSONObject(result);
 
 					// Getting JSON Array node
@@ -212,7 +141,7 @@ public class QueryOverpass {
 								if (tags.has("leisure")) {
 									type = tags.getString("leisure");
 								}
-								OsmObjectType poitype = poiTypes.getPoiType(type);
+								OsmObjectType poitype = PoiTypes.getPoiType(type);
 								if (poitype != null) {
 									OsmObject object = new OsmObject(id, osmType, name, type, lat, lon, elementLocation.distanceTo(queryLocation));
 									poiList.add(object);
@@ -223,7 +152,6 @@ public class QueryOverpass {
 				} catch (final JSONException e) {
 					Log.e(TAG, "Json parsing error: " + e.getMessage());
 				}
-				Log.d(TAG, "" + poiList);
 
 				// Arrange the locations by distance from location
 				Collections.sort(poiList, new Comparator<OsmObject>() {
@@ -232,14 +160,13 @@ public class QueryOverpass {
 					}
 				});
 
-				for (int k = 0; k < poiList.size(); k++) {
-					OsmObject o = poiList.get(k);
-					Log.d(TAG, "" + poiList.get(k).getName() + ": " + (int) queryLocation.distanceTo(poiList.get(k).getLocation()) + "m");
-
-				}
 				if (poiList.size() > 0) {
 					PoiList.getInstance().setPoiList(poiList);
-					notifyLocation();
+
+					OsmObject poi = poiList.get(0);
+					OsmObjectType type = PoiTypes.getPoiType(poi.getType());
+					int drawable = type.getObjectIcon();
+					Notifier.createNotification(context, poi.getName(), drawable);
 				}
 			}
 		}

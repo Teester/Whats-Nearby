@@ -1,6 +1,5 @@
 package com.teester.whatsnearby.questions.upload;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,12 +20,12 @@ public class UploadFragment extends Fragment implements View.OnClickListener, Up
 
 	private static final String TAG = UploadFragment.class.getSimpleName();
 
-	private OnFragmentInteractionListener mListener;
+//	private OnFragmentInteractionListener mListener;
 
 	private TextView thanks_textview;
 	private ImageView thanks_imageView;
 	private Button authorise;
-	private UploadPresenter uploadPresenter;
+	private UploadFragmentContract.Presenter uploadPresenter;
 
 	public UploadFragment() {
 		// Required empty public constructor
@@ -40,7 +39,7 @@ public class UploadFragment extends Fragment implements View.OnClickListener, Up
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		uploadPresenter.init(this);
+		uploadPresenter = new UploadPresenter(this);
 	}
 
 	@Override
@@ -58,30 +57,35 @@ public class UploadFragment extends Fragment implements View.OnClickListener, Up
 
 		this.authorise.setOnClickListener(this);
 	}
-
-	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
-		} else {
-			throw new RuntimeException(context.toString()
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
+//
+//	@Override
+//	public void onAttach(Context context) {
+//		super.onAttach(context);
+//		if (context instanceof OnFragmentInteractionListener) {
+//			mListener = (OnFragmentInteractionListener) context;
+//		} else {
+//			throw new RuntimeException(context.toString()
+//					+ " must implement OnFragmentInteractionListener");
+//		}
+//	}
+//
+//	@Override
+//	public void onDetach() {
+//		super.onDetach();
+//		mListener = null;
+//	}
 
 	@Override
 	public void onClick(View view) {
 		getActivity().finish();
 	}
 
-	public interface OnFragmentInteractionListener {
-		void onUploadFragmentInteraction();
+	@Override
+	public void setPresenter(UploadFragmentContract.Presenter presenter) {
+		uploadPresenter = presenter;
 	}
+
+//	public interface OnFragmentInteractionListener {
+//		void onUploadFragmentInteraction();
+//	}
 }

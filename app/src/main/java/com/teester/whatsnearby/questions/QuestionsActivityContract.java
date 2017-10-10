@@ -13,7 +13,7 @@ public interface QuestionsActivityContract {
 
 		void assessIntentData(Uri uri);
 
-		void assessIntentExtras();
+		void addPoiNameToTextview();
 
 	}
 

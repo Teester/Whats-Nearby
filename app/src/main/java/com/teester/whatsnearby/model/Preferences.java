@@ -18,7 +18,7 @@ public class Preferences implements PreferencesContract {
 	}
 
 	@Override
-	public boolean getBoolPreference(String preference) {
+	public boolean getBooleanPreference(String preference) {
 		return prefs.getBoolean(preference, false);
 	}
 
@@ -30,5 +30,15 @@ public class Preferences implements PreferencesContract {
 	@Override
 	public void setBooleanPreference(String preference, boolean value) {
 		prefs.edit().putBoolean(preference, value).apply();
+	}
+
+	@Override
+	public long getLongPreference(String preference) {
+		return prefs.getLong(preference, 0);
+	}
+
+	@Override
+	public void setLongPreference(String preference, long value) {
+		prefs.edit().putLong(preference, value).apply();
 	}
 }

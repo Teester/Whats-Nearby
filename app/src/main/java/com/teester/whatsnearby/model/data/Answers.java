@@ -2,7 +2,7 @@ package com.teester.whatsnearby.model.data;
 
 import com.teester.whatsnearby.model.Answer;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Singleton to store answers in preparation for uploading
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Answers {
 
 	private static Answers INSTANCE;
-	private ArrayList<Answer> answerList = new ArrayList<>();
+	private List<Answer> answerList;
 
 	private Answers() {
 
@@ -28,7 +28,7 @@ public class Answers {
 	 *
 	 * @return
 	 */
-	public ArrayList<Answer> getAnswerList() {
+	public List<Answer> getAnswerList() {
 		return answerList;
 	}
 

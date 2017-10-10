@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,20 +106,18 @@ public class NotHereFragment extends Fragment implements AdapterView.OnItemClick
 
 	@Override
 	public void setTextview(String name) {
-		Log.w(TAG, name);
 		textView.setText(String.format(getString(R.string.select_current_location), name));
 	}
 
 	@Override
-	public void setAdapter(List<OsmObject> alternateList) {
-		UsersAdapter adapter = new UsersAdapter(getContext(), alternateList);
+	public void setAdapter(List<OsmObject> list) {
+		UsersAdapter adapter = new UsersAdapter(getContext(), list);
 		listView.setAdapter(adapter);
 	}
 
 	@Override
-	public void startActivity(ArrayList<OsmObject> intentList) {
+	public void startActivity() {
 		Intent intent = new Intent(getActivity(), QuestionsActivity.class);
-		intent.putExtra("poilist", intentList);
 		startActivity(intent);
 	}
 
@@ -153,8 +150,6 @@ public class NotHereFragment extends Fragment implements AdapterView.OnItemClick
 
 			// Get the data item for this position
 			OsmObject poi = getItem(position);
-			PoiTypes poiTypes = new PoiTypes();
-			Log.d(TAG, "" + poi);
 			// Check if an existing view is being reused, otherwise inflate the view
 			if (convertView == null) {
 				convertView = LayoutInflater.from(getContext()).inflate(R.layout.poi_list_item, parent, false);
@@ -169,13 +164,10 @@ public class NotHereFragment extends Fragment implements AdapterView.OnItemClick
 			type.setText(poi.getType());
 			distance.setText(String.format(getString(R.string.distance_away), poi.getDistance()));
 
-			OsmObjectType objectType = poiTypes.getPoiType(poi.getType());
+			OsmObjectType objectType = PoiTypes.getPoiType(poi.getType());
 			int drawable = objectType.getObjectIcon();
 			image.setImageResource(drawable);
 
-			if (position == 0) {
-
-			}
 			// Return the completed view to render on screen
 			return convertView;
 		}

@@ -4,7 +4,6 @@ import com.teester.whatsnearby.BasePresenter;
 import com.teester.whatsnearby.BaseView;
 import com.teester.whatsnearby.model.OsmObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface NotHereFragmentContract {
@@ -12,6 +11,7 @@ public interface NotHereFragmentContract {
 		void getPoiDetails();
 
 		void onItemClicked(int i);
+
 	}
 
 	interface View extends BaseView<Presenter> {
@@ -20,6 +20,6 @@ public interface NotHereFragmentContract {
 
 		void setAdapter(List<OsmObject> alternateList);
 
-		void startActivity(ArrayList<OsmObject> intentList);
+		void startActivity();
 	}
 }

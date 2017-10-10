@@ -1,7 +1,6 @@
 package com.teester.whatsnearby.model;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -9,7 +8,6 @@ import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.model.data.Answers;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +34,7 @@ public class UploadToOSM {
 	private static final String CONSUMER_KEY = "1LJqwD4kMz96HTbv9I1U1XBM0AL1RpcjuFOPvW0B";
 	private static final String CONSUMER_SECRET = "KDCLveu82AZawLELpC6yIP3EI8fJa0JqF0ALukbl";
 
-	ArrayList<Answer> answers;
+	List<Answer> answers;
 	Context context;
 	Element currentElement;
 
@@ -46,21 +44,13 @@ public class UploadToOSM {
 		Upload();
 	}
 
-	public static String getApplicationName(Context context) {
-		ApplicationInfo applicationInfo = context.getApplicationInfo();
-		int stringId = applicationInfo.labelRes;
-		return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
-	}
-
-	public Void Upload() {
+	public void Upload() {
 		String type = this.answers.get(0).getObjectType();
 		long objectId = this.answers.get(0).getObjectId();
 
 		OAuthConsumer oAuthConsumer = getConsumer();
-		DownloadElement downloadFromOsm = new DownloadElement(objectId, type, oAuthConsumer, context);
+		DownloadElement downloadFromOsm = new DownloadElement(objectId, type, oAuthConsumer);
 		downloadFromOsm.execute();
-
-		return null;
 	}
 
 	private OAuthConsumer getConsumer() {
@@ -88,12 +78,10 @@ public class UploadToOSM {
 
 		private long id;
 		private String type;
-		private Context context;
 
-		public DownloadElement(long id, String type, OAuthConsumer consumer, Context context ) {
+		public DownloadElement(long id, String type, OAuthConsumer consumer) {
 			this.id = id;
 			this.type = type;
-			this.context = context;
 		}
 
 		@Override
@@ -136,6 +124,7 @@ public class UploadToOSM {
 			if (modifiedElement.isModified()) {
 				try {
 					long upload = new MapDataDao(osm).updateMap(changesetTags, collection, null);
+					//Log.w(TAG, ""+Answers.getInstance().getAnswerList().size());
 				} catch (OsmAuthorizationException e) {
 					Log.i(TAG, e.toString());
 				}

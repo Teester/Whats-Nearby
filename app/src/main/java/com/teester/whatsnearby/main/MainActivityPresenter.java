@@ -37,7 +37,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	@Override
 	public void showIfLoggedIn() {
 		Log.i(TAG, "In showIfLoggedIn");
-		boolean logged_in = preferences.getBoolPreference("logged_in_to_osm");
+		boolean logged_in = preferences.getBooleanPreference("logged_in_to_osm");
 		int message;
 		int button;
 		if (logged_in == true) {
@@ -76,7 +76,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 		preferences.setStringPreference("oauth_token", "");
 		preferences.setStringPreference("oauth_token_secret", "");
 
-		if (preferences.getBoolPreference("logged_in_to_osm") == true) {
+		if (preferences.getBooleanPreference("logged_in_to_osm") == true) {
 			preferences.setBooleanPreference("logged_in_to_osm", false);
 		} else {
 			view.startOAuth();

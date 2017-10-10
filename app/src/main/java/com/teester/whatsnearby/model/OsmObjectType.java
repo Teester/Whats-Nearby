@@ -1,5 +1,6 @@
 package com.teester.whatsnearby.model;
 
+import com.teester.whatsnearby.model.data.PoiTypes;
 import com.teester.whatsnearby.model.data.Questions;
 
 import java.util.ArrayList;
@@ -29,6 +30,10 @@ public class OsmObjectType {
 		return this.objectClass;
 	}
 
+	public OsmObjectType getObjectType() {
+		return PoiTypes.getPoiType(this.objectClass);
+	}
+
 	public int getObjectIcon() {
 		return this.objectIcon;
 	}
@@ -53,13 +58,11 @@ public class OsmObjectType {
 		return this.questions.length;
 	}
 
-	public ArrayList<QuestionObject> getQuestionObjects() {
-		ArrayList<QuestionObject> k = new ArrayList<QuestionObject>();
+	public List<QuestionObject> getQuestionObjects() {
+		List<QuestionObject> k = new ArrayList<QuestionObject>();
 		for (int i=0; i < questions.length; i++) {
-			String question = questions[i];
-			Questions questionslist = new Questions();
-			QuestionObject newquestion = questionslist.getQuestion(question);
-			k.add(newquestion);
+			QuestionObject question = Questions.getQuestion(questions[i]);
+			k.add(question);
 		}
 		return k;
 	}

@@ -16,10 +16,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.model.LocationService;
 import com.teester.whatsnearby.model.OAuth;
 import com.teester.whatsnearby.model.Preferences;
 import com.teester.whatsnearby.model.PreferencesContract;
+import com.teester.whatsnearby.model.data.location.LocationService;
 
 public class MainActivity extends AppCompatActivity implements
 		View.OnClickListener,

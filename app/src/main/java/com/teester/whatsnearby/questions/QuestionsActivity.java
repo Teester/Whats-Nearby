@@ -23,7 +23,8 @@ import com.teester.whatsnearby.view.NonSwipeableViewPager;
 
 public class QuestionsActivity extends AppCompatActivity
 		implements QuestionsActivityContract.View,
-		NotHereFragment.OnFragmentInteractionListener {
+		NotHereFragment.OnFragmentInteractionListener,
+		QuestionFragment.OnFragmentInteractionListener {
 
 	private static final String TAG = QuestionsActivity.class.getSimpleName();
 
@@ -51,7 +52,7 @@ public class QuestionsActivity extends AppCompatActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
-		questionsPresenter.assessIntentExtras();
+		questionsPresenter.addPoiNameToTextview();
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import com.teester.whatsnearby.model.OsmObject;
 import com.teester.whatsnearby.model.OsmObjectType;
 import com.teester.whatsnearby.model.PreferencesContract;
 import com.teester.whatsnearby.model.QuestionObject;
+import com.teester.whatsnearby.model.data.Answers;
 import com.teester.whatsnearby.model.data.PoiList;
 import com.teester.whatsnearby.model.data.PoiTypes;
 
@@ -20,6 +21,7 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 	public QuestionsPresenter(QuestionsActivityContract.View view, PreferencesContract preferences) {
 		this.view = view;
 		this.preferences = preferences;
+		Answers.getInstance().clearAnswerList();
 	}
 
 	@Override
@@ -32,14 +34,13 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 	}
 
 	@Override
-	public void assessIntentExtras() {
+	public void addPoiNameToTextview() {
 		List<OsmObject> poiList = PoiList.getInstance().getPoiList();
 		String poiType = poiList.get(0).getType();
-		PoiTypes poiTypes = new PoiTypes();
-		OsmObjectType listOfQuestions = poiTypes.getPoiType(poiType);
+		OsmObjectType listOfQuestions = PoiTypes.getPoiType(poiType);
 		listOfQuestions.shuffleQuestions();
 
-		if (preferences.getBoolPreference("logged_in_to_osm") == true) {
+		if (preferences.getBooleanPreference("logged_in_to_osm") == true) {
 			view.setViewPager(poiList.get(0), listOfQuestions);
 			if (poiList.size() == 1) {
 				view.makeTextViewInvisible();

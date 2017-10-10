@@ -29,8 +29,8 @@ public class NotHerePresenter implements NotHereFragmentContract.Presenter {
 	public void onItemClicked(int i) {
 		ArrayList<OsmObject> intentList = new ArrayList<OsmObject>();
 		intentList.add(0, this.alternateList.get(i));
-
-		view.startActivity(intentList);
+		PoiList.getInstance().setPoiList(intentList);
+		view.startActivity();
 	}
 
 	@Override

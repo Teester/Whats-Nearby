@@ -1,7 +1,5 @@
 package com.teester.whatsnearby.model;
 
-import android.content.Context;
-
 /**
  * Details about the specific question
  */
@@ -66,10 +64,6 @@ public class QuestionObject {
 
 	public int getQuestion() {
 		return this.question;
-	}
-
-	public String getQuestionString(Context context) {
-		return context.getResources().getString(this.question);
 	}
 
 	public int getIcon() {

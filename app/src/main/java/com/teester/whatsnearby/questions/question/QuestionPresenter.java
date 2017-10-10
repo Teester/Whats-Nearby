@@ -30,7 +30,7 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 	public QuestionPresenter(QuestionFragmentContract.View view, int position, Context context) {
 		this.view = view;
 		poi = PoiList.getInstance().getPoiList().get(0);
-		listOfQuestions = new PoiTypes().getPoiType(poi.getType());
+		listOfQuestions = PoiTypes.getPoiType(poi.getType());
 		this.position = position;
 		this.context = context;
 	}
@@ -54,7 +54,7 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 		QuestionObject questionObject = questions.get(position);
 		int selectedColor = questionObject.getColor();
 		int unselectedColor = R.color.colorPrimary;
-		String answer;
+		String answer = null;
 		switch (id) {
 			case R.id.answer_yes:
 				view.setBackgroundColor(selectedColor, unselectedColor, unselectedColor);
@@ -66,15 +66,15 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 				break;
 			case R.id.answer_unsure:
 				view.setBackgroundColor(unselectedColor, unselectedColor, selectedColor);
-				answer = "unsure";
 				break;
 			default:
-				answer = "none";
 				break;
 		}
 
 		Answers answers = Answers.getInstance();
-		answers.addAnswer(new Answer(poi, questionObject, answer));
+		if (answer != null) {
+			answers.addAnswer(new Answer(poi, questionObject, answer));
+		}
 
 		if (position == listOfQuestions.getNoOfQuestions() - 1) {
 			try {

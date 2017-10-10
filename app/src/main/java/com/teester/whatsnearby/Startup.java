@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.teester.whatsnearby.model.LocationService;
+import com.teester.whatsnearby.model.data.location.LocationService;
 
 public class Startup extends BroadcastReceiver {
 

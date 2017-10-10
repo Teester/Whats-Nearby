@@ -25,7 +25,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 		this.poi = poi;
 		this.listOfQuestions = listOfQuestions;
 		Log.i(TAG, "" + listOfQuestions.toString());
-		boolean logged_in = new Preferences(context).getBoolPreference("logged_in_to_osm");
+		boolean logged_in = new Preferences(context).getBooleanPreference("logged_in_to_osm");
 		if (logged_in == true) {
 			this.count = listOfQuestions.getNoOfQuestions() + 1;
 		} else {

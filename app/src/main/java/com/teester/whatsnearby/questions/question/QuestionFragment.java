@@ -1,5 +1,6 @@
 package com.teester.whatsnearby.questions.question;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.model.OsmObject;
 import com.teester.whatsnearby.model.OsmObjectType;
+import com.teester.whatsnearby.model.Preferences;
+import com.teester.whatsnearby.model.PreferencesContract;
 import com.teester.whatsnearby.questions.QuestionsPresenter;
 
 
@@ -28,9 +31,10 @@ import com.teester.whatsnearby.questions.QuestionsPresenter;
  */
 public class QuestionFragment extends Fragment implements View.OnClickListener, QuestionFragmentContract.View {
 
-	protected static final String ARG_PARAM2 = "param2";
+	protected static final String ARG_PARAM1 = "param1";
 	private static final String TAG = QuestionFragment.class.getSimpleName();
 	QuestionsPresenter presenter;
+	private OnFragmentInteractionListener mListener;
 	private QuestionFragmentContract.Presenter questionPresenter;
 
 	private TextView question_textView;
@@ -56,7 +60,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	public static QuestionFragment newInstance(OsmObject poi, int position, OsmObjectType listOfQuestions) {
 		QuestionFragment fragment = new QuestionFragment();
 		Bundle args = new Bundle();
-		args.putInt(ARG_PARAM2, position);
+		args.putInt(ARG_PARAM1, position);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -66,9 +70,10 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 		super.onCreate(savedInstanceState);
 
 		if (getArguments() != null) {
-			this.position = getArguments().getInt(ARG_PARAM2);
+			this.position = getArguments().getInt(ARG_PARAM1);
 		}
 
+		PreferencesContract preferences = new Preferences(getContext());
 		questionPresenter = new QuestionPresenter(this, position, getContext());
 		questionPresenter.init();
 	}
@@ -101,8 +106,26 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	}
 
 	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		if (context instanceof OnFragmentInteractionListener) {
+			mListener = (OnFragmentInteractionListener) context;
+		} else {
+			throw new RuntimeException(context.toString()
+					+ " must implement OnFragmentInteractionListener");
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mListener = null;
+	}
+
+	@Override
 	public void onClick(View v) {
 		questionPresenter.onAnswerSelected(v.getId());
+		mListener.onQuestionFragmentInteraction();
 	}
 
 	/**
@@ -133,5 +156,9 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	@Override
 	public void setPresenter(QuestionFragmentContract.Presenter presenter) {
 		questionPresenter = presenter;
+	}
+
+	public interface OnFragmentInteractionListener {
+		void onQuestionFragmentInteraction();
 	}
 }
