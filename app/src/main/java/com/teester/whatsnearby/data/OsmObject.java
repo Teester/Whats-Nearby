@@ -1,4 +1,4 @@
-package com.teester.whatsnearby.model;
+package com.teester.whatsnearby.data;
 
 import android.location.Location;
 

@@ -15,9 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.model.OsmObject;
-import com.teester.whatsnearby.model.OsmObjectType;
-import com.teester.whatsnearby.model.data.PoiTypes;
+import com.teester.whatsnearby.data.OsmObject;
+import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.PoiTypes;
 import com.teester.whatsnearby.questions.QuestionsActivity;
 
 import java.util.ArrayList;

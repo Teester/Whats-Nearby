@@ -14,10 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.model.OsmObject;
-import com.teester.whatsnearby.model.OsmObjectType;
-import com.teester.whatsnearby.model.Preferences;
-import com.teester.whatsnearby.model.PreferencesContract;
+import com.teester.whatsnearby.data.OsmObject;
+import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.questions.QuestionsPresenter;
 
 
@@ -73,7 +71,6 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 			this.position = getArguments().getInt(ARG_PARAM1);
 		}
 
-		PreferencesContract preferences = new Preferences(getContext());
 		questionPresenter = new QuestionPresenter(this, position, getContext());
 		questionPresenter.init();
 	}

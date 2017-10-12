@@ -3,14 +3,14 @@ package com.teester.whatsnearby.questions.question;
 import android.content.Context;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.model.Answer;
-import com.teester.whatsnearby.model.OsmObject;
-import com.teester.whatsnearby.model.OsmObjectType;
-import com.teester.whatsnearby.model.QuestionObject;
-import com.teester.whatsnearby.model.UploadToOSM;
-import com.teester.whatsnearby.model.data.Answers;
-import com.teester.whatsnearby.model.data.PoiList;
-import com.teester.whatsnearby.model.data.PoiTypes;
+import com.teester.whatsnearby.data.Answer;
+import com.teester.whatsnearby.data.Answers;
+import com.teester.whatsnearby.data.OsmObject;
+import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.PoiList;
+import com.teester.whatsnearby.data.PoiTypes;
+import com.teester.whatsnearby.data.QuestionObject;
+import com.teester.whatsnearby.data.source.UploadToOSM;
 
 import java.util.List;
 
@@ -71,10 +71,8 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 				break;
 		}
 
-		Answers answers = Answers.getInstance();
-		if (answer != null) {
-			answers.addAnswer(new Answer(poi, questionObject, answer));
-		}
+		Answer answerToQuestion = new Answer(questionObject, answer);
+		addAnswer(answerToQuestion);
 
 		if (position == listOfQuestions.getNoOfQuestions() - 1) {
 			try {
@@ -90,6 +88,15 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 			}
 		}
 
+	}
+
+	private void addAnswer(Answer answer) {
+		if (answer != null) {
+			if (Answers.getPoiName() == null) {
+				Answers.setPoiDetails(poi);
+			}
+			Answers.addAnswer(answer);
+		}
 	}
 
 	@Override

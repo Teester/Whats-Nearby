@@ -11,11 +11,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.data.OsmObject;
+import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.source.OAuth;
+import com.teester.whatsnearby.data.source.Preferences;
+import com.teester.whatsnearby.data.source.SourceContract;
 import com.teester.whatsnearby.main.MainActivity;
-import com.teester.whatsnearby.model.OAuth;
-import com.teester.whatsnearby.model.OsmObject;
-import com.teester.whatsnearby.model.OsmObjectType;
-import com.teester.whatsnearby.model.Preferences;
 import com.teester.whatsnearby.questions.nothere.NotHereFragment;
 import com.teester.whatsnearby.questions.question.QuestionFragment;
 import com.teester.whatsnearby.view.MyPagerAdapter;
@@ -41,7 +42,7 @@ public class QuestionsActivity extends AppCompatActivity
 		this.textView = (TextView) findViewById(R.id.answer_not_here);
 		this.viewPager = (NonSwipeableViewPager) findViewById(R.id.viewPager);
 
-		Preferences preferences = new Preferences(getApplicationContext());
+		SourceContract.Preferences preferences = new Preferences(getApplicationContext());
 		questionsPresenter = new QuestionsPresenter(this, preferences);
 		questionsPresenter.init();
 
@@ -103,8 +104,12 @@ public class QuestionsActivity extends AppCompatActivity
 
 	@Override
 	public void startOAuth() {
-		OAuth oAuth = new OAuth(getApplicationContext());
-		oAuth.execute();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				new OAuth(getApplicationContext());
+			}
+		}).start();
 	}
 
 	@Override

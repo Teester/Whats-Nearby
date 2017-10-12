@@ -1,7 +1,6 @@
-package com.teester.whatsnearby.model.data;
+package com.teester.whatsnearby.data;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.model.QuestionObject;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -16,10 +16,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.model.OAuth;
-import com.teester.whatsnearby.model.Preferences;
-import com.teester.whatsnearby.model.PreferencesContract;
-import com.teester.whatsnearby.model.data.location.LocationService;
+import com.teester.whatsnearby.data.location.LocationService;
+import com.teester.whatsnearby.data.source.OAuth;
+import com.teester.whatsnearby.data.source.Preferences;
+import com.teester.whatsnearby.data.source.SourceContract;
 
 public class MainActivity extends AppCompatActivity implements
 		View.OnClickListener,
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements
 		setContentView(R.layout.activity_main);
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		PreferencesContract preferences = new Preferences(getApplicationContext());
+		SourceContract.Preferences preferences = new Preferences(getApplicationContext());
 		mainPresenter = new MainActivityPresenter(this, preferences);
 		mainPresenter.init();
 		this.textView = (TextView) this.findViewById(R.id.textView);
@@ -128,8 +128,12 @@ public class MainActivity extends AppCompatActivity implements
 	public void startOAuth() {
 
 		Log.d(TAG, "In startOAuth");
-		OAuth oAuth = new OAuth(getApplicationContext());
-		oAuth.execute();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				new OAuth(getApplicationContext());
+			}
+		}).start();
 	}
 
 	@Override

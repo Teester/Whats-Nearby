@@ -4,8 +4,8 @@ import android.net.Uri;
 
 import com.teester.whatsnearby.BasePresenter;
 import com.teester.whatsnearby.BaseView;
-import com.teester.whatsnearby.model.OsmObject;
-import com.teester.whatsnearby.model.OsmObjectType;
+import com.teester.whatsnearby.data.OsmObject;
+import com.teester.whatsnearby.data.OsmObjectType;
 
 public interface QuestionsActivityContract {
 

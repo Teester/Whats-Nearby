@@ -1,4 +1,4 @@
-package com.teester.whatsnearby.model;
+package com.teester.whatsnearby.data.source;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -6,7 +6,9 @@ import android.util.Log;
 
 import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.model.data.Answers;
+import com.teester.whatsnearby.data.Answer;
+import com.teester.whatsnearby.data.Answers;
+import com.teester.whatsnearby.data.QuestionObject;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,25 +30,24 @@ import oauth.signpost.exception.OAuthNotAuthorizedException;
  * Handles uploading answers to OpenStreetMap
  */
 
-public class UploadToOSM {
+public class UploadToOSM implements SourceContract.Upload {
 	private static final String TAG = UploadToOSM.class.getSimpleName();
 
 	private static final String CONSUMER_KEY = "1LJqwD4kMz96HTbv9I1U1XBM0AL1RpcjuFOPvW0B";
 	private static final String CONSUMER_SECRET = "KDCLveu82AZawLELpC6yIP3EI8fJa0JqF0ALukbl";
 
-	List<Answer> answers;
 	Context context;
 	Element currentElement;
 
 	public UploadToOSM(Context context) throws OAuthNotAuthorizedException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthMessageSignerException {
-		this.answers = Answers.getInstance().getAnswerList();
 		this.context = context;
 		Upload();
 	}
 
+	@Override
 	public void Upload() {
-		String type = this.answers.get(0).getObjectType();
-		long objectId = this.answers.get(0).getObjectId();
+		String type = Answers.getPoiType();
+		long objectId = Answers.getPoiId();
 
 		OAuthConsumer oAuthConsumer = getConsumer();
 		DownloadElement downloadFromOsm = new DownloadElement(objectId, type, oAuthConsumer);
@@ -67,7 +68,7 @@ public class UploadToOSM {
 	private Map<String,String> createChangesetTags()
 	{
 		Map<String,String> changesetTags = new HashMap<>();
-		changesetTags.put("comment", String.format(context.getString(R.string.changeset_comment), answers.get(0).getObjectName()));
+		changesetTags.put("comment", String.format(context.getString(R.string.changeset_comment), Answers.getPoiName()));
 		changesetTags.put("created_by", context.getResources().getString(R.string.app_name));
 		changesetTags.put("version", BuildConfig.VERSION_NAME);
 		changesetTags.put("source", context.getString(R.string.changeset_source));
@@ -110,9 +111,9 @@ public class UploadToOSM {
 
 			// Add/modify the relevant keys
 			Element modifiedElement = downloadedElement;
-			for (int i = 0; i < answers.size(); i++) {
-				Answer answer = answers.get(i);
-				QuestionObject questionObject = answers.get(i).getQuestion();
+			for (int i = 0; i < Answers.getAnswerList().size(); i++) {
+				Answer answer = Answers.getAnswerList().get(i);
+				QuestionObject questionObject = answer.getQuestion();
 				String key = answer.getQuestion().getTag();
 				String value = questionObject.getAnswer(answer.getAnswer());
 				modifiedElement.getTags().put(key, value);

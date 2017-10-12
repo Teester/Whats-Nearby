@@ -1,7 +1,7 @@
 package com.teester.whatsnearby.questions.nothere;
 
-import com.teester.whatsnearby.model.OsmObject;
-import com.teester.whatsnearby.model.data.PoiList;
+import com.teester.whatsnearby.data.OsmObject;
+import com.teester.whatsnearby.data.PoiList;
 
 import java.util.ArrayList;
 import java.util.List;

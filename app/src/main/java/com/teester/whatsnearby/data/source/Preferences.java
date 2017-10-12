@@ -1,10 +1,10 @@
-package com.teester.whatsnearby.model;
+package com.teester.whatsnearby.data.source;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-public class Preferences implements PreferencesContract {
+public class Preferences implements SourceContract.Preferences {
 
 	private SharedPreferences prefs;
 

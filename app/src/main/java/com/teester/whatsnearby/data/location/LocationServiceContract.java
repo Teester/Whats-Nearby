@@ -1,4 +1,4 @@
-package com.teester.whatsnearby.model.data.location;
+package com.teester.whatsnearby.data.location;
 
 import android.location.Location;
 
@@ -12,6 +12,10 @@ public interface LocationServiceContract {
 		void processLocation(Location location);
 
 		void createLostClient();
+
+		void queryResult();
+
+		void updateLastQueryTime();
 	}
 
 	interface Service extends BaseView<Presenter> {
@@ -21,5 +25,7 @@ public interface LocationServiceContract {
 		void createLostClient(int interval);
 
 		void performOverpassQuery(Location location);
+
+		void createNotification(String name, int drawable);
 	}
 }

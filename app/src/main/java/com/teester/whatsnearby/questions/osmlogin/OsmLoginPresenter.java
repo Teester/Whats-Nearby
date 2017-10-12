@@ -1,14 +1,14 @@
 package com.teester.whatsnearby.questions.osmlogin;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.model.PreferencesContract;
+import com.teester.whatsnearby.data.source.SourceContract;
 
 class OsmLoginPresenter implements OsmLoginFragmentContract.Presenter {
 
 	private OsmLoginFragmentContract.View view;
-	private PreferencesContract preferences;
+	private SourceContract.Preferences preferences;
 
-	public OsmLoginPresenter(OsmLoginFragment view, PreferencesContract preferences) {
+	public OsmLoginPresenter(OsmLoginFragment view, SourceContract.Preferences preferences) {
 		this.view = view;
 		this.preferences = preferences;
 	}

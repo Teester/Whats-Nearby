@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.model.PreferencesContract;
+import com.teester.whatsnearby.data.source.SourceContract;
 
 /**
  * Presenter for MainActivity
@@ -14,10 +14,10 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
 	private static final String TAG = MainActivityPresenter.class.getSimpleName();
 
-	private PreferencesContract preferences;
+	private SourceContract.Preferences preferences;
 	private MainActivityContract.View view;
 
-	public MainActivityPresenter(MainActivityContract.View view, PreferencesContract preferences) {
+	public MainActivityPresenter(MainActivityContract.View view, SourceContract.Preferences preferences) {
 		this.view = view;
 		this.preferences = preferences;
 		this.view.setPresenter(this);

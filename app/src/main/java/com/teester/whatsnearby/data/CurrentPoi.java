@@ -1,6 +1,4 @@
-package com.teester.whatsnearby.model.data;
-
-import com.teester.whatsnearby.model.OsmObject;
+package com.teester.whatsnearby.data;
 
 public class CurrentPoi {
 

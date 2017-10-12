@@ -1,9 +1,8 @@
-package com.teester.whatsnearby.model;
+package com.teester.whatsnearby.data.source;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.Browser;
 
 import oauth.signpost.OAuthConsumer;
@@ -15,8 +14,7 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 
-public class OAuth extends AsyncTask<Void, Void, Void> {
-
+public class OAuth implements SourceContract.OAuth {
 	private static final String TAG = OAuth.class.getSimpleName();
 	private static final String CONSUMER_KEY = "1LJqwD4kMz96HTbv9I1U1XBM0AL1RpcjuFOPvW0B";
 	private static final String CONSUMER_SECRET = "KDCLveu82AZawLELpC6yIP3EI8fJa0JqF0ALukbl";
@@ -29,16 +27,13 @@ public class OAuth extends AsyncTask<Void, Void, Void> {
 
 	public OAuth(Context context) {
 		this.context = context;
-	}
-
-	public OAuth(Preferences context) {
-		this.preferences = context;
+		preferences = new Preferences(context);
+		processOAuth();
 	}
 
 	@Override
-	protected Void doInBackground(Void... voids) {
+	public void processOAuth() {
 
-		Preferences preferences = new Preferences(context);
 		String verifier = preferences.getStringPreference("oauth_verifier");
 		String token = preferences.getStringPreference("oauth_token");
 		String tokenSecret = preferences.getStringPreference("oauth_token_secret");
@@ -76,6 +71,5 @@ public class OAuth extends AsyncTask<Void, Void, Void> {
 		} catch (OAuthCommunicationException e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 }

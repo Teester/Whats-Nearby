@@ -2,7 +2,7 @@ package com.teester.whatsnearby.questions.nothere;
 
 import com.teester.whatsnearby.BasePresenter;
 import com.teester.whatsnearby.BaseView;
-import com.teester.whatsnearby.model.OsmObject;
+import com.teester.whatsnearby.data.OsmObject;
 
 import java.util.List;
 

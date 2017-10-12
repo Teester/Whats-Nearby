@@ -2,13 +2,13 @@ package com.teester.whatsnearby.questions;
 
 import android.net.Uri;
 
-import com.teester.whatsnearby.model.OsmObject;
-import com.teester.whatsnearby.model.OsmObjectType;
-import com.teester.whatsnearby.model.PreferencesContract;
-import com.teester.whatsnearby.model.QuestionObject;
-import com.teester.whatsnearby.model.data.Answers;
-import com.teester.whatsnearby.model.data.PoiList;
-import com.teester.whatsnearby.model.data.PoiTypes;
+import com.teester.whatsnearby.data.Answers;
+import com.teester.whatsnearby.data.OsmObject;
+import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.PoiList;
+import com.teester.whatsnearby.data.PoiTypes;
+import com.teester.whatsnearby.data.QuestionObject;
+import com.teester.whatsnearby.data.source.SourceContract;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 
 	private QuestionsActivityContract.View view;
 	private QuestionObject questionObject;
-	private PreferencesContract preferences;
+	private SourceContract.Preferences preferences;
 
-	public QuestionsPresenter(QuestionsActivityContract.View view, PreferencesContract preferences) {
+	public QuestionsPresenter(QuestionsActivityContract.View view, SourceContract.Preferences preferences) {
 		this.view = view;
 		this.preferences = preferences;
-		Answers.getInstance().clearAnswerList();
+		Answers.clearAnswerList();
 	}
 
 	@Override

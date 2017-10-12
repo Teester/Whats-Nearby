@@ -1,4 +1,4 @@
-package com.teester.whatsnearby.model;
+package com.teester.whatsnearby.data.location;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,15 +13,28 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 
 import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.data.source.Preferences;
+import com.teester.whatsnearby.data.source.SourceContract;
 import com.teester.whatsnearby.questions.QuestionsActivity;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class Notifier {
 
-	private Notifier() {
+	private static final String OVERPASSLASTQUERYTIMEPREF = "last_overpass_query_time";
 
-	}
-
+	/**
+	 * Creates a notification and stores the time of notification
+	 *
+	 * @param context  - Application context
+	 * @param name     - poi name
+	 * @param drawable - poi drawable id
+	 */
 	public static void createNotification(Context context, String name, int drawable) {
+
+		// Store the time the notification was made
+		SourceContract.Preferences preferences = new Preferences(context);
+		preferences.setLongPreference(OVERPASSLASTQUERYTIMEPREF, System.currentTimeMillis());
 
 		Intent resultIntent = new Intent(context, QuestionsActivity.class);
 		resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -38,7 +51,7 @@ public class Notifier {
 						.setContentIntent(resultPendingIntent)
 						.setAutoCancel(true);
 		mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
-		NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 		mNotifyMgr.notify(mNotificationId, mBuilder.build());
 	}
 
@@ -62,5 +75,16 @@ public class Notifier {
 		drawable.draw(canvas);
 
 		return bitmap;
+	}
+
+	/**
+	 * Cancels any notifications from the app
+	 *
+	 * @param context
+	 */
+	public static void cancelNotifictions(Context context) {
+
+		NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+		notificationManager.cancelAll();
 	}
 }

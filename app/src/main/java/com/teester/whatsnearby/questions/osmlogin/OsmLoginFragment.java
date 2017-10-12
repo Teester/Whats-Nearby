@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.model.OAuth;
-import com.teester.whatsnearby.model.Preferences;
-import com.teester.whatsnearby.model.PreferencesContract;
+import com.teester.whatsnearby.data.source.OAuth;
+import com.teester.whatsnearby.data.source.Preferences;
+import com.teester.whatsnearby.data.source.SourceContract;
 
 
 /**
@@ -48,7 +48,7 @@ public class OsmLoginFragment extends Fragment implements View.OnClickListener, 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		PreferencesContract preferences = new Preferences(getContext());
+		SourceContract.Preferences preferences = new Preferences(getContext());
 		osmLoginPresenter = new OsmLoginPresenter(this, preferences);
 	}
 
@@ -96,8 +96,12 @@ public class OsmLoginFragment extends Fragment implements View.OnClickListener, 
 
 	@Override
 	public void startOAuth() {
-		OAuth oAuth = new OAuth(getContext());
-		oAuth.execute();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				new OAuth(getContext());
+			}
+		}).start();
 	}
 
 	/**

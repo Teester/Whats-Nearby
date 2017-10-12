@@ -1,6 +1,8 @@
-package com.teester.whatsnearby.model.data.location;
+package com.teester.whatsnearby.data.location;
 
 import android.location.Location;
+
+import com.teester.whatsnearby.data.source.SourceContract;
 
 public class LocationPresenter implements LocationServiceContract.Presenter {
 
@@ -10,19 +12,24 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 	private static final int MINQUERYINTERVAL = 60 * 60 * 1000;
 	private static final double MINQUERYDISTANCE = 20;
 	private static final int MINLOCATIONACCURACY = 100;
+	private static final String OVERPASSLASTQUERYTIMEPREF = "last_overpass_query_time";
 
 	private Location lastLocation;
-	private long lastQueryTime;
 	private Location lastQueryLocation;
 
 	private LocationServiceContract.Service service;
+	private SourceContract.Preferences preferences;
 
-	public LocationPresenter(LocationServiceContract.Service service) {
+	public LocationPresenter(LocationServiceContract.Service service, SourceContract.Preferences preferences) {
 		this.service = service;
+		this.preferences = preferences;
 	}
 
 	@Override
 	public void processLocation(Location location) {
+		// Get the last time the user was notified that they were in a location
+		long lastQueryTime = preferences.getLongPreference(OVERPASSLASTQUERYTIMEPREF);
+
 		if (lastLocation == null) {
 			lastLocation = location;
 		}
@@ -55,17 +62,26 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 		}
 
 		if (query == true) {
-			lastQueryTime = System.currentTimeMillis();
 			lastQueryLocation = location;
 
 			// Cancel all notifications before we run a new query.  If we're querying,
 			// Overpass, we're no longer in the same place as the last notification.
-			service.cancelNotifications();
+			//service.cancelNotifications();
 			service.performOverpassQuery(location);
 		}
-
+		service.performOverpassQuery(location);
 		lastLocation = location;
 	}
+
+	@Override
+	public void queryResult() {
+		service.createNotification("", 0);
+	}
+
+	@Override
+	public void updateLastQueryTime() {
+	}
+
 
 	@Override
 	public void createLostClient() {

@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
-import com.teester.whatsnearby.model.OsmObject;
-import com.teester.whatsnearby.model.OsmObjectType;
-import com.teester.whatsnearby.model.Preferences;
+import com.teester.whatsnearby.data.OsmObject;
+import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.questions.question.QuestionFragment;
 import com.teester.whatsnearby.questions.upload.UploadFragment;
 

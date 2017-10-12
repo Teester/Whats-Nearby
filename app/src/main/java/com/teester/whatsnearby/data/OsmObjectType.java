@@ -1,7 +1,4 @@
-package com.teester.whatsnearby.model;
-
-import com.teester.whatsnearby.model.data.PoiTypes;
-import com.teester.whatsnearby.model.data.Questions;
+package com.teester.whatsnearby.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
