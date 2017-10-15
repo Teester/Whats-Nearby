@@ -2,8 +2,8 @@ package com.teester.whatsnearby.data.source;
 
 import android.content.Context;
 import android.location.Location;
-import android.util.Log;
 
+import com.teester.whatsnearby.UseCase;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
@@ -29,16 +29,14 @@ public class QueryOverpass implements SourceContract.Overpass {
 
 	private static final String TAG = QueryOverpass.class.getSimpleName();
 	private Location queryLocation;
-	private Context context;
 	private List<OsmObject> poiList = new ArrayList<OsmObject>();
+	private Context context;
 
-	public QueryOverpass(Location location, Context context) {
-
+	public QueryOverpass(Context context) {
 		this.context = context;
-		this.queryLocation = location;
-		String overpassUrl = getOverpassUri(location.getLatitude(), location.getLongitude(), location.getAccuracy());
-		String overpassQuery = queryOverpassApi(overpassUrl);
-		processResult(overpassQuery);
+	}
+
+	public QueryOverpass() {
 	}
 
 	/**
@@ -100,7 +98,13 @@ public class QueryOverpass implements SourceContract.Overpass {
 		// Arrange the locations by distance from location
 		Collections.sort(poiList, new Comparator<OsmObject>() {
 			public int compare(OsmObject p1, OsmObject p2) {
-				return (int) (queryLocation.distanceTo(p1.getLocation()) - queryLocation.distanceTo(p2.getLocation()));
+				Location location1 = new Location("dummyprovider");
+				location1.setLongitude(p1.getLongitude());
+				location1.setLatitude(p1.getLatitude());
+				Location location2 = new Location("dummyprovider");
+				location2.setLongitude(p2.getLongitude());
+				location2.setLatitude(p2.getLatitude());
+				return (int) (queryLocation.distanceTo(location1) - queryLocation.distanceTo(location2));
 			}
 		});
 	}
@@ -148,12 +152,20 @@ public class QueryOverpass implements SourceContract.Overpass {
 					}
 				}
 			} catch (final JSONException e) {
-				Log.e(TAG, "Json parsing error: " + e.getMessage());
 			}
 
 			sortPoiList();
 			prepareNotification();
 		}
+	}
+
+	@Override
+	public void queryOverpass(Location location) {
+
+		this.queryLocation = location;
+		String overpassUrl = getOverpassUri(location.getLatitude(), location.getLongitude(), location.getAccuracy());
+		String overpassQuery = queryOverpassApi(overpassUrl);
+		processResult(overpassQuery);
 	}
 
 	/**
@@ -163,7 +175,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 	 * @return - the location type
 	 * @throws JSONException - if it's not an amenity, shop, tourism or leisure
 	 */
-	private String getType(JSONObject tags) throws JSONException {
+	String getType(JSONObject tags) throws JSONException {
 		String type = "";
 		if (tags.has("amenity")) {
 			type = tags.getString("amenity");
@@ -194,5 +206,9 @@ public class QueryOverpass implements SourceContract.Overpass {
 		} else {
 			Notifier.cancelNotifictions(context);
 		}
+	}
+
+	public static final class response implements UseCase.RequestValues {
+		String response = "";
 	}
 }

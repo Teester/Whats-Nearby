@@ -2,6 +2,7 @@ package com.teester.whatsnearby.data.location;
 
 import android.location.Location;
 
+import com.teester.whatsnearby.UseCaseHandler;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 public class LocationPresenter implements LocationServiceContract.Presenter {
@@ -19,10 +20,12 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 
 	private LocationServiceContract.Service service;
 	private SourceContract.Preferences preferences;
+	private UseCaseHandler useCaseHandler;
 
-	public LocationPresenter(LocationServiceContract.Service service, SourceContract.Preferences preferences) {
+	public LocationPresenter(LocationServiceContract.Service service, SourceContract.Preferences preferences, UseCaseHandler useCaseHandler) {
 		this.service = service;
 		this.preferences = preferences;
+		this.useCaseHandler = useCaseHandler;
 	}
 
 	@Override

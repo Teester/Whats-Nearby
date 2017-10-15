@@ -91,10 +91,8 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 	}
 
 	private void addAnswer(Answer answer) {
-		if (answer != null) {
-			if (Answers.getPoiName() == null) {
-				Answers.setPoiDetails(poi);
-			}
+		if (Answers.getPoiName() == null) {
+			Answers.setPoiDetails(poi);
 			Answers.addAnswer(answer);
 		}
 	}

@@ -1,23 +1,21 @@
 package com.teester.whatsnearby.data;
 
-import android.location.Location;
-
 public class OsmObject {
 
 	private final int id;
 	private final String osmType;
 	private final String name;
-	private final Location location;
 	private final String type;
 	private final float distance;
+	private double latitude;
+	private double longitude;
 
 	public OsmObject(int id, String osmType, String name, String type, double latitude, double longitude, float distance) {
 		this.id = id;
 		this.osmType = osmType;
 		this.name = name;
-		this.location = new Location("dummyprovider");
-		this.location.setLatitude(latitude);
-		this.location.setLongitude(longitude);
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.type = type;
 		this.distance = distance;
 	}
@@ -35,15 +33,11 @@ public class OsmObject {
 	}
 
 	public double getLatitude() {
-		return this.location.getLatitude();
+		return this.latitude;
 	}
 
 	public double getLongitude() {
-		return this.location.getLongitude();
-	}
-
-	public Location getLocation() {
-		return this.location;
+		return this.longitude;
 	}
 
 	public String getType() {

@@ -1,5 +1,6 @@
 package com.teester.whatsnearby.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ public class Answers {
 	private static OsmObject osmObject;
 	private static int id;
 	private static String name;
-	private static List<Answer> answerList;
+	private static List<Answer> answerList = new ArrayList<Answer>();
 	private static String objectType;
 
 	private Answers() {
@@ -50,6 +51,7 @@ public class Answers {
 	 */
 	public static void clearAnswerList() {
 		INSTANCE = null;
+		answerList = new ArrayList<Answer>();
 	}
 
 	public static void setPoiDetails(OsmObject osmObject) {

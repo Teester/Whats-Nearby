@@ -1,8 +1,6 @@
 package com.teester.whatsnearby.data.location;
 
 import android.Manifest;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +13,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 
@@ -23,12 +20,11 @@ import com.mapzen.android.lost.api.LocationListener;
 import com.mapzen.android.lost.api.LocationRequest;
 import com.mapzen.android.lost.api.LocationServices;
 import com.mapzen.android.lost.api.LostApiClient;
-import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.UseCaseHandler;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.QueryOverpass;
 import com.teester.whatsnearby.data.source.SourceContract;
 import com.teester.whatsnearby.main.MainActivity;
-import com.teester.whatsnearby.questions.QuestionsActivity;
 
 public class LocationService extends Service implements LocationServiceContract.Service {
 
@@ -81,7 +77,7 @@ public class LocationService extends Service implements LocationServiceContract.
 		super.onCreate();
 		context = getApplicationContext();
 		preferences = new Preferences(context);
-		locationPresenter = new LocationPresenter(this, preferences);
+		locationPresenter = new LocationPresenter(this, preferences, UseCaseHandler.getInstance());
 		locationPresenter.init();
 	}
 
@@ -90,7 +86,8 @@ public class LocationService extends Service implements LocationServiceContract.
 		return START_STICKY;
 	}
 
-	@Override public void onDestroy() {
+	@Override
+	public void onDestroy() {
 		super.onDestroy();
 		LocationServices.FusedLocationApi.removeLocationUpdates(client, listener);
 		client.disconnect();
@@ -103,8 +100,7 @@ public class LocationService extends Service implements LocationServiceContract.
 
 	@Override
 	public void cancelNotifications() {
-		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		notificationManager.cancelAll();
+		Notifier.cancelNotifictions(getApplicationContext());
 	}
 
 	@Override
@@ -131,13 +127,29 @@ public class LocationService extends Service implements LocationServiceContract.
 
 	@Override
 	public void performOverpassQuery(final Location location) {
+//		UseCaseHandler useCaseHandler = UseCaseHandler.getInstance();
 
+		SourceContract.Overpass overpassQuery = new QueryOverpass(getApplicationContext());
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				new QueryOverpass(location, getApplicationContext());
+				SourceContract.Overpass overpassQuery = new QueryOverpass(getApplicationContext());
+				overpassQuery.queryOverpass(location);
 			}
 		}).start();
+
+//		QueryOverpass.response response = overpassQuery.response;
+//		useCaseHandler.execute(overpassQuery, response, new UseCase.UseCaseCallback<String>() {
+//			@Override
+//			public void onSuccess(String response) {
+//				Log.w(TAG, response);
+//			}
+//
+//			@Override
+//			public void onError() {
+//				Log.w(TAG, "Error");
+//			}
+//		});
 	}
 
 	public void checkLocationPermission() {
@@ -153,26 +165,6 @@ public class LocationService extends Service implements LocationServiceContract.
 
 	@Override
 	public void createNotification(String name, int drawable) {
-
-		// Store the time the notification was made
-		preferences.setLongPreference(OVERPASSLASTQUERYTIMEPREF, System.currentTimeMillis());
-
-		Intent resultIntent = new Intent(getApplicationContext(), QuestionsActivity.class);
-		resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-		PendingIntent resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-		int mNotificationId = 001;
-		NotificationCompat.Builder mBuilder =
-				new NotificationCompat.Builder(getApplicationContext())
-						.setSmallIcon(R.drawable.ic_small_icon)
-						.setLargeIcon(getBitmapFromVectorDrawable(getApplicationContext(), drawable))
-						.setContentTitle(String.format(getApplicationContext().getResources().getString(R.string.at_location), name))
-						.setContentText(getApplicationContext().getResources().getString(R.string.answer_questions))
-						.addAction(R.drawable.ic_yes, getApplicationContext().getResources().getString(R.string.ok), resultPendingIntent)
-						.setContentIntent(resultPendingIntent)
-						.setAutoCancel(true);
-		mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
-		NotificationManager mNotifyMgr = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-		mNotifyMgr.notify(mNotificationId, mBuilder.build());
+		Notifier.createNotification(getApplicationContext(), name, drawable);
 	}
 }

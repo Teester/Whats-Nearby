@@ -40,4 +40,5 @@ dependencies {
         exclude group: "org.apache.httpcomponents", module: "httpcore"
     }
     testCompile 'junit:junit:4.12'
+    testCompile 'org.json:json:20140107'
 }
