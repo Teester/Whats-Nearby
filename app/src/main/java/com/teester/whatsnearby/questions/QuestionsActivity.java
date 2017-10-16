@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.source.OAuth;
@@ -22,6 +24,11 @@ import com.teester.whatsnearby.questions.question.QuestionFragment;
 import com.teester.whatsnearby.view.MyPagerAdapter;
 import com.teester.whatsnearby.view.NonSwipeableViewPager;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
 public class QuestionsActivity extends AppCompatActivity
 		implements QuestionsActivityContract.View,
 		NotHereFragment.OnFragmentInteractionListener,
@@ -29,8 +36,8 @@ public class QuestionsActivity extends AppCompatActivity
 
 	private static final String TAG = QuestionsActivity.class.getSimpleName();
 
-	NonSwipeableViewPager viewPager;
-	TextView textView;
+	private NonSwipeableViewPager viewPager;
+	private TextView textView;
 
 	private QuestionsActivityContract.Presenter questionsPresenter;
 
@@ -53,6 +60,7 @@ public class QuestionsActivity extends AppCompatActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
+		createChangesetTags();
 		questionsPresenter.addPoiNameToTextview();
 	}
 
@@ -60,7 +68,13 @@ public class QuestionsActivity extends AppCompatActivity
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		setIntent(intent);
-		questionsPresenter.assessIntentData(intent.getData());
+		URL url = null;
+		try {
+			url = new URL(intent.getData().toString());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		questionsPresenter.assessIntentData(url);
 	}
 
 	public void onQuestionFragmentInteraction() {
@@ -120,5 +134,14 @@ public class QuestionsActivity extends AppCompatActivity
 	@Override
 	public void onNotHereFragmentInteraction() {
 
+	}
+
+	private void createChangesetTags() {
+		Map<String, String> changesetTags = new HashMap<>();
+		changesetTags.put("comment", String.format(getApplicationContext().getString(R.string.changeset_comment), Answers.getPoiName()));
+		changesetTags.put("created_by", getApplicationContext().getResources().getString(R.string.app_name));
+		changesetTags.put("version", BuildConfig.VERSION_NAME);
+		changesetTags.put("source", getApplicationContext().getString(R.string.changeset_source));
+		Answers.setChangesetTags(changesetTags);
 	}
 }

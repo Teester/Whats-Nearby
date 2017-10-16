@@ -1,10 +1,15 @@
 package com.teester.whatsnearby.main;
 
-import android.net.Uri;
-import android.util.Log;
-
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.source.SourceContract;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Presenter for MainActivity
@@ -23,6 +28,28 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 		this.view.setPresenter(this);
 	}
 
+	/**
+	 * Extracts the query parameters from a java.net.URL
+	 *
+	 * @param url - the url to be parsed
+	 * @return - a map containing the parameters and their values
+	 * @throws UnsupportedEncodingException
+	 */
+	public static Map<String, List<String>> splitQuery(URL url) throws UnsupportedEncodingException {
+		final Map<String, List<String>> query_pairs = new LinkedHashMap<String, List<String>>();
+		final String[] pairs = url.getQuery().split("&");
+		for (String pair : pairs) {
+			final int idx = pair.indexOf("=");
+			final String key = idx > 0 ? URLDecoder.decode(pair.substring(0, idx), "UTF-8") : pair;
+			if (!query_pairs.containsKey(key)) {
+				query_pairs.put(key, new LinkedList<String>());
+			}
+			final String value = idx > 0 && pair.length() > idx + 1 ? URLDecoder.decode(pair.substring(idx + 1), "UTF-8") : null;
+			query_pairs.get(key).add(value);
+		}
+		return query_pairs;
+	}
+
 	@Override
 	public void init() {
 	}
@@ -36,7 +63,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	 */
 	@Override
 	public void showIfLoggedIn() {
-		Log.i(TAG, "In showIfLoggedIn");
 		boolean logged_in = preferences.getBooleanPreference("logged_in_to_osm");
 		int message;
 		int button;
@@ -56,12 +82,19 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	 * @param uri The uri obtained from openstreetmap
 	 */
 	@Override
-	public void checkIfOauth(Uri uri) {
-		Log.i(TAG, "In checkIfOauth");
+	public void checkIfOauth(URL uri) {
 		if (uri != null) {
-			preferences.setStringPreference("oauth_verifier", uri.getQueryParameter("oauth_verifier"));
-			preferences.setStringPreference("oauth_token", uri.getQueryParameter("oauth_token"));
-			view.startOAuth();
+			try {
+				Map<String, List<String>> list = splitQuery(uri);
+				String verifier = list.get("oauth_verifier").get(0);
+				String token = list.get("oauth_token").get(0);
+				preferences.setStringPreference("oauth_verifier", verifier);
+				preferences.setStringPreference("oauth_token", token);
+				view.startOAuth();
+
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -70,8 +103,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	 * then either do nothing if logging out or start oAuth if logging in.
 	 */
 	public void onButtonClicked() {
-
-		Log.i(TAG, "In onButtonClicked");
 		preferences.setStringPreference("oauth_verifier", "");
 		preferences.setStringPreference("oauth_token", "");
 		preferences.setStringPreference("oauth_token_secret", "");

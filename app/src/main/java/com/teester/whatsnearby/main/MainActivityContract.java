@@ -1,9 +1,9 @@
 package com.teester.whatsnearby.main;
 
-import android.net.Uri;
-
 import com.teester.whatsnearby.BasePresenter;
 import com.teester.whatsnearby.BaseView;
+
+import java.net.URL;
 
 public interface MainActivityContract {
 
@@ -11,7 +11,7 @@ public interface MainActivityContract {
 
 		void showIfLoggedIn();
 
-		void checkIfOauth(Uri uri);
+		void checkIfOauth(URL url);
 
 		void onButtonClicked();
 

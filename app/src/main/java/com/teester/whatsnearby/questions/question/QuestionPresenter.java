@@ -1,7 +1,5 @@
 package com.teester.whatsnearby.questions.question;
 
-import android.content.Context;
-
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.Answer;
 import com.teester.whatsnearby.data.Answers;
@@ -10,6 +8,7 @@ import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
 import com.teester.whatsnearby.data.QuestionObject;
+import com.teester.whatsnearby.data.source.SourceContract;
 import com.teester.whatsnearby.data.source.UploadToOSM;
 
 import java.util.List;
@@ -25,19 +24,18 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 	private QuestionFragmentContract.View view;
 	private OsmObject poi;
 	private OsmObjectType listOfQuestions;
-	private Context context;
+	private SourceContract.Preferences preferences;
 
-	public QuestionPresenter(QuestionFragmentContract.View view, int position, Context context) {
+	public QuestionPresenter(QuestionFragmentContract.View view, int position, SourceContract.Preferences preferences) {
 		this.view = view;
 		poi = PoiList.getInstance().getPoiList().get(0);
 		listOfQuestions = PoiTypes.getPoiType(poi.getType());
 		this.position = position;
-		this.context = context;
+		this.preferences = preferences;
 	}
 
 	@Override
 	public void getQuestion() {
-
 		List<QuestionObject> questions = this.listOfQuestions.getQuestionObjects();
 		QuestionObject questionObject = questions.get(position);
 
@@ -66,6 +64,7 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 				break;
 			case R.id.answer_unsure:
 				view.setBackgroundColor(unselectedColor, unselectedColor, selectedColor);
+				answer = "unsure";
 				break;
 			default:
 				break;
@@ -75,26 +74,30 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 		addAnswer(answerToQuestion);
 
 		if (position == listOfQuestions.getNoOfQuestions() - 1) {
-			try {
-				new UploadToOSM(context);
-			} catch (OAuthNotAuthorizedException e) {
-				e.printStackTrace();
-			} catch (OAuthExpectationFailedException e) {
-				e.printStackTrace();
-			} catch (OAuthCommunicationException e) {
-				e.printStackTrace();
-			} catch (OAuthMessageSignerException e) {
-				e.printStackTrace();
-			}
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						SourceContract.Upload upload = new UploadToOSM(preferences);
+					} catch (OAuthNotAuthorizedException e) {
+						e.printStackTrace();
+					} catch (OAuthExpectationFailedException e) {
+						e.printStackTrace();
+					} catch (OAuthCommunicationException e) {
+						e.printStackTrace();
+					} catch (OAuthMessageSignerException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
 		}
-
 	}
 
 	private void addAnswer(Answer answer) {
 		if (Answers.getPoiName() == null) {
 			Answers.setPoiDetails(poi);
-			Answers.addAnswer(answer);
 		}
+		Answers.addAnswer(answer);
 	}
 
 	@Override

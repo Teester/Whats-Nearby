@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 
 import com.teester.whatsnearby.UseCase;
+import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
@@ -21,8 +22,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class QueryOverpass implements SourceContract.Overpass {
@@ -91,24 +90,6 @@ public class QueryOverpass implements SourceContract.Overpass {
 		return resultToDisplay;
 	}
 
-	/**
-	 * Arrange the locations by distance from query location
-	 */
-	private void sortPoiList() {
-		// Arrange the locations by distance from location
-		Collections.sort(poiList, new Comparator<OsmObject>() {
-			public int compare(OsmObject p1, OsmObject p2) {
-				Location location1 = new Location("dummyprovider");
-				location1.setLongitude(p1.getLongitude());
-				location1.setLatitude(p1.getLatitude());
-				Location location2 = new Location("dummyprovider");
-				location2.setLongitude(p2.getLongitude());
-				location2.setLatitude(p2.getLatitude());
-				return (int) (queryLocation.distanceTo(location1) - queryLocation.distanceTo(location2));
-			}
-		});
-	}
-
 	@Override
 	public void processResult(String result) {
 		if (result != null) {
@@ -154,7 +135,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 			} catch (final JSONException e) {
 			}
 
-			sortPoiList();
+			PoiList.getInstance().sortList(queryLocation.getLatitude(), queryLocation.getLongitude());
 			prepareNotification();
 		}
 	}
@@ -198,6 +179,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 	private void prepareNotification() {
 		if (poiList.size() > 0) {
 			PoiList.getInstance().setPoiList(poiList);
+			Answers.setPoiDetails(poiList.get(0));
 
 			OsmObject poi = poiList.get(0);
 			OsmObjectType type = PoiTypes.getPoiType(poi.getType());

@@ -21,6 +21,9 @@ import com.teester.whatsnearby.data.source.OAuth;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity implements
 		View.OnClickListener,
 		SharedPreferences.OnSharedPreferenceChangeListener,
@@ -53,7 +56,13 @@ public class MainActivity extends AppCompatActivity implements
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
-		mainPresenter.checkIfOauth(intent.getData());
+		URL url = null;
+		try {
+			url = new URL(intent.getData().toString());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		mainPresenter.checkIfOauth(url);
 	}
 
 	private void checkPermission() {

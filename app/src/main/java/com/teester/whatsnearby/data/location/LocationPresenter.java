@@ -72,7 +72,7 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 			//service.cancelNotifications();
 			service.performOverpassQuery(location);
 		}
-		service.performOverpassQuery(location);
+		//service.performOverpassQuery(location);
 		lastLocation = location;
 	}
 

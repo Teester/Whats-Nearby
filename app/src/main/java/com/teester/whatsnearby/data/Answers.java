@@ -2,6 +2,7 @@ package com.teester.whatsnearby.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A Singleton to store answers in preparation for uploading
@@ -12,8 +13,9 @@ public class Answers {
 	private static OsmObject osmObject;
 	private static int id;
 	private static String name;
-	private static List<Answer> answerList = new ArrayList<Answer>();
+	private static List<Answer> answerList = new ArrayList<>();
 	private static String objectType;
+	private static Map<String, String> changesetTags;
 
 	private Answers() {
 
@@ -72,5 +74,15 @@ public class Answers {
 	public static String getPoiType() {
 		getInstance();
 		return osmObject.getOsmType();
+	}
+
+	public static Map<String, String> getChangesetTags() {
+		getInstance();
+		return changesetTags;
+	}
+
+	public static void setChangesetTags(Map<String, String> changesetTags) {
+		getInstance();
+		Answers.changesetTags = changesetTags;
 	}
 }

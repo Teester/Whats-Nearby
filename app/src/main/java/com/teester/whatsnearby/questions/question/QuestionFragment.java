@@ -5,17 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.questions.QuestionsPresenter;
 
 
@@ -37,7 +38,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 
 	private TextView question_textView;
 	private ImageView question_imageView;
-	private RelativeLayout question_relative_layout;
+	//	private RelativeLayout question_relative_layout;
 	private Button answer_yes;
 	private Button answer_no;
 	private Button answer_unsure;
@@ -71,7 +72,8 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 			this.position = getArguments().getInt(ARG_PARAM1);
 		}
 
-		questionPresenter = new QuestionPresenter(this, position, getContext());
+		Preferences preferences = new Preferences(getContext());
+		questionPresenter = new QuestionPresenter(this, position, preferences);
 		questionPresenter.init();
 	}
 
@@ -86,7 +88,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 		super.onViewCreated(view, savedInstanceState);
 		this.question_textView = view.findViewById(R.id.question_textview);
 		this.question_imageView = view.findViewById(R.id.question_imageView);
-		this.question_relative_layout = view.findViewById(R.id.question_relative_layout);
+		//this.question_relative_layout = view.findViewById(R.id.question_relative_layout);
 		this.answer_yes = view.findViewById(R.id.answer_yes);
 		this.answer_no = view.findViewById(R.id.answer_no);
 		this.answer_unsure = view.findViewById(R.id.answer_unsure);
@@ -131,7 +133,10 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 
 	@Override
 	public void showQuestion(int question, String name, int color, int drawable) {
-		question_relative_layout.setBackgroundColor(ContextCompat.getColor(getContext(), color));
+
+		Log.w(TAG, "in Show Question");
+		Log.w(TAG, name);
+		question_textView.setBackgroundColor(ContextCompat.getColor(getContext(), color));
 		question_textView.setText(String.format(getString(question), name));
 
 		// Not every question has a drawable
@@ -145,6 +150,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 
 	@Override
 	public void setBackgroundColor(int yes, int no, int unsure) {
+		Log.w(TAG, "inSetBackgroundColor");
 		this.answer_yes.setBackgroundColor(ContextCompat.getColor(getContext(), yes));
 		this.answer_no.setBackgroundColor(ContextCompat.getColor(getContext(), no));
 		this.answer_unsure.setBackgroundColor(ContextCompat.getColor(getContext(), unsure));

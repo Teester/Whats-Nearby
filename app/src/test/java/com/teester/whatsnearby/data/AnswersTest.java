@@ -1,30 +1,39 @@
 package com.teester.whatsnearby.data;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by mark on 15/10/17.
- */
 public class AnswersTest {
+
+	QuestionObject questionObject = new QuestionObject(1, 1, 1, 1, "", "", "", "");
+	OsmObject osmObject = new OsmObject(1, "", "", "", 1, 1, 1);
 
 	@Before
 	public void setUp() {
-		QuestionObject questionObject = new QuestionObject(1, 1, 1, 1, "", "", "", "");
-		OsmObject osmObject = new OsmObject(1, "", "", "", 1, 1, 1);
 		Answer answer = new Answer(questionObject, "yes");
+		Map<String, String> changesetTags = new HashMap<>();
+		changesetTags.put("", "");
 
+		Answers.setChangesetTags(changesetTags);
 		Answers.setPoiDetails(osmObject);
 		Answers.addAnswer(answer);
 	}
 
+	@After
+	public void tearDown() {
+		Answers.clearAnswerList();
+	}
+
 	@Test
-	public void add_answer_to_new_set_of_answers() {
-		QuestionObject expectedQuestion = new QuestionObject(1, 1, 1, 1, "", "", "", "");
+	public void get_answer_from_answers() {
+		QuestionObject expectedQuestion = this.questionObject;
 		QuestionObject actualQuestion = Answers.getAnswerList().get(0).getQuestion();
 
 		String expectedAnswer = "yes";
@@ -56,5 +65,14 @@ public class AnswersTest {
 		List<Answer> actualResult = Answers.getAnswerList();
 
 		assertEquals(0, actualResult.size());
+	}
+
+	@Test
+	public void check_changeset_tags_are_set() {
+		Map<String, String> actualTags = Answers.getChangesetTags();
+		Map<String, String> expectedTags = new HashMap<>();
+		expectedTags.put("", "");
+
+		assertEquals(expectedTags, actualTags);
 	}
 }
