@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 
 	private TextView question_textView;
 	private ImageView question_imageView;
-	//	private RelativeLayout question_relative_layout;
+	private TextView question_previous_textView;
 	private Button answer_yes;
 	private Button answer_no;
 	private Button answer_unsure;
@@ -88,7 +87,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 		super.onViewCreated(view, savedInstanceState);
 		this.question_textView = view.findViewById(R.id.question_textview);
 		this.question_imageView = view.findViewById(R.id.question_imageView);
-		//this.question_relative_layout = view.findViewById(R.id.question_relative_layout);
+		this.question_previous_textView = view.findViewById(R.id.question_previous_answers);
 		this.answer_yes = view.findViewById(R.id.answer_yes);
 		this.answer_no = view.findViewById(R.id.answer_no);
 		this.answer_unsure = view.findViewById(R.id.answer_unsure);
@@ -133,9 +132,6 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 
 	@Override
 	public void showQuestion(int question, String name, int color, int drawable) {
-
-		Log.w(TAG, "in Show Question");
-		Log.w(TAG, name);
 		question_textView.setBackgroundColor(ContextCompat.getColor(getContext(), color));
 		question_textView.setText(String.format(getString(question), name));
 
@@ -149,8 +145,16 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	}
 
 	@Override
+	public void setPreviousAnswer(String answer) {
+		if (answer == "") {
+			question_previous_textView.setVisibility(View.GONE);
+		} else {
+			question_previous_textView.setText(String.format(getString(R.string.others_have_answered_this_question), answer));
+		}
+	}
+
+	@Override
 	public void setBackgroundColor(int yes, int no, int unsure) {
-		Log.w(TAG, "inSetBackgroundColor");
 		this.answer_yes.setBackgroundColor(ContextCompat.getColor(getContext(), yes));
 		this.answer_no.setBackgroundColor(ContextCompat.getColor(getContext(), no));
 		this.answer_unsure.setBackgroundColor(ContextCompat.getColor(getContext(), unsure));

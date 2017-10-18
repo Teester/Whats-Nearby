@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class QueryOverpass implements SourceContract.Overpass {
@@ -127,6 +128,14 @@ public class QueryOverpass implements SourceContract.Overpass {
 							OsmObjectType poitype = PoiTypes.getPoiType(type);
 							if (poitype != null) {
 								OsmObject object = new OsmObject(id, osmType, name, type, lat, lon, distance);
+								Iterator<String> keysIterator = tags.keys();
+								while (keysIterator.hasNext()) {
+									String key = keysIterator.next();
+									if (tags.get(key) instanceof String) {
+										String value = tags.getString(key);
+										object.addTag(key, value);
+									}
+								}
 								poiList.add(object);
 							}
 						}

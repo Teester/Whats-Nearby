@@ -44,6 +44,18 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 		int drawable = questionObject.getIcon();
 
 		view.showQuestion(question, poi.getName(), color, drawable);
+
+		String key = questionObject.getTag();
+		String answer = poi.getTag(key);
+		if (answer != null) {
+			view.setPreviousAnswer(answer);
+		} else {
+			view.setPreviousAnswer("");
+		}
+	}
+
+	@Override
+	public void getPreviousAnswer(String key) {
 	}
 
 	@Override

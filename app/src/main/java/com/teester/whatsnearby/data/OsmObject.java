@@ -1,5 +1,8 @@
 package com.teester.whatsnearby.data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class OsmObject {
 
 	private final int id;
@@ -9,6 +12,7 @@ public class OsmObject {
 	private final float distance;
 	private double latitude;
 	private double longitude;
+	private Map<String, String> tags = new HashMap<>();
 
 	public OsmObject(int id, String osmType, String name, String type, double latitude, double longitude, float distance) {
 		this.id = id;
@@ -46,5 +50,13 @@ public class OsmObject {
 
 	public float getDistance() {
 		return this.distance;
+	}
+
+	public void addTag(String key, String value) {
+		this.tags.put(key, value);
+	}
+
+	public String getTag(String key) {
+		return this.tags.get(key);
 	}
 }
