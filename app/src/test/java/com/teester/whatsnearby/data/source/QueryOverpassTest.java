@@ -1,19 +1,21 @@
 package com.teester.whatsnearby.data.source;
 
+import com.teester.whatsnearby.data.location.Notifier;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static junit.framework.TestCase.assertEquals;
-
-/**
- * Created by mark on 14/10/17.
- */
 
 public class QueryOverpassTest {
 
 	public QueryOverpass queryOverpass;
+
+	@Mock
+	private Notifier notifier;
 
 	@Before
 	public void setUp() {

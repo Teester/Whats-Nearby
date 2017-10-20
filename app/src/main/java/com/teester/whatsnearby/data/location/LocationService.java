@@ -134,7 +134,7 @@ public class LocationService extends Service implements LocationServiceContract.
 			@Override
 			public void run() {
 				SourceContract.Overpass overpassQuery = new QueryOverpass(getApplicationContext());
-				overpassQuery.queryOverpass(location);
+				overpassQuery.queryOverpass(location.getLatitude(), location.getLongitude(), location.getAccuracy());
 			}
 		}).start();
 

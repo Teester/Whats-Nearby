@@ -1,7 +1,6 @@
 package com.teester.whatsnearby.questions.question;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.data.Answer;
 import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
@@ -82,8 +81,9 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 				break;
 		}
 
-		Answer answerToQuestion = new Answer(questionObject, answer);
-		addAnswer(answerToQuestion);
+		String answerTag = questionObject.getAnswer(answer);
+		String questionTag = questionObject.getTag();
+		addAnswer(questionTag, answerTag);
 
 		if (position == listOfQuestions.getNoOfQuestions() - 1) {
 			new Thread(new Runnable() {
@@ -105,11 +105,11 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 		}
 	}
 
-	private void addAnswer(Answer answer) {
+	private void addAnswer(String questionTag, String answerTag) {
 		if (Answers.getPoiName() == null) {
 			Answers.setPoiDetails(poi);
 		}
-		Answers.addAnswer(answer);
+		Answers.addAnswer(questionTag, answerTag);
 	}
 
 	@Override

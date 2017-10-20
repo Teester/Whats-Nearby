@@ -42,7 +42,6 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 	// Returns the fragment to display for that page
 	@Override
 	public Fragment getItem(int position) {
-		Log.w(TAG, "in GetItem");
 		if (position < count - 1) {
 			return QuestionFragment.newInstance(this.poi, position, this.listOfQuestions);
 		} else {

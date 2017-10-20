@@ -1,12 +1,9 @@
 package com.teester.whatsnearby.data.source;
 
-import android.util.Log;
-
-import com.teester.whatsnearby.data.Answer;
 import com.teester.whatsnearby.data.Answers;
-import com.teester.whatsnearby.data.QuestionObject;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +53,6 @@ public class UploadToOSM implements SourceContract.Upload {
 
 		// Update the altered object
 		List<Element> collection = Collections.singletonList(modifiedElement);
-
 		if (modifiedElement.isModified()) {
 			try {
 				long upload = new MapDataDao(osm).updateMap(changesetTags, collection, null);
@@ -93,22 +89,22 @@ public class UploadToOSM implements SourceContract.Upload {
 				downloadedElement = new MapDataDao(osm).getRelation(id);
 				break;
 			default:
-				break;
+				return null;
 		}
 		return downloadedElement;
 	}
 
 	private Element modifyCurrentElement(Element modifiedElement) {
-		Log.w(TAG, "" + Answers.getAnswerList().size());
-		for (int i = 0; i < Answers.getAnswerList().size(); i++) {
-			Answer answer = Answers.getAnswerList().get(i);
-			QuestionObject questionObject = answer.getQuestion();
-			String key = answer.getQuestion().getTag();
-			String value = questionObject.getAnswer(answer.getAnswer());
-			if (value != "unsure") {
+		Iterator<Map.Entry<String, String>> it = Answers.getAnswerMap().entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, String> pair = it.next();
+			String key = pair.getKey();
+			String value = pair.getValue();
+			if (value != "") {
 				modifiedElement.getTags().put(key, value);
 			}
 		}
+
 		return modifiedElement;
 	}
 }

@@ -1,7 +1,6 @@
 package com.teester.whatsnearby.data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,8 +12,8 @@ public class Answers {
 	private static OsmObject osmObject;
 	private static int id;
 	private static String name;
-	private static List<Answer> answerList = new ArrayList<>();
 	private static String objectType;
+	private static Map<String, String> answerMap = new HashMap<>();
 	private static Map<String, String> changesetTags;
 
 	private Answers() {
@@ -33,9 +32,9 @@ public class Answers {
 	 *
 	 * @return
 	 */
-	public static List<Answer> getAnswerList() {
+	public static Map<String, String> getAnswerMap() {
 		getInstance();
-		return answerList;
+		return answerMap;
 	}
 
 	/**
@@ -43,9 +42,9 @@ public class Answers {
 	 *
 	 * @param answer
 	 */
-	public static void addAnswer(Answer answer) {
+	public static void addAnswer(String question, String answer) {
 		getInstance();
-		answerList.add(answer);
+		answerMap.put(question, answer);
 	}
 
 	/**
@@ -53,7 +52,7 @@ public class Answers {
 	 */
 	public static void clearAnswerList() {
 		INSTANCE = null;
-		answerList = new ArrayList<Answer>();
+		answerMap = new HashMap<>();
 	}
 
 	public static void setPoiDetails(OsmObject osmObject) {
@@ -61,7 +60,7 @@ public class Answers {
 		Answers.osmObject = osmObject;
 	}
 
-	public static int getPoiId() {
+	public static long getPoiId() {
 		getInstance();
 		return osmObject.getId();
 	}

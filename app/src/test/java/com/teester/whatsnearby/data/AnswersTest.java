@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -17,13 +16,15 @@ public class AnswersTest {
 
 	@Before
 	public void setUp() {
-		Answer answer = new Answer(questionObject, "yes");
 		Map<String, String> changesetTags = new HashMap<>();
 		changesetTags.put("", "");
 
 		Answers.setChangesetTags(changesetTags);
 		Answers.setPoiDetails(osmObject);
-		Answers.addAnswer(answer);
+
+		String answerTag = questionObject.getAnswer("yes");
+		String questionTag = questionObject.getTag();
+		Answers.addAnswer(questionTag, answerTag);
 	}
 
 	@After
@@ -32,21 +33,19 @@ public class AnswersTest {
 	}
 
 	@Test
-	public void get_answer_from_answers() {
-		QuestionObject expectedQuestion = this.questionObject;
-		QuestionObject actualQuestion = Answers.getAnswerList().get(0).getQuestion();
+	public void get_key_from_tag() {
+		String tag = this.questionObject.getTag();
 
-		String expectedAnswer = "yes";
-		String actualAnswer = Answers.getAnswerList().get(0).getAnswer();
+		String expectedValue = this.questionObject.getAnswer_yes();
+		String actualValue = Answers.getAnswerMap().get(tag);
 
-		assertEquals(expectedQuestion.getQuestion(), actualQuestion.getQuestion());
-		assertEquals(expectedAnswer, actualAnswer);
+		assertEquals(expectedValue, actualValue);
 	}
 
 	@Test
 	public void get_poi_details() {
-		int expectedId = 1;
-		int actualID = Answers.getPoiId();
+		long expectedId = 1;
+		long actualID = Answers.getPoiId();
 
 		String expectedName = "";
 		String actualName = Answers.getPoiName();
@@ -62,8 +61,7 @@ public class AnswersTest {
 	@Test
 	public void check_answer_list_is_cleared() {
 		Answers.clearAnswerList();
-		List<Answer> actualResult = Answers.getAnswerList();
-
+		Map<String, String> actualResult = Answers.getAnswerMap();
 		assertEquals(0, actualResult.size());
 	}
 

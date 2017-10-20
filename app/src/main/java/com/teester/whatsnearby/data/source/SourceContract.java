@@ -1,7 +1,5 @@
 package com.teester.whatsnearby.data.source;
 
-import android.location.Location;
-
 public interface SourceContract {
 
 	interface Preferences {
@@ -26,7 +24,7 @@ public interface SourceContract {
 
 		void processResult(String result);
 
-		void queryOverpass(Location location);
+		void queryOverpass(double latitude, double longitude, float accuracy);
 	}
 
 	interface Upload {

@@ -1,9 +1,9 @@
 package com.teester.whatsnearby.data.source;
 
 import android.content.Context;
-import android.location.Location;
 
 import com.teester.whatsnearby.UseCase;
+import com.teester.whatsnearby.Utilities;
 import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
@@ -28,7 +28,9 @@ import java.util.List;
 public class QueryOverpass implements SourceContract.Overpass {
 
 	private static final String TAG = QueryOverpass.class.getSimpleName();
-	private Location queryLocation;
+	private double queryLatitude;
+	private double queryLongitude;
+	private double queryAccuracy;
 	private List<OsmObject> poiList = new ArrayList<OsmObject>();
 	private Context context;
 
@@ -107,7 +109,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 						JSONObject tags = e.getJSONObject("tags");
 						if (tags.has("name")) {
 
-							int id = e.getInt("id");
+							long id = e.getLong("id");
 
 							String osmType = e.getString("type");
 
@@ -116,11 +118,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 							}
 							double lat = e.getDouble("lat");
 							double lon = e.getDouble("lon");
-							Location elementLocation = new Location("dummyprovider");
-							elementLocation.setLatitude(lat);
-							elementLocation.setLongitude(lon);
-							float distance = queryLocation.distanceTo(elementLocation);
-
+							float distance = Utilities.computeDistance(lat, lon, queryLatitude, queryLongitude);
 							String name = tags.getString("name");
 
 							String type = getType(tags);
@@ -144,16 +142,19 @@ public class QueryOverpass implements SourceContract.Overpass {
 			} catch (final JSONException e) {
 			}
 
-			PoiList.getInstance().sortList(queryLocation.getLatitude(), queryLocation.getLongitude());
+			PoiList.getInstance().sortList(queryLatitude, queryLongitude);
 			prepareNotification();
 		}
 	}
 
 	@Override
-	public void queryOverpass(Location location) {
+	public void queryOverpass(double latitude, double longitude, float accuracy) {
 
-		this.queryLocation = location;
-		String overpassUrl = getOverpassUri(location.getLatitude(), location.getLongitude(), location.getAccuracy());
+		//this.queryLocation = location;
+		queryLatitude = latitude;
+		queryLongitude = longitude;
+		queryAccuracy = accuracy;
+		String overpassUrl = getOverpassUri(latitude, longitude, accuracy);
 		String overpassQuery = queryOverpassApi(overpassUrl);
 		processResult(overpassQuery);
 	}

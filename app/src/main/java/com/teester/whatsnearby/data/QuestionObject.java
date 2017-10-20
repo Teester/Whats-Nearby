@@ -80,7 +80,7 @@ public class QuestionObject {
 			case "yes":
 				answer = this.answer_yes;
 				break;
-			case  "no:":
+			case "no":
 				answer = this.answer_no;
 				break;
 			case "unsure":

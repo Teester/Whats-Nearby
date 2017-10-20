@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class OsmObject {
 
-	private final int id;
+	private final long id;
 	private final String osmType;
 	private final String name;
 	private final String type;
@@ -14,7 +14,7 @@ public class OsmObject {
 	private double longitude;
 	private Map<String, String> tags = new HashMap<>();
 
-	public OsmObject(int id, String osmType, String name, String type, double latitude, double longitude, float distance) {
+	public OsmObject(long id, String osmType, String name, String type, double latitude, double longitude, float distance) {
 		this.id = id;
 		this.osmType = osmType;
 		this.name = name;
@@ -24,7 +24,7 @@ public class OsmObject {
 		this.distance = distance;
 	}
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 
