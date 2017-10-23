@@ -21,5 +21,7 @@ public interface QuestionFragmentContract {
 		void setPreviousAnswer(String answer);
 
 		void setBackgroundColor(int yes, int no, int unsure);
+
+		void createChangesetTags();
 	}
 }

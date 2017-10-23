@@ -91,7 +91,9 @@ public class OsmLoginFragment extends Fragment implements View.OnClickListener, 
 
 	@Override
 	public void onClick(View view) {
-		osmLoginPresenter.onClicked(view.getId());
+		if (view.getId() == R.id.osmLoginButton) {
+			osmLoginPresenter.ClickedOsmLoginButton();
+		}
 	}
 
 	@Override

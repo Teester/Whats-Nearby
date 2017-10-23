@@ -12,11 +12,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.questions.QuestionsPresenter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -163,6 +168,16 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	@Override
 	public void setPresenter(QuestionFragmentContract.Presenter presenter) {
 		questionPresenter = presenter;
+	}
+
+	@Override
+	public void createChangesetTags() {
+		Map<String, String> changesetTags = new HashMap<>();
+		changesetTags.put("comment", String.format(getString(R.string.changeset_comment), Answers.getPoiName()));
+		changesetTags.put("created_by", getString(R.string.app_name));
+		changesetTags.put("version", BuildConfig.VERSION_NAME);
+		changesetTags.put("source", getString(R.string.changeset_source));
+		Answers.setChangesetTags(changesetTags);
 	}
 
 	public interface OnFragmentInteractionListener {

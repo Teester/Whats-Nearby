@@ -10,9 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.source.OAuth;
@@ -26,8 +24,6 @@ import com.teester.whatsnearby.view.NonSwipeableViewPager;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 public class QuestionsActivity extends AppCompatActivity
 		implements QuestionsActivityContract.View,
@@ -60,7 +56,6 @@ public class QuestionsActivity extends AppCompatActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
-		createChangesetTags();
 		questionsPresenter.addPoiNameToTextview();
 	}
 
@@ -134,14 +129,5 @@ public class QuestionsActivity extends AppCompatActivity
 	@Override
 	public void onNotHereFragmentInteraction() {
 
-	}
-
-	private void createChangesetTags() {
-		Map<String, String> changesetTags = new HashMap<>();
-		changesetTags.put("comment", String.format(getApplicationContext().getString(R.string.changeset_comment), Answers.getPoiName()));
-		changesetTags.put("created_by", getApplicationContext().getResources().getString(R.string.app_name));
-		changesetTags.put("version", BuildConfig.VERSION_NAME);
-		changesetTags.put("source", getApplicationContext().getString(R.string.changeset_source));
-		Answers.setChangesetTags(changesetTags);
 	}
 }

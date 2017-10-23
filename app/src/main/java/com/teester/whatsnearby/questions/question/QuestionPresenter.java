@@ -86,6 +86,7 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 		addAnswer(questionTag, answerTag);
 
 		if (position == listOfQuestions.getNoOfQuestions() - 1) {
+			view.createChangesetTags();
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -106,7 +107,7 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 	}
 
 	private void addAnswer(String questionTag, String answerTag) {
-		if (Answers.getPoiName() == null) {
+		if (Answers.getPoiName() != poi.getName()) {
 			Answers.setPoiDetails(poi);
 		}
 		Answers.addAnswer(questionTag, answerTag);
