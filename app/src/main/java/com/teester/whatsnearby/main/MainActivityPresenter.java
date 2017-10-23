@@ -23,7 +23,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	public MainActivityPresenter(MainActivityContract.View view, SourceContract.Preferences preferences) {
 		this.view = view;
 		this.preferences = preferences;
-		this.view.setPresenter(this);
+		//this.view.setPresenter(this);
 	}
 
 	@Override
