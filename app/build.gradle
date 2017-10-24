@@ -1,8 +1,17 @@
 apply plugin: 'com.android.application'
 
+allprojects {
+    repositories {
+        jcenter()
+        maven {
+            url 'https://maven.google.com'
+        }
+    }
+}
+
 android {
     compileSdkVersion 26
-    buildToolsVersion "25.0.3"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.teester.whatsnearby"
         minSdkVersion 19
@@ -25,19 +34,19 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.3-alpha', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile('de.westnordost:osmapi:1.7') {
         // it's already included in Android
         exclude group: 'net.sf.kxml', module: 'kxml2'
     }
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.mapzen.android:lost:3.0.2'
+    compile 'com.mapzen.android:lost:3.0.4'
     compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile 'com.android.support:support-v4:26.0.0-alpha1'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:support-v4:26.1.0'
     compile 'oauth.signpost:signpost-core:1.2.1.2'
     compile ('oauth.signpost:signpost-commonshttp4:1.2.1.2') {
         exclude group: "org.apache.httpcomponents", module: "httpclient"
@@ -45,5 +54,5 @@ dependencies {
     }
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.22'
-    testCompile 'org.json:json:20140107'
+    testCompile 'org.json:json:20171018'
 }
