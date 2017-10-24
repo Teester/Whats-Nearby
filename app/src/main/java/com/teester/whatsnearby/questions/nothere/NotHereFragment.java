@@ -5,38 +5,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.OsmObjectType;
-import com.teester.whatsnearby.data.PoiTypes;
 import com.teester.whatsnearby.questions.QuestionsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NotHereFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link NotHereFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class NotHereFragment extends Fragment implements AdapterView.OnItemClickListener, NotHereFragmentContract.View {
+public class NotHereFragment extends Fragment implements NotHereFragmentContract.View {
 
 	private static final String TAG = NotHereFragment.class.getSimpleName();
 
-	private ListView listView;
+	private RecyclerView recyclerView;
 	private TextView textView;
 	private NotHereFragmentContract.Presenter notHerePresenter;
 
@@ -72,8 +60,7 @@ public class NotHereFragment extends Fragment implements AdapterView.OnItemClick
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		this.textView = view.findViewById(R.id.question_textview);
-		this.listView = view.findViewById(R.id.listView);
-		this.listView.setOnItemClickListener(this);
+		this.recyclerView = view.findViewById(R.id.recyclerView);
 	}
 
 	public void onButtonPressed(ArrayList<OsmObject> uri) {
@@ -100,19 +87,17 @@ public class NotHereFragment extends Fragment implements AdapterView.OnItemClick
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-		notHerePresenter.onItemClicked(i);
-	}
-
-	@Override
 	public void setTextview(String name) {
 		textView.setText(String.format(getString(R.string.select_current_location), name));
 	}
 
 	@Override
 	public void setAdapter(List<OsmObject> list) {
-		UsersAdapter adapter = new UsersAdapter(getContext(), list);
-		listView.setAdapter(adapter);
+		PoiAdapter adapter = new PoiAdapter(list);
+		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+		recyclerView.setLayoutManager(layoutManager);
+		recyclerView.setHasFixedSize(true);
+		recyclerView.setAdapter(adapter);
 	}
 
 	@Override
@@ -126,51 +111,57 @@ public class NotHereFragment extends Fragment implements AdapterView.OnItemClick
 		notHerePresenter = presenter;
 	}
 
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated
-	 * to the activity and potentially other fragments contained in that
-	 * activity.
-	 * <p>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
 	public interface OnFragmentInteractionListener {
 		void onNotHereFragmentInteraction();
 	}
 
-	public class UsersAdapter extends ArrayAdapter<OsmObject> {
-		public UsersAdapter(Context context, List<OsmObject> users) {
-			super(context, 0, users);
+	public class PoiAdapter extends RecyclerView.Adapter<PoiAdapter.ViewHolder> {
+		private List<OsmObject> poiList;
+
+		public PoiAdapter(List<OsmObject> poiList) {
+			this.poiList = poiList;
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-
-			// Get the data item for this position
-			OsmObject poi = getItem(position);
-			// Check if an existing view is being reused, otherwise inflate the view
-			if (convertView == null) {
-				convertView = LayoutInflater.from(getContext()).inflate(R.layout.poi_list_item, parent, false);
-			}
-			// Lookup view for data population
-			TextView name = convertView.findViewById(R.id.name);
-			TextView type = convertView.findViewById(R.id.type);
-			TextView distance = convertView.findViewById(R.id.distance);
-			ImageView image = convertView.findViewById(R.id.type_icon);
-			// Populate the data into the template view using the data object
-			name.setText(poi.getName());
-			type.setText(poi.getType());
-			distance.setText(String.format(getString(R.string.distance_away), poi.getDistance()));
-
-			OsmObjectType objectType = PoiTypes.getPoiType(poi.getType());
-			int drawable = objectType.getObjectIcon();
-			image.setImageResource(drawable);
-
-			// Return the completed view to render on screen
-			return convertView;
+		public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+			View view = LayoutInflater.from(getContext()).inflate(R.layout.poi_list_item, parent, false);
+			view.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					notHerePresenter.onItemClicked(recyclerView.getChildAdapterPosition(view));
+				}
+			});
+			ViewHolder recyclerViewHolder = new ViewHolder(view);
+			return recyclerViewHolder;
 		}
 
+		@Override
+		public void onBindViewHolder(ViewHolder holder, int position) {
+			OsmObject poi = poiList.get(position);
+			holder.name.setText(poi.getName());
+			holder.type.setText(poi.getType());
+			holder.distance.setText(String.format(getString(R.string.distance_away), poi.getDistance()));
+			holder.image.setImageResource(poi.getDrawable());
+		}
+
+		@Override
+		public int getItemCount() {
+			return poiList.size();
+		}
+
+		public class ViewHolder extends RecyclerView.ViewHolder {
+			public TextView name;
+			public TextView type;
+			public TextView distance;
+			public ImageView image;
+
+			public ViewHolder(View view) {
+				super(view);
+				name = view.findViewById(R.id.name);
+				type = view.findViewById(R.id.type);
+				distance = view.findViewById(R.id.distance);
+				image = view.findViewById(R.id.type_icon);
+			}
+		}
 	}
 }

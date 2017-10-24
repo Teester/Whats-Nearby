@@ -59,4 +59,10 @@ public class OsmObject {
 	public String getTag(String key) {
 		return this.tags.get(key);
 	}
+
+	public int getDrawable() {
+		OsmObjectType objectType = PoiTypes.getPoiType(this.type);
+		int drawable = objectType.getObjectIcon();
+		return drawable;
+	}
 }

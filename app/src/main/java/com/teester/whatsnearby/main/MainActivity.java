@@ -10,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -135,8 +134,6 @@ public class MainActivity extends AppCompatActivity implements
 
 	@Override
 	public void startOAuth() {
-
-		Log.d(TAG, "In startOAuth");
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -147,8 +144,6 @@ public class MainActivity extends AppCompatActivity implements
 
 	@Override
 	public void setPresenter(MainActivityContract.Presenter presenter) {
-
-		Log.d(TAG, "In setPresenter");
 		mainPresenter = presenter;
 	}
 }
