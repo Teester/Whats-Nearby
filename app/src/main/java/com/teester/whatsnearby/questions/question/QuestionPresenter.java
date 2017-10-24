@@ -12,11 +12,6 @@ import com.teester.whatsnearby.data.source.UploadToOSM;
 
 import java.util.List;
 
-import oauth.signpost.exception.OAuthCommunicationException;
-import oauth.signpost.exception.OAuthExpectationFailedException;
-import oauth.signpost.exception.OAuthMessageSignerException;
-import oauth.signpost.exception.OAuthNotAuthorizedException;
-
 public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 
 	private int position;
@@ -90,17 +85,8 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					try {
-						SourceContract.Upload upload = new UploadToOSM(preferences);
-					} catch (OAuthNotAuthorizedException e) {
-						e.printStackTrace();
-					} catch (OAuthExpectationFailedException e) {
-						e.printStackTrace();
-					} catch (OAuthCommunicationException e) {
-						e.printStackTrace();
-					} catch (OAuthMessageSignerException e) {
-						e.printStackTrace();
-					}
+					SourceContract.Upload upload = new UploadToOSM(preferences);
+					upload.Upload();
 				}
 			}).start();
 		}

@@ -13,10 +13,6 @@ import de.westnordost.osmapi.map.MapDataDao;
 import de.westnordost.osmapi.map.data.Element;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
-import oauth.signpost.exception.OAuthCommunicationException;
-import oauth.signpost.exception.OAuthExpectationFailedException;
-import oauth.signpost.exception.OAuthMessageSignerException;
-import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 /**
  * Handles uploading answers to OpenStreetMap
@@ -31,9 +27,8 @@ public class UploadToOSM implements SourceContract.Upload {
 	private Element currentElement;
 	private SourceContract.Preferences preferences;
 
-	public UploadToOSM(SourceContract.Preferences preferences) throws OAuthNotAuthorizedException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthMessageSignerException {
+	public UploadToOSM(SourceContract.Preferences preferences) {
 		this.preferences = preferences;
-		Upload();
 	}
 
 	@Override
