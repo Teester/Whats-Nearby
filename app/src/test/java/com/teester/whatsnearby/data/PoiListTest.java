@@ -64,4 +64,22 @@ public class PoiListTest {
 
 		assertEquals(expectedObject, actualObject);
 	}
+
+	@Test
+	public void sort_poi_list() {
+		OsmObject object1 = new OsmObject(2, "", "", "", 3, 3, 1);
+		OsmObject object2 = new OsmObject(3, "", "", "", 1, 1, 1);
+		OsmObject object3 = new OsmObject(4, "", "", "", 2, 2, 1);
+		List<OsmObject> list = new ArrayList<>();
+		list.add(object1);
+		list.add(object2);
+		list.add(object3);
+
+		PoiList.getInstance().setPoiList(list);
+		PoiList.getInstance().sortList(0, 0);
+
+		assertEquals(object1.getId(), PoiList.getInstance().getPoiList().get(2).getId());
+		assertEquals(object2.getId(), PoiList.getInstance().getPoiList().get(0).getId());
+		assertEquals(object3.getId(), PoiList.getInstance().getPoiList().get(1).getId());
+	}
 }
