@@ -18,6 +18,7 @@ import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.source.Preferences;
+import com.teester.whatsnearby.questions.QuestionsActivity;
 import com.teester.whatsnearby.questions.QuestionsPresenter;
 
 import java.util.HashMap;
@@ -156,6 +157,12 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 		} else {
 			question_previous_textView.setText(String.format(getString(R.string.others_have_answered_this_question), answer));
 		}
+	}
+
+	@Override
+	public void makeActivityTextViewInvisible() {
+		QuestionsActivity activity = (QuestionsActivity) getActivity();
+		activity.makeTextViewInvisible();
 	}
 
 	@Override

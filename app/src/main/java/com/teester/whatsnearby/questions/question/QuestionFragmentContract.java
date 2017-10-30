@@ -23,5 +23,7 @@ public interface QuestionFragmentContract {
 		void setBackgroundColor(int yes, int no, int unsure);
 
 		void createChangesetTags();
+
+		void makeActivityTextViewInvisible();
 	}
 }
