@@ -142,6 +142,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 			} catch (final JSONException e) {
 			}
 
+			PoiList.getInstance().setPoiList(poiList);
 			PoiList.getInstance().sortList(queryLatitude, queryLongitude);
 			prepareNotification();
 		}
@@ -188,7 +189,6 @@ public class QueryOverpass implements SourceContract.Overpass {
 	 */
 	private void prepareNotification() {
 		if (poiList.size() > 0) {
-			PoiList.getInstance().setPoiList(poiList);
 			Answers.setPoiDetails(poiList.get(0));
 
 			OsmObject poi = poiList.get(0);
