@@ -33,8 +33,10 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:27.0.0'
+    compile 'com.android.support:design:27.0.0'
     compile 'com.android.support:support-v4:27.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'android.arch.persistence.room:runtime:1.0.0-rc1'
     compile 'com.mapzen.android:lost:3.0.4'
     compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
     compile('de.westnordost:osmapi:1.7') {

@@ -5,10 +5,12 @@ import android.content.Context;
 import com.teester.whatsnearby.UseCase;
 import com.teester.whatsnearby.Utilities;
 import com.teester.whatsnearby.data.Answers;
+import com.teester.whatsnearby.data.AppDatabase;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
+import com.teester.whatsnearby.data.VisitedLocation;
 import com.teester.whatsnearby.data.location.Notifier;
 
 import org.apache.commons.io.IOUtils;
@@ -192,12 +194,32 @@ public class QueryOverpass implements SourceContract.Overpass {
 			Answers.setPoiDetails(poiList.get(0));
 
 			OsmObject poi = poiList.get(0);
+			boolean thereBefore = checkDatabaseForLocation(poi.getId());
 			OsmObjectType type = PoiTypes.getPoiType(poi.getType());
 			int drawable = type.getObjectIcon();
-			Notifier.createNotification(context, poi.getName(), drawable);
+			if (thereBefore == false) {
+				addToDatabase(poi);
+				Notifier.createNotification(context, poi.getName(), drawable);
+			}
 		} else {
 			Notifier.cancelNotifictions(context);
 		}
+	}
+
+	private boolean checkDatabaseForLocation(long osmId) {
+		AppDatabase db = AppDatabase.getAppDatabase(context);
+		VisitedLocation location = db.visitedLocationDao().findByOsmId(osmId);
+		if (location != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void addToDatabase(OsmObject osmObject) {
+		VisitedLocation location = new VisitedLocation(osmObject);
+		AppDatabase db = AppDatabase.getAppDatabase(context);
+		db.visitedLocationDao().insert(location);
 	}
 
 	public static final class response implements UseCase.RequestValues {
