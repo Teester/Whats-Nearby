@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -153,7 +154,6 @@ public class QueryOverpass implements SourceContract.Overpass {
 	@Override
 	public void queryOverpass(double latitude, double longitude, float accuracy) {
 
-		//this.queryLocation = location;
 		queryLatitude = latitude;
 		queryLongitude = longitude;
 		queryAccuracy = accuracy;
@@ -194,11 +194,12 @@ public class QueryOverpass implements SourceContract.Overpass {
 			Answers.setPoiDetails(poiList.get(0));
 
 			OsmObject poi = poiList.get(0);
-			boolean thereBefore = checkDatabaseForLocation(poi.getId());
+			boolean recentlyVisited = checkDatabaseForLocation(poi.getId());
 			OsmObjectType type = PoiTypes.getPoiType(poi.getType());
 			int drawable = type.getObjectIcon();
-			if (thereBefore == false) {
-				addToDatabase(poi);
+			System.out.println(String.format("At %s before: %s", poi.getName(), recentlyVisited));
+			if (recentlyVisited == false) {
+				updateDatabase(poi);
 				Notifier.createNotification(context, poi.getName(), drawable);
 			}
 		} else {
@@ -209,17 +210,30 @@ public class QueryOverpass implements SourceContract.Overpass {
 	private boolean checkDatabaseForLocation(long osmId) {
 		AppDatabase db = AppDatabase.getAppDatabase(context);
 		VisitedLocation location = db.visitedLocationDao().findByOsmId(osmId);
-		if (location != null) {
-			return true;
-		} else {
-			return false;
+		List<VisitedLocation> list = db.visitedLocationDao().getAllVisitedLocations();
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println("name: " + list.get(i).getName() + new Date(list.get(i).getTimeVisited()));
 		}
+		if (location != null) {
+			if (location.getTimeVisited() == System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000)) {
+				return true;
+			}
+		}
+
+		return false;
+
 	}
 
-	private void addToDatabase(OsmObject osmObject) {
-		VisitedLocation location = new VisitedLocation(osmObject);
+	private void updateDatabase(OsmObject osmObject) {
 		AppDatabase db = AppDatabase.getAppDatabase(context);
-		db.visitedLocationDao().insert(location);
+		VisitedLocation location = db.visitedLocationDao().findByOsmId(osmObject.getId());
+		if (location != null) {
+			location.setTimeVisited(System.currentTimeMillis());
+			db.visitedLocationDao().update(location);
+		} else {
+			location = new VisitedLocation(osmObject);
+			db.visitedLocationDao().insert(location);
+		}
 	}
 
 	public static final class response implements UseCase.RequestValues {

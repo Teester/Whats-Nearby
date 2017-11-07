@@ -9,21 +9,25 @@ public class VisitedLocation {
 
 	@PrimaryKey(autoGenerate = true)
 	private int uid;
-
 	@ColumnInfo(name = "osm_id")
 	private long osmId;
-
 	@ColumnInfo(name = "name")
 	private String name;
-
 	@ColumnInfo(name = "latitude")
 	private double latitude;
-
 	@ColumnInfo(name = "longitude")
 	private double longitude;
-
 	@ColumnInfo(name = "time_visited")
 	private long timeVisited;
+
+	public VisitedLocation(int uid, long osmId, String name, double latitude, double longitude, long timeVisited) {
+		this.uid = uid;
+		this.osmId = osmId;
+		this.name = name;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.timeVisited = timeVisited;
+	}
 
 	public VisitedLocation(OsmObject osmObject) {
 		this.osmId = osmObject.getId();
