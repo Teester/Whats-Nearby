@@ -2,15 +2,14 @@ package com.teester.whatsnearby.data.source;
 
 import android.content.Context;
 
-import com.teester.whatsnearby.UseCase;
 import com.teester.whatsnearby.Utilities;
 import com.teester.whatsnearby.data.Answers;
-import com.teester.whatsnearby.data.AppDatabase;
+import com.teester.whatsnearby.data.localDatabase.AppDatabase;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
-import com.teester.whatsnearby.data.VisitedLocation;
+import com.teester.whatsnearby.data.localDatabase.VisitedLocation;
 import com.teester.whatsnearby.data.location.Notifier;
 
 import org.apache.commons.io.IOUtils;
@@ -215,7 +214,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 			System.out.println("name: " + list.get(i).getName() + new Date(list.get(i).getTimeVisited()));
 		}
 		if (location != null) {
-			if (location.getTimeVisited() == System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000)) {
+			if (location.getTimeVisited() > System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000)) {
 				return true;
 			}
 		}
@@ -236,7 +235,4 @@ public class QueryOverpass implements SourceContract.Overpass {
 		}
 	}
 
-	public static final class response implements UseCase.RequestValues {
-		String response = "";
-	}
 }

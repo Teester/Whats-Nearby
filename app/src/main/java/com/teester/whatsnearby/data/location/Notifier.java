@@ -42,7 +42,7 @@ public class Notifier {
 		PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 		int mNotificationId = 001;
 		NotificationCompat.Builder mBuilder =
-				new NotificationCompat.Builder(context)
+				new NotificationCompat.Builder(context, "whats_nearby_1")
 						.setSmallIcon(R.drawable.ic_small_icon)
 						.setLargeIcon(getBitmapFromVectorDrawable(context, drawable))
 						.setContentTitle(String.format(context.getResources().getString(R.string.at_location), name))

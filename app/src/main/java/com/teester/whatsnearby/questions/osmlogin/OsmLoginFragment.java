@@ -55,6 +55,7 @@ public class OsmLoginFragment extends Fragment implements View.OnClickListener, 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
+		super.onCreateView(inflater, container, savedInstanceState);
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_osm_login, container, false);
 	}

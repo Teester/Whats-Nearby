@@ -53,6 +53,7 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
+		super.onCreateView(inflater, container, savedInstanceState);
 		return inflater.inflate(R.layout.fragment_not_here, container, false);
 	}
 

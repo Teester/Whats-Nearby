@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity implements
 		SourceContract.Preferences preferences = new Preferences(getApplicationContext());
 		mainPresenter = new MainActivityPresenter(this, preferences);
 		mainPresenter.init();
-		this.textView = (TextView) this.findViewById(R.id.textView);
-		this.button = (Button) this.findViewById(R.id.button);
+		this.textView = this.findViewById(R.id.textView);
+		this.button = this.findViewById(R.id.button);
 
 		this.button.setOnClickListener(this);
 		checkPermission();

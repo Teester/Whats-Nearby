@@ -1,8 +1,10 @@
-package com.teester.whatsnearby.data;
+package com.teester.whatsnearby.data.localDatabase;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+
+import com.teester.whatsnearby.data.OsmObject;
 
 @Entity
 public class VisitedLocation {

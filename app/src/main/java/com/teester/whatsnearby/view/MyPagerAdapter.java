@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
@@ -24,7 +23,6 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 		super(fragmentManager);
 		this.poi = poi;
 		this.listOfQuestions = listOfQuestions;
-		Log.i(TAG, "" + listOfQuestions.toString());
 		boolean logged_in = new Preferences(context).getBooleanPreference("logged_in_to_osm");
 		if (logged_in == true) {
 			this.count = listOfQuestions.getNoOfQuestions() + 1;

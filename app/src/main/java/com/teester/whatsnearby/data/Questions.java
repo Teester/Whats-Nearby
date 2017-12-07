@@ -17,8 +17,8 @@ public class Questions {
 	private QuestionObject contactless = new QuestionObject(17, R.string.contactless, R.drawable.ic_unsure, R.color.green, "payment:contactless", "yes", "no", "");
 	private QuestionObject credit_card = new QuestionObject(15, R.string.credit_card, R.drawable.ic_unsure, R.color.green, "payment:credit_cards", "yes", "no", "");
 	private QuestionObject debit_card = new QuestionObject(16, R.string.debit_card, R.drawable.ic_unsure, R.color.green, "payment:debit_cards", "yes", "no", "");
-	private QuestionObject deliver = new QuestionObject(11, R.string.deliver, R.drawable.ic_unsure, R.color.purple, "deliver", "yes", "no", "");
-	private QuestionObject dispensing = new QuestionObject(18, R.string.dispensing, R.drawable.ic_unsure, R.color.turquoise, "dispensing", "yes", "no", "");
+	private QuestionObject deliver = new QuestionObject(11, R.string.deliver, R.drawable.ic_unsure, R.color.purple, "delivery", "yes", "no", "");
+	private QuestionObject dispensing = new QuestionObject(18, R.string.dispensing, R.drawable.ic_unsure, R.color.cyan, "dispensing", "yes", "no", "");
 	private QuestionObject drive_through = new QuestionObject(9, R.string.drive_through, R.drawable.ic_unsure, R.color.purple, "drive_through", "yes", "no", "");
 	private QuestionObject halal = new QuestionObject(18, R.string.halal, R.drawable.ic_halal, R.color.red, "halal", "yes", "no", "");
 	private QuestionObject kosher = new QuestionObject(18, R.string.kosher, R.drawable.ic_kosher, R.color.red, "kosher", "yes", "no", "");

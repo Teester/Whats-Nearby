@@ -20,7 +20,6 @@ import com.mapzen.android.lost.api.LocationListener;
 import com.mapzen.android.lost.api.LocationRequest;
 import com.mapzen.android.lost.api.LocationServices;
 import com.mapzen.android.lost.api.LostApiClient;
-import com.teester.whatsnearby.UseCaseHandler;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.QueryOverpass;
 import com.teester.whatsnearby.data.source.SourceContract;
@@ -77,7 +76,7 @@ public class LocationService extends Service implements LocationServiceContract.
 		super.onCreate();
 		context = getApplicationContext();
 		preferences = new Preferences(context);
-		locationPresenter = new LocationPresenter(this, preferences, UseCaseHandler.getInstance());
+		locationPresenter = new LocationPresenter(this, preferences);
 		locationPresenter.init();
 	}
 

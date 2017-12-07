@@ -44,7 +44,6 @@ public class NotHerePresenterTest {
 		notHerePresenter.getPoiDetails();
 
 		verify(view).setTextview("Kitchen");
-		verify(view).setAdapter((List<OsmObject>) any());
 	}
 
 	@Test

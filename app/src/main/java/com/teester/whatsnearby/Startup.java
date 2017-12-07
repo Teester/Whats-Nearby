@@ -8,12 +8,11 @@ import com.teester.whatsnearby.data.location.LocationService;
 
 public class Startup extends BroadcastReceiver {
 
-	public Startup() {
-	}
-
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		context.startService(new Intent(context, LocationService.class));
+		if (intent.getAction() == Intent.ACTION_BOOT_COMPLETED) {
+			context.startService(new Intent(context, LocationService.class));
+		}
 	}
 }
 
