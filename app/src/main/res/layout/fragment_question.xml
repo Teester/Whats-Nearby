@@ -42,6 +42,7 @@
         app:layout_constraintBottom_toTopOf="@+id/answer_no"
         app:layout_constraintLeft_toLeftOf="@+id/question_textview"
         app:layout_constraintRight_toRightOf="@+id/question_textview"/>
+
     <ImageView
         android:id="@+id/question_imageView"
         android:layout_width="24dp"

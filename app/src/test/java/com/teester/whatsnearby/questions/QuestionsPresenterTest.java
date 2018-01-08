@@ -19,9 +19,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by mark on 21/10/17.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class QuestionsPresenterTest {
 
