@@ -3,7 +3,7 @@ package com.teester.whatsnearby.main;
 import com.teester.whatsnearby.BasePresenter;
 import com.teester.whatsnearby.BaseView;
 
-import java.net.URL;
+import java.net.URI;
 
 public interface MainActivityContract {
 
@@ -11,7 +11,7 @@ public interface MainActivityContract {
 
 		void showIfLoggedIn();
 
-		void checkIfOauth(URL url);
+		void checkIfOauth(URI url);
 
 		void onButtonClicked();
 

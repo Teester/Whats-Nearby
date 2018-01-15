@@ -5,7 +5,7 @@ import com.teester.whatsnearby.Utilities;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +58,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	 * @param uri The uri obtained from openstreetmap
 	 */
 	@Override
-	public void checkIfOauth(URL uri) {
+	public void checkIfOauth(URI uri) {
 		if (uri != null) {
 			try {
 				Map<String, List<String>> list = Utilities.splitQuery(uri);

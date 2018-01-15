@@ -14,15 +14,17 @@ android {
         applicationId 'com.teester.whatsnearby'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 4
-        versionName "0.4"
+        versionCode 5
+        versionName "0.5"
     }
     buildTypes {
         debug {
+            shrinkResources false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
+            shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
