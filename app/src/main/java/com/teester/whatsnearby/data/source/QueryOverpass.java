@@ -2,13 +2,14 @@ package com.teester.whatsnearby.data.source;
 
 import android.content.Context;
 
+import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.Utilities;
 import com.teester.whatsnearby.data.Answers;
-import com.teester.whatsnearby.data.localDatabase.AppDatabase;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
+import com.teester.whatsnearby.data.localDatabase.AppDatabase;
 import com.teester.whatsnearby.data.localDatabase.VisitedLocation;
 import com.teester.whatsnearby.data.location.Notifier;
 
@@ -76,10 +77,12 @@ public class QueryOverpass implements SourceContract.Overpass {
 	public String queryOverpassApi(String urlString) {
 
 		String resultToDisplay = "";
+		String userAgent = String.format("%s/%s", "whatsnearby", BuildConfig.VERSION_NAME);
 		InputStream in = null;
 		try {
 			URL url = new URL(urlString);
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.setRequestProperty("User-Agent", userAgent);
 			in = new BufferedInputStream(urlConnection.getInputStream());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
