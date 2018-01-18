@@ -68,7 +68,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 		String leisure = String.format(nwr, overpassLocation, "leisure");
 		String tourism = String.format(nwr, overpassLocation, "tourism");
 
-		String overpassUrl = String.format("http://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s%s);out%%20center%%20meta%%20qt;", shop, amenity, leisure, tourism);
+		String overpassUrl = String.format("https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s%s);out%%20center%%20meta%%20qt;", shop, amenity, leisure, tourism);
 
 		return overpassUrl;
 	}
