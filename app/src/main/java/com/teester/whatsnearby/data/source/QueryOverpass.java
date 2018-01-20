@@ -2,13 +2,14 @@ package com.teester.whatsnearby.data.source;
 
 import android.content.Context;
 
+import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.Utilities;
 import com.teester.whatsnearby.data.Answers;
-import com.teester.whatsnearby.data.localDatabase.AppDatabase;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
+import com.teester.whatsnearby.data.localDatabase.AppDatabase;
 import com.teester.whatsnearby.data.localDatabase.VisitedLocation;
 import com.teester.whatsnearby.data.location.Notifier;
 
@@ -67,7 +68,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 		String leisure = String.format(nwr, overpassLocation, "leisure");
 		String tourism = String.format(nwr, overpassLocation, "tourism");
 
-		String overpassUrl = String.format("http://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s%s);out%%20center%%20meta%%20qt;", shop, amenity, leisure, tourism);
+		String overpassUrl = String.format("https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s%s);out%%20center%%20meta%%20qt;", shop, amenity, leisure, tourism);
 
 		return overpassUrl;
 	}
@@ -76,10 +77,12 @@ public class QueryOverpass implements SourceContract.Overpass {
 	public String queryOverpassApi(String urlString) {
 
 		String resultToDisplay = "";
+		String userAgent = String.format("%s/%s", "whatsnearby", BuildConfig.VERSION_NAME);
 		InputStream in = null;
 		try {
 			URL url = new URL(urlString);
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.setRequestProperty("User-Agent", userAgent);
 			in = new BufferedInputStream(urlConnection.getInputStream());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

@@ -50,7 +50,8 @@ public class MainActivity extends AppCompatActivity implements
 
 		this.button.setOnClickListener(this);
 		checkPermission();
-    }
+		mainPresenter.showIfLoggedIn();
+	}
 
 	@Override
 	protected void onNewIntent(Intent intent) {

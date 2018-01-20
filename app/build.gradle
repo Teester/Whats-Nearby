@@ -9,13 +9,14 @@ allprojects {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId 'com.teester.whatsnearby'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 5
-        versionName "0.5"
+        versionCode 7
+        versionName "0.7"
+        setProperty("archivesBaseName", "whatsnearby-$versionName")
     }
     buildTypes {
         debug {
