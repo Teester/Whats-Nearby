@@ -95,10 +95,7 @@ public class MainActivity extends AppCompatActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		Intent intent = getIntent();
-
-		mainPresenter.showIfLoggedIn();
+		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override
