@@ -4,14 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-public class Startup extends BroadcastReceiver {
+import com.teester.whatsnearby.data.location.LocationService;
 
-	public Startup() {
-	}
+public class Startup extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		context.startService(new Intent(context, LocationService.class));
+		if (intent.getAction() == Intent.ACTION_BOOT_COMPLETED) {
+			context.startService(new Intent(context, LocationService.class));
+		}
 	}
 }
 

@@ -1,43 +1,60 @@
 apply plugin: 'com.android.application'
 
+allprojects {
+    repositories {
+        jcenter()
+        google()
+    }
+}
+
 android {
-    compileSdkVersion 26
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.2'
     defaultConfig {
-        applicationId "com.teester.whatsnearby"
-        minSdkVersion 19
-        targetSdkVersion 26
-        versionCode 1
-        versionName "0.1"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationId 'com.teester.whatsnearby'
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 2
+        versionName "0.2"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile('de.westnordost:osmapi:1.7') {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:design:27.0.2'
+    implementation 'com.android.support:support-v4:27.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'android.arch.lifecycle:extensions:1.0.0'
+    implementation 'android.arch.persistence.room:runtime:1.0.0'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
+    implementation 'com.mapzen.android:lost:3.0.4'
+    implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
+    implementation('de.westnordost:osmapi:1.7') {
         // it's already included in Android
         exclude group: 'net.sf.kxml', module: 'kxml2'
     }
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.mapzen.android:lost:3.0.2'
-    compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile 'com.android.support:support-v4:26.0.0-alpha1'
-    compile 'oauth.signpost:signpost-core:1.2.1.2'
-    compile ('oauth.signpost:signpost-commonshttp4:1.2.1.2') {
-        exclude group: "org.apache.httpcomponents", module: "httpclient"
-        exclude group: "org.apache.httpcomponents", module: "httpcore"
+    implementation 'oauth.signpost:signpost-core:1.2.1.2'
+    implementation('oauth.signpost:signpost-commonshttp4:1.2.1.2') {
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents', module: 'httpcore'
     }
-    testCompile 'junit:junit:4.12'
+
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.3-alpha', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.11.0'
+    testImplementation 'org.json:json:20171018'
 }

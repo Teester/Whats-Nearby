@@ -8,13 +8,15 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.teester.whatsnearby.MainActivity"
-                  android:launchMode="singleInstance">
+        <activity
+            android:name="com.teester.whatsnearby.main.MainActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -23,18 +25,20 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="mapquestions"
-                      android:host="oauth" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="mapquestions"/>
             </intent-filter>
         </activity>
-        <service android:name="com.teester.whatsnearby.LocationService"/>
+        <service android:name=".data.location.LocationService"/>
         <activity
-            android:name="com.teester.whatsnearby.QuestionsActivity"
+            android:name="com.teester.whatsnearby.questions.QuestionsActivity"
             android:label="@string/title_activity_questions"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <receiver android:name="com.teester.whatsnearby.Startup" >
+        <receiver android:name="com.teester.whatsnearby.Startup">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

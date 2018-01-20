@@ -43,11 +43,15 @@
     <string name="not_logged_in">You are not logged into OpenStreetmap. Your answers cannot be uploaded until you have logged in.  Please press the button below to log in or create an account with OpenStreetMap</string>
     <string name="osm_login_description">Before you can answer any questions, you must log in to your OpenStreetMap account.</string>
     <string name="osm_login_button">Log in to OpenStreetMap</string>
-    <string name="select_current_location">Select the place you are currently located</string>
+    <string name="select_current_location">Not at %s?\nSelect the place you are currently located</string>
     <string name="none_of_these_places">None of these places</string>
     <string name="check_pois_instruction">Click the button below to check for points of interest around your current location.</string>
     <string name="check_now_button">Check Now!</string>
-    <string name="logged_in_as">You are currently logged in to OpenStreetMap.\n\nMapQuestions will notify you when you\'re in a location where there is missing information in OpenStreetMap.</string>
+    <string name="logged_in_as">You are currently logged in to OpenStreetMap.\nWhat\'s Nearby? will notify you when you\'re in a location where there is missing information in OpenStreetMap.</string>
     <string name="log_out">Log Out</string>
+    <string name="changeset_comment">Added details to %s</string>
+    <string name="changeset_source">survey</string>
+    <string name="close">Close</string>
+    <string name="others_have_answered_this_question">Others have answered ‘%s’ to this question</string>
 
 </resources>
