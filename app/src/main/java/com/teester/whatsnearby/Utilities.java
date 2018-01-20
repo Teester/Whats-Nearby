@@ -1,7 +1,7 @@
 package com.teester.whatsnearby;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -17,7 +17,7 @@ public class Utilities {
 	 * @return - a map containing the parameters and their values
 	 * @throws UnsupportedEncodingException
 	 */
-	public static Map<String, List<String>> splitQuery(URL url) throws UnsupportedEncodingException {
+	public static Map<String, List<String>> splitQuery(URI url) throws UnsupportedEncodingException {
 		final Map<String, List<String>> query_pairs = new LinkedHashMap<String, List<String>>();
 		final String[] pairs = url.getQuery().split("&");
 		for (String pair : pairs) {

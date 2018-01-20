@@ -23,8 +23,8 @@ import com.teester.whatsnearby.questions.question.QuestionFragment;
 import com.teester.whatsnearby.view.MyPagerAdapter;
 import com.teester.whatsnearby.view.NonSwipeableViewPager;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class QuestionsActivity extends AppCompatActivity
 		implements QuestionsActivityContract.View,
@@ -64,10 +64,10 @@ public class QuestionsActivity extends AppCompatActivity
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		setIntent(intent);
-		URL url = null;
+		URI url = null;
 		try {
-			url = new URL(intent.getData().toString());
-		} catch (MalformedURLException e) {
+			url = new URI(intent.getData().toString());
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		questionsPresenter.assessIntentData(url);

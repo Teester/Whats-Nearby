@@ -9,7 +9,7 @@ import com.teester.whatsnearby.data.PoiTypes;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +53,7 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 	}
 
 	@Override
-	public void assessIntentData(URL uri) {
+	public void assessIntentData(URI uri) {
 		if (uri != null) {
 			try {
 				Map<String, List<String>> list = Utilities.splitQuery(uri);

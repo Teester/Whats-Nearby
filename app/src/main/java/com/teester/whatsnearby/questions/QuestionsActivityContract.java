@@ -5,7 +5,7 @@ import com.teester.whatsnearby.BaseView;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 
-import java.net.URL;
+import java.net.URI;
 
 public interface QuestionsActivityContract {
 
@@ -13,7 +13,7 @@ public interface QuestionsActivityContract {
 
 		void addPoiNameToTextview();
 
-		void assessIntentData(URL uri);
+		void assessIntentData(URI uri);
 	}
 
 	interface View extends BaseView<Presenter> {

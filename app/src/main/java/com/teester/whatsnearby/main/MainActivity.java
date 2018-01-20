@@ -20,8 +20,8 @@ import com.teester.whatsnearby.data.source.OAuth;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class MainActivity extends AppCompatActivity implements
 		View.OnClickListener,
@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
-		URL url = null;
+		URI url = null;
 		try {
-			url = new URL(intent.getData().toString());
-		} catch (MalformedURLException e) {
+			url = new URI(intent.getData().toString());
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		mainPresenter.checkIfOauth(url);
