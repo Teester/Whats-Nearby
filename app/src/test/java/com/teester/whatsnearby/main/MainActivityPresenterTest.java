@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
@@ -44,10 +44,10 @@ public class MainActivityPresenterTest {
 
 	@Test
 	public void check_if_in_oAuth_flow() {
-		URL url = null;
+		URI url = null;
 		try {
-			url = new URL("http://www.teester.com/data=?oauth_verifier=1&oauth_token=2");
-		} catch (MalformedURLException e) {
+			url = new URI("http://www.teester.com/data=?oauth_verifier=1&oauth_token=2");
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		presenter.checkIfOauth(url);

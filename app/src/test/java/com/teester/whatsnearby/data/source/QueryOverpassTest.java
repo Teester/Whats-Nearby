@@ -27,7 +27,7 @@ public class QueryOverpassTest {
 		double latitude = 53;
 		double longitude = -7;
 		float accuracy = 50;
-		String expected_uri = "http://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(node['shop'](around:50.0,53.0,-7.0);way['shop'](around:50.0,53.0,-7.0);relation['shop'](around:50.0,53.0,-7.0);node['amenity'](around:50.0,53.0,-7.0);way['amenity'](around:50.0,53.0,-7.0);relation['amenity'](around:50.0,53.0,-7.0);node['leisure'](around:50.0,53.0,-7.0);way['leisure'](around:50.0,53.0,-7.0);relation['leisure'](around:50.0,53.0,-7.0);node['tourism'](around:50.0,53.0,-7.0);way['tourism'](around:50.0,53.0,-7.0);relation['tourism'](around:50.0,53.0,-7.0););out%20center%20meta%20qt;";
+		String expected_uri = "https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(node[~\"^(shop|amenity|leisure|tourism)$\"~\".\"](around:50.0,53.0,-7.0);way[~\"^(shop|amenity|leisure|tourism)$\"~\".\"](around:50.0,53.0,-7.0);relation[~\"^(shop|amenity|leisure|tourism)$\"~\".\"](around:50.0,53.0,-7.0););out%20center%20meta%20qt;";
 
 		String uri = queryOverpass.getOverpassUri(latitude, longitude, accuracy);
 		assertEquals(expected_uri, uri);

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,6 +17,7 @@ import com.teester.whatsnearby.data.source.OAuth;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
 import com.teester.whatsnearby.main.MainActivity;
+import com.teester.whatsnearby.questions.intro.IntroFragment;
 import com.teester.whatsnearby.questions.nothere.NotHereFragment;
 import com.teester.whatsnearby.questions.question.QuestionFragment;
 import com.teester.whatsnearby.view.MyPagerAdapter;
@@ -29,7 +29,8 @@ import java.net.URISyntaxException;
 public class QuestionsActivity extends AppCompatActivity
 		implements QuestionsActivityContract.View,
 		NotHereFragment.OnFragmentInteractionListener,
-		QuestionFragment.OnFragmentInteractionListener {
+		QuestionFragment.OnFragmentInteractionListener,
+		IntroFragment.OnFragmentInteractionListener {
 
 	private static final String TAG = QuestionsActivity.class.getSimpleName();
 
@@ -78,6 +79,11 @@ public class QuestionsActivity extends AppCompatActivity
 		viewPager.setCurrentItem(currPos+1);
 	}
 
+	public void onIntroFragmentInteraction() {
+		int currPos=viewPager.getCurrentItem();
+		viewPager.setCurrentItem(currPos+1);
+	}
+
 	public void notHereClicked(View v)
 	{
 		Fragment fragment = new NotHereFragment();
@@ -104,7 +110,6 @@ public class QuestionsActivity extends AppCompatActivity
 
 	@Override
 	public void makeTextViewInvisible() {
-		Log.w(TAG, "in makeTextViewInvisible");
 		textView.setVisibility(View.INVISIBLE);
 	}
 

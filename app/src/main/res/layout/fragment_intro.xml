@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.AppCompatTextView
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:id="@+id/intro_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center_horizontal"
+        android:paddingEnd="32dp"
+        android:paddingStart="32dp"
+        android:paddingTop="48dp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Name"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/intro_address"
+        style="@style/Base.TextAppearance.AppCompat.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center_horizontal"
+        android:paddingBottom="32dp"
+        android:paddingEnd="32dp"
+        android:paddingStart="32dp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/intro_name"
+        app:layout_constraintStart_toStartOf="@+id/intro_name"
+        app:layout_constraintTop_toBottomOf="@+id/intro_name"
+        tools:text="Address"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/intro_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/icon_content_description"
+        android:tint="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/intro_name"
+        app:layout_constraintStart_toStartOf="@+id/intro_name"
+        app:layout_constraintTop_toTopOf="@+id/intro_name"
+        tools:srcCompat="@drawable/ic_pharmacy"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/intro_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/intro_answer_questions"
+        app:layout_constraintEnd_toEndOf="@+id/intro_address"
+        app:layout_constraintStart_toStartOf="@+id/intro_address"
+        app:layout_constraintTop_toBottomOf="@+id/intro_address"
+        style="@style/Base.Widget.AppCompat.ButtonBar"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
+        android:textAllCaps="true"/>
+
+</android.support.constraint.ConstraintLayout>
