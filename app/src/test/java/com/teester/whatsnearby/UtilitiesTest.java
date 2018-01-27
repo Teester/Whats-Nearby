@@ -3,8 +3,8 @@ package com.teester.whatsnearby;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +13,9 @@ import static junit.framework.TestCase.assertEquals;
 public class UtilitiesTest {
 
 	@Test
-	public void splitquery_valid_url() throws MalformedURLException, UnsupportedEncodingException {
+	public void splitquery_valid_url() throws URISyntaxException, UnsupportedEncodingException {
 		String uri = "http://www.overpass-api.de/api/interpreter?data=[out:json]";
-		URL url = new URL(uri);
+		URI url = new URI(uri);
 
 		Map<String, List<String>> map = Utilities.splitQuery(url);
 

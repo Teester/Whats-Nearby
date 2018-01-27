@@ -61,14 +61,14 @@ public class QueryOverpass implements SourceContract.Overpass {
 		// Build the Overpass query
 		// getting the centre of nodes, ways and relations a given radius around a location for different types
 		String overpassLocation = String.format("around:%s,%s,%s", accuracy, latitude, longitude);
-		String nwr = "node['%2$s'](%1$s);way['%2$s'](%1$s);relation['%2$s'](%1$s);";
+		String nwr = "%1$s[~\"^(%2$s)$\"~\".\"](%3$s);";
+		String types = "shop|amenity|leisure|tourism";
 
-		String shop = String.format(nwr, overpassLocation, "shop");
-		String amenity = String.format(nwr, overpassLocation, "amenity");
-		String leisure = String.format(nwr, overpassLocation, "leisure");
-		String tourism = String.format(nwr, overpassLocation, "tourism");
+		String node = String.format(nwr, "node", types, overpassLocation);
+		String way = String.format(nwr, "way", types, overpassLocation);
+		String relation = String.format(nwr, "relation", types, overpassLocation);
 
-		String overpassUrl = String.format("https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s%s);out%%20center%%20meta%%20qt;", shop, amenity, leisure, tourism);
+		String overpassUrl = String.format("https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s);out%%20center%%20meta%%20qt;", node, way, relation);
 
 		return overpassUrl;
 	}

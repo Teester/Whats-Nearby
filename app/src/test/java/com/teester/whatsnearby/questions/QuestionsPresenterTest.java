@@ -10,8 +10,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,10 +75,10 @@ public class QuestionsPresenterTest {
 
 	@Test
 	public void assessIntentData() {
-		URL uri = null;
+		URI uri = null;
 		try {
-			uri = new URL("http://www.openstreetmap.org/data?oauth_verifier=1&oauth_token=1");
-		} catch (MalformedURLException e) {
+			uri = new URI("http://www.openstreetmap.org/data?oauth_verifier=1&oauth_token=1");
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		questionsPresenter.assessIntentData(uri);

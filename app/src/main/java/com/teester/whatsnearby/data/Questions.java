@@ -30,7 +30,7 @@ public class Questions {
 	private QuestionObject vegan = new QuestionObject(6, R.string.vegan, R.drawable.ic_unsure, R.color.blue, "vegan", "yes", "no", "");
 	private QuestionObject vegetarian = new QuestionObject(5, R.string.vegetarian, R.drawable.ic_unsure, R.color.blue, "vegetarian", "yes", "no", "");
 	private QuestionObject wheelchair = new QuestionObject(0, R.string.wheelchair, R.drawable.ic_wheelchair, R.color.orange, "wheelchair", "yes", "no", "");
-	private QuestionObject wheelchair_toilets = new QuestionObject(1, R.string.wheelchair_toilets, R.drawable.ic_wheelchair, R.color.orange, "wheelchair_toilets", "yes", "no", "");
+	private QuestionObject wheelchair_toilets = new QuestionObject(1, R.string.wheelchair_toilets, R.drawable.ic_wheelchair, R.color.orange, "toilets:wheelchair", "yes", "no", "");
 	private QuestionObject wifi = new QuestionObject(3, R.string.wifi, R.drawable.ic_wifi, R.color.orange, "internet_access", "wlan", "no", "");
 	private QuestionObject wifi_fee = new QuestionObject(4, R.string.wifi_fee, R.drawable.ic_wifi, R.color.orange, "internet_access:fee", "yes", "no", "");
 	private QuestionObject women = new QuestionObject(8, R.string.women, R.drawable.ic_women, R.color.red, "women", "yes", "no", "");

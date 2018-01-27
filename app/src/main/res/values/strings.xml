@@ -53,5 +53,6 @@
     <string name="changeset_source">survey</string>
     <string name="close">Close</string>
     <string name="others_have_answered_this_question">Others have answered ‘%s’ to this question</string>
+    <string name="intro_answer_questions">Answer Questions</string>
 
 </resources>

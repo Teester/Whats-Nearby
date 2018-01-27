@@ -1,7 +1,9 @@
-# Whats Nearby?
+![What's Nearby](/res/feature.png)
 An android app for collecting information about POIs for OpenStreetMap
 
-**This app should be considered alpha level at best and should be used for testing only at this time.**
+**This app should be considered beta level this time.**
+
+## What's it all about?
 
 *What's Nearby?* asks simple "yes" or "no" questions about a location it detects you are at.  These answers are then uploaded to OpenStreetMap.  This app is aimed at those who aren't aware of OSM tagging concepts and casual mappers. Tags should not be exposed in the interface, but rather inferred from the answers to questions like "Does this location have Wifi for customers?". The idea is for the mapping to be almost frictionless, where people are mapping by being prompted that data is missing rather than consciously deciding to add data.
 
@@ -16,6 +18,16 @@ There are 5 criteria which must be met before an Overpass query is done:
 5. The location must not have been notified in the last week
 
 (Note that for testing purposes, the time between checks has been decreased to 1min for now)
+
+## What's it look like?
+
+<img src="/res/Screenshot1.png" width="170"/> <img src="/res/Screenshot2.png" width="170"/> <img src="/res/Screenshot3.png" width="170"/> <img src="/res/Screenshot4.png" width="170"/>
+
+## What's the best way to get it?
+
+Download the beta from Google Play.
+
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play" height="80">](https://play.google.com/store/apps/details?id=com.teester.whatsnearby)
 
 ## What's done
 - Basic location determination and notification logic

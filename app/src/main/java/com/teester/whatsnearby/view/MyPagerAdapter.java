@@ -40,10 +40,14 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 	// Returns the fragment to display for that page
 	@Override
 	public Fragment getItem(int position) {
+		//if (position == 0) {
+		//	return IntroFragment.newInstance(this.poi);
+		//} else if (position < count - 1) {
 		if (position < count - 1) {
 			return QuestionFragment.newInstance(this.poi, position, this.listOfQuestions);
 		} else {
 			return UploadFragment.newInstance();
 		}
+		//}
 	}
 }
