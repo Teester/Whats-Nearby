@@ -22,7 +22,7 @@ public class PoiTypes {
 	private OsmObjectType fast_food = new OsmObjectType("fast_food", "amenity", R.drawable.ic_fast_food, new String[]{"wheelchair", "wheelchair_toilets", "drive_through", "takeaway", "deliver", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	private OsmObjectType fuel = new OsmObjectType("fuel", "amenity", R.drawable.ic_fuel, new String[]{"wheelchair", "wheelchair_toilets", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	private OsmObjectType pharmacy = new OsmObjectType("pharmacy", "amenity", R.drawable.ic_pharmacy, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless", "dispensing"});
-	private OsmObjectType pub = new OsmObjectType("pub", "amenity", R.drawable.ic_pub, new String[]{"wheelchair", "wheelchair_toilets", "drive_through", "cash", "cheques", "credit_card", "debit_card", "contactless"});
+	private OsmObjectType pub = new OsmObjectType("pub", "amenity", R.drawable.ic_pub, new String[]{"wheelchair", "outdoor_seating", "wifi", "wifi_fee", "cash", "cheques", "credit_card", "debit_card", "contactless", "wheelchair_toilets"});
 	private OsmObjectType restaurant = new OsmObjectType("restaurant", "amenity", R.drawable.ic_restaurant, new String[]{"wheelchair", "wheelchair_toilets", "wifi", "wifi_fee", "outdoor_seating", "vegetarian", "vegan", "takeaway", "deliver", "reservation", "cash", "cheques", "credit_card", "debit_card", "contactless"});
 	//Shops
 	private OsmObjectType alcohol = new OsmObjectType("alcohol", "shop", R.drawable.ic_alcohol, new String[]{"wheelchair", "cash", "cheques", "credit_card", "debit_card", "contactless"});
