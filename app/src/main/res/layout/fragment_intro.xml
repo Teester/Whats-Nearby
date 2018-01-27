@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.AppCompatTextView
+    <TextView
         style="@style/TextAppearance.AppCompat.Medium"
         android:id="@+id/intro_name"
         android:layout_width="0dp"
@@ -23,9 +23,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Name"/>
+        tools:text="Name"
+        android:textIsSelectable="false"/>
 
-    <android.support.v7.widget.AppCompatTextView
+    <TextView
         android:id="@+id/intro_address"
         style="@style/Base.TextAppearance.AppCompat.Small"
         android:layout_width="match_parent"
@@ -41,12 +42,13 @@
         app:layout_constraintEnd_toEndOf="@+id/intro_name"
         app:layout_constraintStart_toStartOf="@+id/intro_name"
         app:layout_constraintTop_toBottomOf="@+id/intro_name"
-        tools:text="Address"/>
+        tools:text="Address"
+        android:textIsSelectable="false"/>
 
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/intro_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -57,7 +59,7 @@
         app:layout_constraintTop_toTopOf="@+id/intro_name"
         tools:srcCompat="@drawable/ic_pharmacy"/>
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:id="@+id/intro_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
