@@ -1,7 +1,7 @@
 ![What's Nearby](/res/feature.png)
 An android app for collecting information about POIs for OpenStreetMap
 
-**This app should be considered alpha level at best and should be used for testing only at this time.**
+**This app should be considered beta level this time.**
 
 ## What's it all about?
 
