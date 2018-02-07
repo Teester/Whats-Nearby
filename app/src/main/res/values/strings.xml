@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">What\'s Nearby?</string>
-    <string name="title_activity_questions">QuestionsActivity</string>
+    <string name="app_name" translatable="false">What\'s Nearby?</string>
+    <string name="title_activity_questions" translatable="false">QuestionsActivity</string>
 
     <!-- Questions -->
     <string name="wheelchair">Is %s wheelchair accessible?</string>
@@ -24,7 +24,7 @@
     <string name="dispensing">Does %s dispense prescriptions?</string>
 
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="unsure">Not sure</string>
@@ -38,7 +38,7 @@
     <string name="kosher">Does %s offer kosher produce?</string>
     <string name="organic">Does %s sell organic produce?</string>
     <string name="upload_thanks">Thanks for answering. Your answers have helped to improve OpenStreetmap for everyone</string>
-    <string name="icon_content_description">icon</string>
+    <string name="icon_content_description" translatable="false">icon</string>
     <string name="authorise_openstreetmap">Authorise OpenStreetmap</string>
     <string name="not_logged_in">You are not logged into OpenStreetmap. Your answers cannot be uploaded until you have logged in.  Please press the button below to log in or create an account with OpenStreetMap</string>
     <string name="osm_login_description">Before you can answer any questions, you must log in to your OpenStreetMap account.</string>
@@ -50,7 +50,7 @@
     <string name="logged_in_as">You are currently logged in to OpenStreetMap.\nWhat\'s Nearby? will notify you when you\'re in a location where there is missing information in OpenStreetMap.</string>
     <string name="log_out">Log Out</string>
     <string name="changeset_comment">Added details to %s</string>
-    <string name="changeset_source">survey</string>
+    <string name="changeset_source" translatable="false">survey</string>
     <string name="close">Close</string>
     <string name="others_have_answered_this_question">Others have answered ‘%s’ to this question</string>
     <string name="intro_answer_questions">Answer Questions</string>
