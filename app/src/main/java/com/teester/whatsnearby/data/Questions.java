@@ -13,6 +13,7 @@ import com.teester.whatsnearby.data.questions.Kosher;
 import com.teester.whatsnearby.data.questions.Men;
 import com.teester.whatsnearby.data.questions.Organic;
 import com.teester.whatsnearby.data.questions.OutdoorSeating;
+import com.teester.whatsnearby.data.questions.Question;
 import com.teester.whatsnearby.data.questions.Reservation;
 import com.teester.whatsnearby.data.questions.Takeaway;
 import com.teester.whatsnearby.data.questions.Vegan;
@@ -33,34 +34,32 @@ import java.util.Map;
 public class Questions {
 
 	private static Questions INSTANCE;
-
-	private Map<String, QuestionObject> map = new HashMap<>();
+	private Map<String, Question> map = new HashMap<>();
 
 	private Questions() {
-		map.put("cash", new Cash().getQuestionObject());
-		map.put("cheques", new Cheque().getQuestionObject());
-		map.put("contactless", new Contactless().getQuestionObject());
-		map.put("credit_card", new CreditCard().getQuestionObject());
-		map.put("debit_card", new DebitCard().getQuestionObject());
-		map.put("deliver", new Deliver().getQuestionObject());
-		map.put("dispensing", new Dispensing().getQuestionObject());
-		map.put("drive_through", new DriveThrough().getQuestionObject());
-		map.put("halal", new Halal().getQuestionObject());
-		map.put("kosher", new Kosher().getQuestionObject());
-		map.put("men", new Men().getQuestionObject());
-		map.put("organic", new Organic().getQuestionObject());
-		map.put("outdoor_seating", new OutdoorSeating().getQuestionObject());
-		map.put("reservation", new Reservation().getQuestionObject());
-		map.put("takeaway", new Takeaway().getQuestionObject());
-		map.put("vegan", new Vegan().getQuestionObject());
-		map.put("vegetarian", new Vegetarian().getQuestionObject());
-		map.put("wheelchair", new Wheelchair().getQuestionObject());
-		map.put("wheelchair_toilets", new WheelchairToilets().getQuestionObject());
-		map.put("wifi", new Wifi().getQuestionObject());
-		map.put("wifi_fee", new WifiFee().getQuestionObject());
-		map.put("women", new Women().getQuestionObject());
+		map.put("cash", new Cash());
+		map.put("cheques", new Cheque());
+		map.put("contactless", new Contactless());
+		map.put("credit_card", new CreditCard());
+		map.put("debit_card", new DebitCard());
+		map.put("deliver", new Deliver());
+		map.put("dispensing", new Dispensing());
+		map.put("drive_through", new DriveThrough());
+		map.put("halal", new Halal());
+		map.put("kosher", new Kosher());
+		map.put("men", new Men());
+		map.put("organic", new Organic());
+		map.put("outdoor_seating", new OutdoorSeating());
+		map.put("reservation", new Reservation());
+		map.put("takeaway", new Takeaway());
+		map.put("vegan", new Vegan());
+		map.put("vegetarian", new Vegetarian());
+		map.put("wheelchair", new Wheelchair());
+		map.put("wheelchair_toilets", new WheelchairToilets());
+		map.put("wifi", new Wifi());
+		map.put("wifi_fee", new WifiFee());
+		map.put("women", new Women());
 	}
-
 	private static synchronized Questions getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new Questions();
@@ -68,7 +67,7 @@ public class Questions {
 		return INSTANCE;
 	}
 
-	public static QuestionObject getQuestion(String question) {
+	public static Question getQuestion(String question) {
 		getInstance();
 		return INSTANCE.map.get(question);
 	}

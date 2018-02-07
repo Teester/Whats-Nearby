@@ -1,19 +1,12 @@
 package com.teester.whatsnearby.data.questions;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.data.QuestionObject;
 
-public class DriveThrough implements QuestionsContract {
-	private int id = 14;
-	private int question = R.string.drive_through;
-	private int drawable = R.drawable.ic_unsure;
-	private int color = R.color.purple;
-	private String tag = "drive_through";
-	private String answer_yes = "yes";
-	private String answer_no = "no";
-	private String answer_unsure = "";
+public class DriveThrough extends Question {
 
-	public QuestionObject getQuestionObject() {
-		return new QuestionObject(id, question, drawable, color, tag, answer_yes, answer_no, answer_unsure);
+	public DriveThrough() {
+		question = R.string.drive_through;
+		color = R.color.purple;
+		tag = "drive_through";
 	}
 }
