@@ -1,22 +1,16 @@
 package com.teester.whatsnearby.data.questions;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.data.QuestionObject;
 
 public abstract class Question implements QuestionsContract {
 
-	protected int question = 0;
-	protected int drawable = R.drawable.ic_unsure;
-	protected int color = 0;
-	protected String tag = "";
-	protected String answer_yes = "yes";
-	protected String answer_no = "no";
-	protected String answer_unsure = "";
-
-	@Override
-	public QuestionObject getQuestionObject() {
-		return new QuestionObject(0, question, drawable, color, tag, answer_yes, answer_no, answer_unsure);
-	}
+	public int question = 0;
+	public int drawable = R.drawable.ic_unsure;
+	public int color = 0;
+	public String tag = "";
+	public String answer_yes = "yes";
+	public String answer_no = "no";
+	public String answer_unsure = "";
 
 	@Override
 	public int getQuestion() {

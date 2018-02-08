@@ -6,7 +6,7 @@ import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
-import com.teester.whatsnearby.data.QuestionObject;
+import com.teester.whatsnearby.data.questions.QuestionsContract;
 import com.teester.whatsnearby.data.source.SourceContract;
 import com.teester.whatsnearby.data.source.UploadToOSM;
 
@@ -30,15 +30,15 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 
 	@Override
 	public void getQuestion() {
-		List<QuestionObject> questions = this.listOfQuestions.getQuestionObjects();
-		QuestionObject questionObject = questions.get(position);
+		List<QuestionsContract> questions = this.listOfQuestions.getQuestion();
+		QuestionsContract questionsContract = questions.get(position);
 
-		int question = questionObject.getQuestion();
-		int color = questionObject.getColor();
-		int drawable = questionObject.getIcon();
+		int question = questionsContract.getQuestion();
+		int color = questionsContract.getColor();
+		int drawable = questionsContract.getIcon();
 
 		view.showQuestion(question, poi.getName(), color, drawable);
-		String key = questionObject.getTag();
+		String key = questionsContract.getTag();
 		String answer = poi.getTag(key);
 		if (answer != null) {
 			view.setPreviousAnswer(answer);
@@ -54,9 +54,11 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 
 	@Override
 	public void onAnswerSelected(int id) {
-		List<QuestionObject> questions = listOfQuestions.getQuestionObjects();
-		QuestionObject questionObject = questions.get(position);
-		int selectedColor = questionObject.getColor();
+
+		List<QuestionsContract> questions = this.listOfQuestions.getQuestion();
+		QuestionsContract questionsContract = questions.get(position);
+
+		int selectedColor = questionsContract.getColor();
 		int unselectedColor = R.color.colorPrimary;
 		String answer = null;
 		switch (id) {
@@ -76,8 +78,8 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 				break;
 		}
 
-		String answerTag = questionObject.getAnswer(answer);
-		String questionTag = questionObject.getTag();
+		String answerTag = questionsContract.getAnswer(answer);
+		String questionTag = questionsContract.getTag();
 		addAnswer(questionTag, answerTag);
 
 		if (position == listOfQuestions.getNoOfQuestions() - 1) {

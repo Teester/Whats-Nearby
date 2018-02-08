@@ -1,6 +1,7 @@
 package com.teester.whatsnearby.data;
 
 import com.teester.whatsnearby.data.questions.Question;
+import com.teester.whatsnearby.data.questions.QuestionsContract;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,11 +58,11 @@ public class OsmObjectType {
 		return this.questions.length;
 	}
 
-	public List<QuestionObject> getQuestionObjects() {
-		List<QuestionObject> k = new ArrayList<QuestionObject>();
+	public List<QuestionsContract> getQuestion() {
+		List<QuestionsContract> k = new ArrayList<QuestionsContract>();
 		for (int i=0; i < questions.length; i++) {
 			Question question = Questions.getQuestion(questions[i]);
-			k.add(question.getQuestionObject());
+			k.add(question);
 		}
 		return k;
 	}
