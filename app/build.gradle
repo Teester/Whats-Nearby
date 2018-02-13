@@ -14,8 +14,8 @@ android {
         applicationId 'com.teester.whatsnearby'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 9
-        versionName "0.9"
+        versionCode 10
+        versionName "0.10"
         setProperty("archivesBaseName", "whatsnearby-$versionName")
     }
     buildTypes {

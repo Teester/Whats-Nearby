@@ -9,12 +9,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 
 import com.mapzen.android.lost.api.LocationListener;
 import com.mapzen.android.lost.api.LocationRequest;
@@ -52,10 +50,6 @@ public class LocationService extends Service implements LocationServiceContract.
 	 */
 	private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
 		Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			drawable = (DrawableCompat.wrap(drawable)).mutate();
-		}
-
 		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
 				drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
@@ -89,8 +83,10 @@ public class LocationService extends Service implements LocationServiceContract.
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		LocationServices.FusedLocationApi.removeLocationUpdates(client, listener);
-		client.disconnect();
+		if (client.isConnected()) {
+			LocationServices.FusedLocationApi.removeLocationUpdates(client, listener);
+			client.disconnect();
+		}
 	}
 
 	@Override
@@ -127,8 +123,6 @@ public class LocationService extends Service implements LocationServiceContract.
 
 	@Override
 	public void performOverpassQuery(final Location location) {
-//		UseCaseHandler useCaseHandler = UseCaseHandler.getInstance();
-
 		SourceContract.Overpass overpassQuery = new QueryOverpass(getApplicationContext());
 		new Thread(new Runnable() {
 			@Override
@@ -137,19 +131,6 @@ public class LocationService extends Service implements LocationServiceContract.
 				overpassQuery.queryOverpass(location.getLatitude(), location.getLongitude(), location.getAccuracy());
 			}
 		}).start();
-
-//		QueryOverpass.response response = overpassQuery.response;
-//		useCaseHandler.execute(overpassQuery, response, new UseCase.UseCaseCallback<String>() {
-//			@Override
-//			public void onSuccess(String response) {
-//				Log.w(TAG, response);
-//			}
-//
-//			@Override
-//			public void onError() {
-//				Log.w(TAG, "Error");
-//			}
-//		});
 	}
 
 	public void checkLocationPermission() {
