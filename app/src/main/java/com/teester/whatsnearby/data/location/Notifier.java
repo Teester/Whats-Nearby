@@ -17,6 +17,8 @@ import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
 import com.teester.whatsnearby.questions.QuestionsActivity;
 
+import java.util.Date;
+
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class Notifier {
@@ -35,7 +37,8 @@ public class Notifier {
 		// Store the time the notification was made
 		SourceContract.Preferences preferences = new Preferences(context);
 		preferences.setLongPreference(OVERPASSLASTQUERYTIMEPREF, System.currentTimeMillis());
-
+		System.out.println(new Date(System.currentTimeMillis()).toString());
+		preferences.setStringPreference("last_notification_time", new Date(System.currentTimeMillis()).toString());
 		Intent resultIntent = new Intent(context, QuestionsActivity.class);
 		resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

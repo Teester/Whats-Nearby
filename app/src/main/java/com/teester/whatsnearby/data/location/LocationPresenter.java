@@ -2,6 +2,7 @@ package com.teester.whatsnearby.data.location;
 
 import android.location.Location;
 
+import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 public class LocationPresenter implements LocationServiceContract.Presenter {
@@ -59,6 +60,10 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 		// notified about (indicates you've probably still in the same place)
 		if (location.distanceTo(lastQueryLocation) < MINQUERYDISTANCE) {
 			query = false;
+		}
+
+		if (BuildConfig.DEBUG) {
+			query = true;
 		}
 
 		if (query == true) {

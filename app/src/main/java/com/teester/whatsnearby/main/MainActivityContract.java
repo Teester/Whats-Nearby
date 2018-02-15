@@ -23,4 +23,15 @@ public interface MainActivityContract {
 
 		void startOAuth();
 	}
+
+	interface DebugPresenter extends BasePresenter {
+
+		void getDetails();
+	}
+
+	interface DebugView extends BaseView<DebugPresenter> {
+
+		void setLastQueryTime(String lastQuerytime, String lastNotificationTime, String lastQuery);
+
+	}
 }

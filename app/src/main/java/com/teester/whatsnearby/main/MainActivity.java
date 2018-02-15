@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements
 
 	private TextView textView;
 	private Button button;
+	private Button debugButton;
 	private SharedPreferences sharedPreferences;
 	private MainActivityContract.Presenter mainPresenter;
 
@@ -47,8 +49,10 @@ public class MainActivity extends AppCompatActivity implements
 		mainPresenter.init();
 		this.textView = this.findViewById(R.id.textView);
 		this.button = this.findViewById(R.id.button);
+		this.debugButton = this.findViewById(R.id.button2);
 
 		this.button.setOnClickListener(this);
+		this.debugButton.setOnClickListener(this);
 		checkPermission();
 		mainPresenter.showIfLoggedIn();
 	}
@@ -114,6 +118,10 @@ public class MainActivity extends AppCompatActivity implements
 	public void onClick(View view) {
 		if (view == findViewById(R.id.button)) {
 			mainPresenter.onButtonClicked();
+		}
+		if (view == findViewById(R.id.button2)) {
+			Fragment fragment = new FragmentDebug();
+			getSupportFragmentManager().beginTransaction().replace(R.id.activity_main, fragment).commit();
 		}
 	}
 
