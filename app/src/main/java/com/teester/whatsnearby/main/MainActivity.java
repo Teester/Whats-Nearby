@@ -58,11 +58,14 @@ public class MainActivity extends AppCompatActivity implements
 		super.onNewIntent(intent);
 		URI url = null;
 		try {
-			url = new URI(intent.getData().toString());
+			if (intent.getData() != null) {
+				url = new URI(intent.getData().toString());
+				mainPresenter.checkIfOauth(url);
+			}
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		mainPresenter.checkIfOauth(url);
+
 	}
 
 	private void checkPermission() {
