@@ -31,7 +31,16 @@ public interface MainActivityContract {
 
 	interface DebugView extends BaseView<DebugPresenter> {
 
-		void setLastQueryTime(String lastQuerytime, String lastNotificationTime, String lastQuery);
+		void setLastQueryTime(String time, int color);
 
+		void setLastQuery(String queryTime);
+
+		void setAccuracy(String accuracy, int color);
+
+		void setQuerydistance(String querydistance, int color);
+
+		void setLastNotificationTime(String notificationTime, int color);
+
+		void setCheckdistance(String queryTimeSince, int color);
 	}
 }

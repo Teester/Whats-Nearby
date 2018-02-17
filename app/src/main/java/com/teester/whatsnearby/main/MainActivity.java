@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity implements
 		super.onNewIntent(intent);
 		URI url = null;
 		try {
-			url = new URI(intent.getData().toString());
+			if (intent.getData().toString() != null) {
+				url = new URI(intent.getData().toString());
+			}
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}

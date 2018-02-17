@@ -2,7 +2,6 @@ package com.teester.whatsnearby.data.location;
 
 import android.location.Location;
 
-import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 public class LocationPresenter implements LocationServiceContract.Presenter {
@@ -38,6 +37,11 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 			lastQueryLocation = location;
 		}
 
+		preferences.setFloatPreference("location_accuracy", location.getAccuracy());
+		preferences.setFloatPreference("distance_to_last_query", location.distanceTo(lastQueryLocation));
+		preferences.setLongPreference("query_interval", System.currentTimeMillis() - lastQueryTime);
+		preferences.setFloatPreference("distance_to_last_location", location.distanceTo(lastLocation));
+
 		boolean query = true;
 
 		// Don't query Overpass if the location is less accurate than 100m
@@ -62,9 +66,9 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 			query = false;
 		}
 
-		if (BuildConfig.DEBUG) {
-			query = true;
-		}
+//		if (BuildConfig.DEBUG) {
+//			query = true;
+//		}
 
 		if (query == true) {
 			lastQueryLocation = location;

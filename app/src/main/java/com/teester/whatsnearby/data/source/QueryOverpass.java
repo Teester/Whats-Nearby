@@ -156,7 +156,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 	@Override
 	public void queryOverpass(double latitude, double longitude, float accuracy) {
 		SourceContract.Preferences preferences = new Preferences(context);
-		preferences.setStringPreference("last_query_time", new Date(System.currentTimeMillis()).toString());
+		preferences.setLongPreference("last_query_time", System.currentTimeMillis());
 		queryLatitude = latitude;
 		queryLongitude = longitude;
 		queryAccuracy = accuracy;
