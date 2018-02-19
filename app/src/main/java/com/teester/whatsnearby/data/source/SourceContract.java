@@ -14,6 +14,10 @@ public interface SourceContract {
 		long getLongPreference(String preference);
 
 		void setLongPreference(String preference, long value);
+
+		float getFloatPreference(String preference);
+
+		void setFloatPreference(String preference, float value);
 	}
 
 	interface Overpass {

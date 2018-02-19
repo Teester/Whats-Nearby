@@ -41,4 +41,16 @@ public class Preferences implements SourceContract.Preferences {
 	public void setLongPreference(String preference, long value) {
 		prefs.edit().putLong(preference, value).apply();
 	}
+
+	@Override
+	public float getFloatPreference(String preference) {
+		return prefs.getFloat(preference, 0);
+	}
+
+	@Override
+	public void setFloatPreference(String preference, float value) {
+		prefs.edit().putFloat(preference, value).apply();
+	}
+
+
 }
