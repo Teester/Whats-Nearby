@@ -85,6 +85,7 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 		this.checkdistance.setText(queryTimeSince);
 		this.checkdistance.setTextColor(getResources().getColor(color));
 	}
+
 	@Override
 	public void setPresenter(MainActivityContract.DebugPresenter presenter) {
 
