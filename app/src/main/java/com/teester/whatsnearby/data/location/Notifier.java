@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.source.Preferences;
@@ -35,7 +33,7 @@ public class Notifier {
 		// Store the time the notification was made
 		SourceContract.Preferences preferences = new Preferences(context);
 		preferences.setLongPreference(OVERPASSLASTQUERYTIMEPREF, System.currentTimeMillis());
-
+		preferences.setLongPreference("last_notification_time", System.currentTimeMillis());
 		Intent resultIntent = new Intent(context, QuestionsActivity.class);
 		resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -64,10 +62,6 @@ public class Notifier {
 	 */
 	private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
 		Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			drawable = (DrawableCompat.wrap(drawable)).mutate();
-		}
-
 		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
 				drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
