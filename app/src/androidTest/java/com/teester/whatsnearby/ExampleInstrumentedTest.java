@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
 		// Context of the app under test.
 		Context appContext = InstrumentationRegistry.getTargetContext();
 
-		assertEquals("com.teester.mapquestions", appContext.getPackageName());
+		assertEquals("com.teester.whatsnearby", appContext.getPackageName());
 	}
 }

@@ -17,6 +17,8 @@ android {
         versionCode 11
         versionName "0.11"
         setProperty("archivesBaseName", "whatsnearby-$versionName")
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         debug {
@@ -53,9 +55,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents', module: 'httpcore'
     }
 
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.3-alpha', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.11.0'
