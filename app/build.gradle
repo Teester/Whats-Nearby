@@ -40,11 +40,10 @@ dependencies {
     implementation 'com.android.support:design:27.0.2'
     implementation 'com.android.support:support-v4:27.0.2'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'android.arch.lifecycle:extensions:1.0.0'
+    implementation 'android.arch.lifecycle:extensions:1.1.0'
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
     implementation 'com.mapzen.android:lost:3.0.4'
-    implementation 'commons-io:commons-io:2.4'
     implementation('de.westnordost:osmapi:1.7') {
         // it's already included in Android
         exclude group: 'net.sf.kxml', module: 'kxml2'
@@ -59,5 +58,5 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.11.0'
-    testImplementation 'org.json:json:20171018'
+    testImplementation 'org.json:json:20180130'
 }
