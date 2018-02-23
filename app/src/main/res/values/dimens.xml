@@ -1,4 +1,7 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="rounded_corner_radius">16dp</dimen>
+
+    <dimen name="margin_none">0dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_large">32dp</dimen>
 </resources>
