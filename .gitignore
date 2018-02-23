@@ -1,10 +1,8 @@
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
 /build
-.idea/markdown-exported-files.xml
-.idea/markdown-navigator.xml
-.idea/markdown-navigator/
 app/libs/
+.idea/
+app/release/
+app/releasekeystore.jks
