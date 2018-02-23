@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:background="@color/colorPrimary">
 
     <ImageView
         android:id="@+id/type_icon"
@@ -29,8 +30,7 @@
         android:textIsSelectable="false"
         app:layout_constraintLeft_toRightOf="@+id/type_icon"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/app_name"
-        tools:textColor="#000000"/>
+        tools:text="@string/app_name"/>
 
     <TextView
         android:id="@+id/type"
@@ -43,8 +43,7 @@
         android:textIsSelectable="false"
         app:layout_constraintBottom_toBottomOf="@+id/type_icon"
         app:layout_constraintLeft_toRightOf="@+id/type_icon"
-        tools:text="Type"
-        tools:textColor="#000000"/>
+        tools:text="Type"/>
 
     <TextView
         android:id="@+id/distance"
@@ -56,6 +55,5 @@
         android:textIsSelectable="false"
         app:layout_constraintBaseline_toBaselineOf="@+id/type"
         app:layout_constraintRight_toRightOf="parent"
-        tools:text="Distance"
-        tools:textColor="#000000"/>
+        tools:text="Distance"/>
 </android.support.constraint.ConstraintLayout>
