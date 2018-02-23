@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:background="#333333">
+
     <TextView
         android:id="@+id/question_textview"
         android:layout_width="0dp"
@@ -21,7 +23,7 @@
         android:paddingTop="8dp"
         android:text="@string/select_current_location"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -37,7 +39,7 @@
         android:background="@drawable/rounded_bottom"
         android:backgroundTint="@color/colorAccent"
         android:text="@string/none_of_these_places"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>

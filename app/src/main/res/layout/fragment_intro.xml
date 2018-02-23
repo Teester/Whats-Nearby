@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:background="#333333">
 
     <TextView
         android:id="@+id/intro_name"
@@ -20,7 +21,7 @@
         android:paddingEnd="32dp"
         android:paddingStart="32dp"
         android:paddingTop="48dp"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         android:textIsSelectable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +40,7 @@
         android:paddingBottom="32dp"
         android:paddingEnd="32dp"
         android:paddingStart="32dp"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         android:textIsSelectable="false"
         app:layout_constraintEnd_toEndOf="@+id/intro_name"
         app:layout_constraintStart_toStartOf="@+id/intro_name"
@@ -54,7 +55,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/icon_content_description"
-        android:tint="@color/white"
+        android:tint="@color/image_color_light"
         app:layout_constraintEnd_toEndOf="@+id/intro_name"
         app:layout_constraintStart_toStartOf="@+id/intro_name"
         app:layout_constraintTop_toTopOf="@+id/intro_name"
@@ -69,7 +70,7 @@
         android:backgroundTint="@color/colorAccent"
         android:text="@string/intro_answer_questions"
         android:textAllCaps="true"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         app:layout_constraintEnd_toEndOf="@+id/intro_address"
         app:layout_constraintStart_toStartOf="@+id/intro_address"
         app:layout_constraintTop_toBottomOf="@+id/intro_address"/>

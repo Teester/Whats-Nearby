@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:background="#333333">
 
     <TextView
         android:id="@+id/thanks_textview"
@@ -22,7 +23,7 @@
         android:paddingTop="64dp"
         android:text="@string/upload_thanks"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -35,7 +36,7 @@
         android:layout_margin="8dp"
         android:contentDescription="@string/icon_content_description"
         android:src="@drawable/ic_yes"
-        android:tint="@color/white"
+        android:tint="@color/image_color_light"
         app:layout_constraintBottom_toBottomOf="@+id/thanks_textview"
         app:layout_constraintLeft_toLeftOf="@+id/thanks_textview"
         app:layout_constraintRight_toRightOf="@+id/thanks_textview"
@@ -53,7 +54,7 @@
         android:background="@drawable/rounded_bottom"
         android:backgroundTint="@color/colorAccent"
         android:text="@string/close"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

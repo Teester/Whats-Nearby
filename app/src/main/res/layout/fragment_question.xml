@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:background="#333333">
 
     <TextView
         android:id="@+id/question_textview"
@@ -22,7 +23,7 @@
         android:padding="32dp"
         android:text="@string/wheelchair"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -39,7 +40,7 @@
         android:layout_marginStart="8dp"
         android:text="@string/others_have_answered_this_question"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         app:layout_constraintBottom_toTopOf="@+id/answer_no"
         app:layout_constraintLeft_toLeftOf="@+id/question_textview"
         app:layout_constraintRight_toRightOf="@+id/question_textview"/>
@@ -55,7 +56,7 @@
         android:layout_marginTop="8dp"
         android:contentDescription="@string/icon_content_description"
         android:src="@drawable/ic_fast_food"
-        android:tint="@color/white"
+        android:tint="@color/image_color_light"
         app:layout_constraintLeft_toLeftOf="@+id/question_textview"
         app:layout_constraintRight_toRightOf="@+id/question_textview"
         app:layout_constraintTop_toTopOf="@+id/question_textview"
@@ -75,7 +76,7 @@
         android:paddingBottom="24dp"
         android:paddingTop="24dp"
         android:text="@string/yes"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toLeftOf="@+id/question_textview"
@@ -95,7 +96,7 @@
         android:paddingBottom="24dp"
         android:paddingTop="24dp"
         android:text="@string/no"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toRightOf="@+id/answer_yes"
         app:layout_constraintRight_toLeftOf="@+id/answer_unsure"
@@ -115,7 +116,7 @@
         android:paddingBottom="24dp"
         android:paddingTop="24dp"
         android:text="@string/unsure"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_light"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toRightOf="@+id/answer_no"
