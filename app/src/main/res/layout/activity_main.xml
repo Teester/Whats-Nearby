@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corners"
         android:backgroundTint="@color/light_grey"
-        android:text="See Debug Data"
+        android:text="@string/debug_see_debug_data"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
