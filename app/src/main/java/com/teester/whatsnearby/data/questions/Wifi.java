@@ -11,4 +11,20 @@ public class Wifi extends Question {
 		tag = "internet_access";
 		answer_yes = "wlan";
 	}
+
+	@Override
+	public String checkPreviousAnswer(String answer) {
+		String response;
+		switch (answer) {
+			case "wlan":
+				response = "yes";
+				break;
+			case "":
+				response = "unsure";
+				break;
+			default:
+				response = "no";
+		}
+		return super.checkPreviousAnswer(response);
+	}
 }

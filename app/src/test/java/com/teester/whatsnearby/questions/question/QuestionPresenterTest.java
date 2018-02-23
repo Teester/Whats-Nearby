@@ -50,9 +50,15 @@ public class QuestionPresenterTest {
 	}
 
 	@Test
-	public void getObjectTest() {
+	public void getQuestionTest() {
 		questionPresenter.getQuestion();
-		verify(view).setPreviousAnswer(anyString());
+		verify(view).showQuestion(anyInt(), anyString(), anyInt(), anyInt());
+	}
+
+	@Test
+	public void getPreviousAnswerTest() {
+		questionPresenter.getPreviousAnswer();
+		verify(view).setPreviousAnswer(anyInt());
 	}
 
 	@Test

@@ -7,6 +7,6 @@ public class Vegan extends Question {
 	public Vegan() {
 		question = R.string.vegan;
 		color = R.color.blue;
-		tag = "vegan";
+		tag = "diet:vegan";
 	}
 }

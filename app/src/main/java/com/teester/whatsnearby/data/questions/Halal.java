@@ -8,6 +8,24 @@ public class Halal extends Question {
 		question = R.string.halal;
 		drawable = R.drawable.ic_halal;
 		color = R.color.red;
-		tag = "halal";
+		tag = "butcher";
+		answer_yes = "halal";
+		answer_no = "";
+	}
+
+	@Override
+	public String checkPreviousAnswer(String answer) {
+		String response;
+		switch (answer) {
+			case "halal":
+				response = "yes";
+				break;
+			case "":
+				response = "unsure";
+				break;
+			default:
+				response = "no";
+		}
+		return super.checkPreviousAnswer(response);
 	}
 }

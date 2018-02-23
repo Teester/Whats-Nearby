@@ -90,4 +90,28 @@ public abstract class Question implements QuestionsContract {
 		}
 		return answer;
 	}
+
+	@Override
+	public int getAnswerInt(String response) {
+		int answer;
+		switch (response) {
+			case "yes":
+				answer = R.string.yes;
+				break;
+			case "no":
+				answer = R.string.no;
+				break;
+			case "unsure":
+				answer = R.string.unsure;
+				break;
+			default:
+				answer = 0;
+		}
+		return answer;
+	}
+
+	@Override
+	public String checkPreviousAnswer(String answer) {
+		return getAnswer(answer);
+	}
 }

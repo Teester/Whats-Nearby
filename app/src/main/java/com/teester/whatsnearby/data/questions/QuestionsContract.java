@@ -27,4 +27,8 @@ public interface QuestionsContract {
 	int getColor();
 
 	String getAnswer(String response);
+
+	int getAnswerInt(String response);
+
+	String checkPreviousAnswer(String answer);
 }
