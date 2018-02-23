@@ -1,0 +1,516 @@
+{
+  "data_format": 1,
+  "data_url": "https://github.com/Teester/Whats-Nearby/tree/release/res/taginfo.json",
+  "data_updated": "",
+  "project": {
+    "name": "What's Nearby",
+    "description": " Android App for collecting information about POIs for OpenStreetMap ",
+    "project_url": "https://github.com/Teester/Whats-Nearby",
+    "doc_url": "",
+    "icon_url": "https://github.com/Teester/Whats-Nearby/tree/release/res/ic_launcher_16x16.png",
+    "contact_name": "Mark Tully",
+    "contact_email": "markjtully@gmail.com"
+  },
+
+  "tags": [
+    //  Tags Applied:
+    {
+      "key": "payment:cash",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location take cash?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "payment:cheque",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location take cheques",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "payment:credit_cards",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location take credit cards?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "payment:debit_cards",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location take debit cards?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "payment:contactless",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location take contactless?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "delivery",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location deliver?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "dispensing",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location dispense prescriptions?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "drive_through",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location have a drive-through?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "halal",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location sell halal meats?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "kosher",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location sell kosher produce?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "men",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location cater for men?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "organic",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location sell organic produce?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "outdoor_seating",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location have outdor seating?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "reservation",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location require a reservation?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "takeaway",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location have takeaway?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "vegan",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location cater for vegans?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "vegetarian",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location cater for vegetarians?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "wheelchair",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Is this location suitable for wheelchair users?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "toilets:wheelchair",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location have wheelchair accessible toilets?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "internet_access",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location have Wifi?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "internet_access:fee",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location charge for Wifi access?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "women",
+      "value": "",
+      "object_types": [],
+      "description": "Question: Does this location cater for women?",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    //  Locations Queried
+    {
+      "key": "amenity",
+      "value": "bank",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "amenity",
+      "value": "bar",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "amenity",
+      "value": "cafe",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "amenity",
+      "value": "cinema",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "amenity",
+      "value": "dentist",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "amenity",
+      "value": "doctors",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "amenity",
+      "value": "fast_food",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "amenity",
+      "value": "fuel",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "amenity",
+      "value": "pharmacy",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "amenity",
+      "value": "pub",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "amenity",
+      "value": "restaurant",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "alcohol",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "bakery",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "beauty",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "bicycle",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "butcher",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "car",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "car_repair",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "chemist",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "clothes",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "convenience",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "cosmetics",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "department_store",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "doityourself",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "florist",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "furniture",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "hairdresser",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "jewelry",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "laundry",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "mobile_phone",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "optician",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "pefumery",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "photo",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "shoes",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "sports",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "stationary",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "supermarket",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "variety",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "shop",
+      "value": "veterinary",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    },
+    {
+      "key": "tourism",
+      "value": "hotel",
+      "object_types": [],
+      "description": "Questions asked",
+      "doc_url": "",
+      "icon_url": ""
+    }
+
+  ]
+}
