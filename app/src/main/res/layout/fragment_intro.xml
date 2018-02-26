@@ -13,23 +13,22 @@
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_top"
-        android:backgroundTint="@color/colorPrimary"
+        android:background="@color/colorPrimary"
         android:gravity="center_horizontal"
         android:paddingEnd="@dimen/padding_large"
         android:paddingStart="@dimen/padding_large"
-        android:paddingTop="@dimen/padding_xlarge"
+        android:paddingTop="@dimen/padding_medium"
         android:textColor="@color/text_color_light"
         android:textIsSelectable="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/intro_image"
+        app:layout_constraintStart_toStartOf="@+id/intro_image"
+        app:layout_constraintTop_toBottomOf="@+id/intro_image"
         tools:text="Name"/>
 
     <TextView
         android:id="@+id/intro_address"
         style="@style/Base.TextAppearance.AppCompat.Small"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:gravity="center_horizontal"
@@ -45,14 +44,17 @@
 
     <ImageView
         android:id="@+id/intro_image"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
         android:layout_margin="@dimen/margin_small"
+        android:background="@drawable/rounded_top"
+        android:backgroundTint="@color/colorPrimary"
         android:contentDescription="@string/icon_content_description"
+        android:padding="@dimen/padding_small"
         android:tint="@color/image_color_light"
-        app:layout_constraintEnd_toEndOf="@+id/intro_name"
-        app:layout_constraintStart_toStartOf="@+id/intro_name"
-        app:layout_constraintTop_toTopOf="@+id/intro_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/ic_pharmacy"/>
 
     <Button
