@@ -141,7 +141,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	public void showQuestion(int question, String name, int color, int drawable) {
 		int colorResource = ContextCompat.getColor(getContext(), color);
 		question_textView.setBackgroundColor(colorResource);
-		question_imageView.setBackground(colorResource);
+		question_imageView.setBackgroundTintList(ContextCompat.getColorStateList(this.getContext(), color));
 		question_previous_textView.setBackgroundColor(colorResource);
 
 		question_textView.setText(String.format(getString(question), name));
