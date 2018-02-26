@@ -5,4 +5,8 @@
         android:id="@+id/action_see_debug_data"
         android:title="@string/debug_see_debug_data"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_debug_mode"
+        android:title="Debug Mode"
+        app:showAsAction="never"/>
 </menu>

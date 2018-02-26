@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.location.LocationService;
 import com.teester.whatsnearby.data.source.OAuth;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements
 	private TextView textView;
 	private Button button;
 	private Toolbar toolbar;
+	private MenuItem debugMenuItem;
 	private SharedPreferences sharedPreferences;
 	private MainActivityContract.Presenter mainPresenter;
 
@@ -66,6 +68,14 @@ public class MainActivity extends AppCompatActivity implements
 		super.onCreateOptionsMenu(menu);
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main_menu, menu);
+
+		this.debugMenuItem = menu.findItem(R.id.action_debug_mode);
+
+		if (!BuildConfig.DEBUG) {
+			this.debugMenuItem.setVisible(false);
+		}
+		toggleDebugMode(sharedPreferences.getBoolean("debug_mode", false));
+
 		return true;
 	}
 
@@ -79,6 +89,9 @@ public class MainActivity extends AppCompatActivity implements
 						.replace(R.id.activity_main, fragment)
 						.addToBackStack("debug")
 						.commit();
+				return true;
+			case R.id.action_debug_mode:
+				mainPresenter.toggleDebugMode();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -156,6 +169,17 @@ public class MainActivity extends AppCompatActivity implements
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 		if (s == LOGGED_IN_PREF) {
 			mainPresenter.showIfLoggedIn();
+		}
+		if (s == "debug_mode") {
+			toggleDebugMode(sharedPreferences.getBoolean("debug_mode", false));
+		}
+	}
+
+	public void toggleDebugMode(boolean state) {
+		if (state == true) {
+			this.debugMenuItem.setTitle("Debug Mode is on");
+		} else {
+			this.debugMenuItem.setTitle("Debug Mode is off");
 		}
 	}
 
