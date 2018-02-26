@@ -12,34 +12,35 @@
         android:id="@+id/thanks_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_top"
-        android:backgroundTint="@color/colorPrimary"
+        android:background="@color/colorPrimary"
         android:gravity="center_horizontal"
         android:paddingBottom="@dimen/padding_medium"
         android:paddingEnd="@dimen/padding_small"
         android:paddingStart="@dimen/padding_small"
-        android:paddingTop="@dimen/padding_xxlarge"
+        android:paddingTop="@dimen/padding_small"
         android:text="@string/upload_thanks"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/text_color_light"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintEnd_toEndOf="@+id/thanks_imageView"
+        app:layout_constraintStart_toStartOf="@+id/thanks_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/thanks_imageView"/>
 
     <ImageView
         android:id="@+id/thanks_imageView"
-        android:layout_width="48dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_margin="@dimen/margin_small"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_top"
+        android:backgroundTint="@color/colorPrimary"
         android:contentDescription="@string/icon_content_description"
+        android:padding="@dimen/padding_small"
         android:src="@drawable/ic_yes"
         android:tint="@color/image_color_light"
-        app:layout_constraintBottom_toBottomOf="@+id/thanks_textview"
-        app:layout_constraintLeft_toLeftOf="@+id/thanks_textview"
-        app:layout_constraintRight_toRightOf="@+id/thanks_textview"
-        app:layout_constraintTop_toTopOf="@+id/thanks_textview"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/authorise"
@@ -50,8 +51,7 @@
         android:backgroundTint="@color/colorAccent"
         android:text="@string/close"
         android:textColor="@color/text_color_light"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/thanks_textview"
+        app:layout_constraintStart_toStartOf="@+id/thanks_textview"
         app:layout_constraintTop_toBottomOf="@+id/thanks_textview"/>
 </android.support.constraint.ConstraintLayout>
