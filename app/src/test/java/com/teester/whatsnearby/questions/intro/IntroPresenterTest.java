@@ -1,5 +1,6 @@
 package com.teester.whatsnearby.questions.intro;
 
+import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.PoiList;
 
@@ -42,7 +43,7 @@ public class IntroPresenterTest {
 		public void addPoiToTextview() {
 			introPresenter.getDetails();
 
-			verify(view).ShowDetails("Kitchen", "  ", 2131165320);
+			verify(view).ShowDetails("Kitchen", "  ", R.drawable.ic_restaurant);
 		}
 
 }
