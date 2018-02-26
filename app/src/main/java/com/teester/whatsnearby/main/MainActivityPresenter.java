@@ -90,4 +90,15 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 		}
 		showIfLoggedIn();
 	}
+
+	@Override
+	public void toggleDebugMode() {
+		String preference = "debug_mode";
+		boolean debug = preferences.getBooleanPreference(preference);
+		if (debug == true) {
+			preferences.setBooleanPreference(preference, false);
+		} else {
+			preferences.setBooleanPreference(preference, true);
+		}
+	}
 }

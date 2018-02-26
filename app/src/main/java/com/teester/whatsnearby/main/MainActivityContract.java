@@ -15,6 +15,8 @@ public interface MainActivityContract {
 
 		void onButtonClicked();
 
+		void toggleDebugMode();
+
 	}
 
 	interface View extends BaseView<Presenter> {

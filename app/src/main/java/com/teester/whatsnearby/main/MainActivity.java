@@ -11,10 +11,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.location.LocationService;
 import com.teester.whatsnearby.data.source.OAuth;
@@ -34,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements
 
 	private TextView textView;
 	private Button button;
-	private Button debugButton;
+	private Toolbar toolbar;
+	private MenuItem debugMenuItem;
 	private SharedPreferences sharedPreferences;
 	private MainActivityContract.Presenter mainPresenter;
 
@@ -49,12 +54,48 @@ public class MainActivity extends AppCompatActivity implements
 		mainPresenter.init();
 		this.textView = this.findViewById(R.id.textView);
 		this.button = this.findViewById(R.id.button);
-		this.debugButton = this.findViewById(R.id.button2);
+		this.toolbar = findViewById(R.id.toolbar);
+
+		setSupportActionBar(this.toolbar);
 
 		this.button.setOnClickListener(this);
-		this.debugButton.setOnClickListener(this);
 		checkPermission();
 		mainPresenter.showIfLoggedIn();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.activity_main_menu, menu);
+
+		this.debugMenuItem = menu.findItem(R.id.action_debug_mode);
+
+		if (!BuildConfig.DEBUG) {
+			this.debugMenuItem.setVisible(false);
+		}
+		toggleDebugMode(sharedPreferences.getBoolean("debug_mode", false));
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_see_debug_data:
+				Fragment fragment = new FragmentDebug();
+				getSupportFragmentManager()
+						.beginTransaction()
+						.replace(R.id.activity_main, fragment)
+						.addToBackStack("debug")
+						.commit();
+				return true;
+			case R.id.action_debug_mode:
+				mainPresenter.toggleDebugMode();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -122,16 +163,23 @@ public class MainActivity extends AppCompatActivity implements
 		if (view == findViewById(R.id.button)) {
 			mainPresenter.onButtonClicked();
 		}
-		if (view == findViewById(R.id.button2)) {
-			Fragment fragment = new FragmentDebug();
-			getSupportFragmentManager().beginTransaction().replace(R.id.activity_main, fragment).commit();
-		}
 	}
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 		if (s == LOGGED_IN_PREF) {
 			mainPresenter.showIfLoggedIn();
+		}
+		if (s == "debug_mode") {
+			toggleDebugMode(sharedPreferences.getBoolean("debug_mode", false));
+		}
+	}
+
+	public void toggleDebugMode(boolean state) {
+		if (state == true) {
+			this.debugMenuItem.setTitle("Debug Mode is on");
+		} else {
+			this.debugMenuItem.setTitle("Debug Mode is off");
 		}
 	}
 
