@@ -12,6 +12,8 @@ import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
 
+import java.util.Locale;
+
 public class FragmentDebug extends Fragment implements MainActivityContract.DebugView {
 
 	private TextView lastQueryTime;
@@ -20,6 +22,7 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	private TextView accuracy;
 	private TextView querydistance;
 	private TextView checkdistance;
+	private TextView lastLocation;
 	private MainActivityContract.DebugPresenter debugPresenter;
 	private SourceContract.Preferences preferences;
 
@@ -47,6 +50,7 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 		this.accuracy = view.findViewById(R.id.textView16);
 		this.querydistance = view.findViewById(R.id.textView14);
 		this.checkdistance = view.findViewById(R.id.textView15);
+		this.lastLocation = view.findViewById(R.id.textView17);
 
 		debugPresenter.getDetails();
 	}
@@ -84,6 +88,11 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	public void setCheckdistance(String queryTimeSince, int color) {
 		this.checkdistance.setText(queryTimeSince);
 		this.checkdistance.setTextColor(getResources().getColor(color));
+	}
+
+	@Override
+	public void setLocation(double latitude, double longitude) {
+		this.lastLocation.setText(String.format(Locale.getDefault(), "%f, %f", latitude, longitude));
 	}
 
 	@Override

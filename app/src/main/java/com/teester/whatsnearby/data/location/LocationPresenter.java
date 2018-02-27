@@ -43,6 +43,8 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 		preferences.setFloatPreference("distance_to_last_query", location.distanceTo(lastQueryLocation));
 		preferences.setLongPreference("query_interval", System.currentTimeMillis() - lastQueryTime);
 		preferences.setFloatPreference("distance_to_last_location", location.distanceTo(lastLocation));
+		preferences.setDoublePreference("latitude", location.getLatitude());
+		preferences.setDoublePreference("longitude", location.getLongitude());
 
 		boolean query = true;
 

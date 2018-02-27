@@ -65,5 +65,6 @@
     <string name="debug_distance_since_last_query" translatable="false">Distance since last query</string>
     <string name="debug_distance_since_last_location_check" translatable="false">Distance since last location check</string>
     <string name="debug_see_debug_data" translatable="false">See Debug Data</string>
+    <string name="debug_most_recent_location" translatable="false">Most recent location:</string>
 
 </resources>
