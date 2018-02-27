@@ -29,6 +29,7 @@ public interface MainActivityContract {
 	interface DebugPresenter extends BasePresenter {
 
 		void getDetails();
+
 	}
 
 	interface DebugView extends BaseView<DebugPresenter> {
@@ -44,5 +45,7 @@ public interface MainActivityContract {
 		void setLastNotificationTime(String notificationTime, int color);
 
 		void setCheckdistance(String queryTimeSince, int color);
+
+		void setLocation(double latitude, double longitude);
 	}
 }

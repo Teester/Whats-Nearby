@@ -1,6 +1,8 @@
 package com.teester.whatsnearby.main;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,7 +14,9 @@ import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
 
-public class FragmentDebug extends Fragment implements MainActivityContract.DebugView {
+import java.util.Locale;
+
+public class FragmentDebug extends Fragment implements MainActivityContract.DebugView, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private TextView lastQueryTime;
 	private TextView lastNotificationTime;
@@ -20,13 +24,16 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	private TextView accuracy;
 	private TextView querydistance;
 	private TextView checkdistance;
+	private TextView lastLocation;
 	private MainActivityContract.DebugPresenter debugPresenter;
 	private SourceContract.Preferences preferences;
+	private SharedPreferences sharedPreferences;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
 		SourceContract.Preferences preferences = new Preferences(getContext());
 		debugPresenter = new DebugPresenter(this, preferences);
 	}
@@ -47,8 +54,21 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 		this.accuracy = view.findViewById(R.id.textView16);
 		this.querydistance = view.findViewById(R.id.textView14);
 		this.checkdistance = view.findViewById(R.id.textView15);
+		this.lastLocation = view.findViewById(R.id.textView17);
 
 		debugPresenter.getDetails();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override
@@ -87,7 +107,30 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	}
 
 	@Override
+	public void setLocation(double latitude, double longitude) {
+		this.lastLocation.setText(String.format(Locale.getDefault(), "%f, %f", latitude, longitude));
+	}
+
+	@Override
 	public void setPresenter(MainActivityContract.DebugPresenter presenter) {
 
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+		switch (s) {
+			case "latitude":
+			case "longitude":
+			case "distance_to_last_location":
+			case "last_query_time":
+			case "last_notification_time":
+			case "distance_to_last_query":
+			case "last_query":
+			case "location_accuracy":
+				debugPresenter.getDetails();
+				break;
+			default:
+				break;
+		}
 	}
 }

@@ -3,6 +3,8 @@ package com.teester.whatsnearby.main;
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.source.SourceContract;
 
+import java.util.Locale;
+
 public class DebugPresenter implements MainActivityContract.DebugPresenter {
 
 	private MainActivityContract.DebugView view;
@@ -31,11 +33,12 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 		getLastQueryTime();
 		getQueryDistance();
 		getAccuracy();
+		getLocation();
 	}
 
 	private void getQueryDistance() {
 		float preference = preferences.getFloatPreference("distance_to_last_location");
-		String querydistance = String.format("%.0fm", preference);
+		String querydistance = String.format(Locale.getDefault(), "%.0fm", preference);
 		int color = R.color.green;
 		if (preference < 20) {
 			color = R.color.red;
@@ -46,7 +49,7 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 	private void getLastQueryTime() {
 		long lastQueryTime = preferences.getLongPreference("last_query_time");
 		long ago = (System.currentTimeMillis() - lastQueryTime) / 60000;
-		String lastQueryTime2 = String.format("%d mins ago", ago);
+		String lastQueryTime2 = String.format(Locale.getDefault(), "%d mins ago", ago);
 		int color = R.color.green;
 		if (ago < 60) {
 			color = R.color.red;
@@ -61,13 +64,13 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 		if (ago < 60) {
 			color = R.color.red;
 		}
-		String lastNotificationTimeString = String.format("%d mins ago", ago);
+		String lastNotificationTimeString = String.format(Locale.getDefault(), "%d mins ago", ago);
 		view.setLastNotificationTime(lastNotificationTimeString, color);
 	}
 
 	private void getCheckDistance() {
 		float preference = preferences.getFloatPreference("distance_to_last_query");
-		String checkdistance = String.format("%.0fm", preference);
+		String checkdistance = String.format(Locale.getDefault(), "%.0fm", preference);
 		int color = R.color.green;
 		if (preference > 20) {
 			color = R.color.red;
@@ -82,11 +85,17 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 
 	private void getAccuracy() {
 		float accuracy = preferences.getFloatPreference("location_accuracy");
-		String accuracyString = String.format("%.0fm", accuracy);
+		String accuracyString = String.format(Locale.getDefault(), "%.0fm", accuracy);
 		int accuracyColor = R.color.green;
 		if (accuracy > 50) {
 			accuracyColor = R.color.red;
 		}
 		view.setAccuracy(accuracyString, accuracyColor);
+	}
+
+	public void getLocation() {
+		double latitude = preferences.getDoublePreference("latitude");
+		double longitude = preferences.getDoublePreference("longitude");
+		view.setLocation(latitude, longitude);
 	}
 }
