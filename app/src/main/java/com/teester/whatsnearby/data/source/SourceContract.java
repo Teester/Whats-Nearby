@@ -18,6 +18,10 @@ public interface SourceContract {
 		float getFloatPreference(String preference);
 
 		void setFloatPreference(String preference, float value);
+
+		double getDoublePreference(String preference);
+
+		void setDoublePreference(String preference, double value);
 	}
 
 	interface Overpass {

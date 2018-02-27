@@ -3,6 +3,8 @@
     <color name="colorPrimary">@color/indigo</color>
     <color name="colorPrimaryDark">@color/dark_indigo</color>
     <color name="colorAccent">@color/accent_pink</color>
+    <color name="text_color_light">@color/white</color>
+    <color name="image_color_light">@color/white</color>
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>

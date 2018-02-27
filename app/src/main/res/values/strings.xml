@@ -22,8 +22,11 @@
     <string name="debit_card">Does %s take debit cards?</string>
     <string name="contactless">Does %s offer contactless?</string>
     <string name="dispensing">Does %s dispense prescriptions?</string>
+    <string name="halal">Does %s offer halal meats?</string>
+    <string name="kosher">Does %s offer kosher produce?</string>
+    <string name="organic">Does %s sell organic produce?</string>
 
-
+    <!-- Miscellaneous -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -34,9 +37,6 @@
     <string name="answer_questions">Answer questions to help OpenStreetMap.</string>
     <string name="ok">OK</string>
     <string name="not_here">I\'m not here</string>
-    <string name="halal">Does %s offer halal meats?</string>
-    <string name="kosher">Does %s offer kosher produce?</string>
-    <string name="organic">Does %s sell organic produce?</string>
     <string name="upload_thanks">Thanks for answering. Your answers have helped to improve OpenStreetmap for everyone</string>
     <string name="icon_content_description" translatable="false">icon</string>
     <string name="authorise_openstreetmap">Authorise OpenStreetmap</string>
@@ -54,5 +54,17 @@
     <string name="close">Close</string>
     <string name="others_have_answered_this_question">Others have answered ‘%s’ to this question</string>
     <string name="intro_answer_questions">Answer Questions</string>
+
+    <!-- Debug -->
+    <string name="debug_last_overpass_query" translatable="false">Last Overpass Query:</string>
+    <string name="debug_last_notification" translatable="false">Last Notification:</string>
+    <string name="debug_last_overpass_query_result" translatable="false">Last Overpass Query Result:</string>
+    <string name="debug_no_data_recorded_yet" translatable="false">No data recorded yet</string>
+    <string name="debug_last_location_details" translatable="false">Last Location Details</string>
+    <string name="debug_accuracy" translatable="false">Accuracy</string>
+    <string name="debug_distance_since_last_query" translatable="false">Distance since last query</string>
+    <string name="debug_distance_since_last_location_check" translatable="false">Distance since last location check</string>
+    <string name="debug_see_debug_data" translatable="false">See Debug Data</string>
+    <string name="debug_most_recent_location" translatable="false">Most recent location:</string>
 
 </resources>

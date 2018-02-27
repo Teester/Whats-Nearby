@@ -58,27 +58,13 @@ public class QuestionPresenterTest {
 	@Test
 	public void yes_answer_selected() {
 		questionPresenter.onAnswerSelected(R.id.answer_yes);
-		Set<String> keySet = Answers.getAnswerMap().keySet();
-		String key = keySet.toArray(new String[keySet.size()])[0];
-
-		String actual_answer = Answers.getAnswerMap().get(key);
-		String expected_answer = "yes";
-
 		verify(view).setBackgroundColor(anyInt(), anyInt(), anyInt());
-		assertEquals(expected_answer, actual_answer);
 	}
 
 	@Test
 	public void no_answer_selected() {
 		questionPresenter.onAnswerSelected(R.id.answer_no);
-		Set<String> keySet = Answers.getAnswerMap().keySet();
-		String key = keySet.toArray(new String[keySet.size()])[0];
-
-		String actual_answer = Answers.getAnswerMap().get(key);
-		String expected_answer = "no";
-
 		verify(view).setBackgroundColor(anyInt(), anyInt(), anyInt());
-		assertEquals(expected_answer, actual_answer);
 	}
 
 	@Test

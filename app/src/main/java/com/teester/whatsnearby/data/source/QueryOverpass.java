@@ -13,13 +13,11 @@ import com.teester.whatsnearby.data.localDatabase.AppDatabase;
 import com.teester.whatsnearby.data.localDatabase.VisitedLocation;
 import com.teester.whatsnearby.data.location.Notifier;
 
-import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -27,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 public class QueryOverpass implements SourceContract.Overpass {
 
@@ -89,12 +88,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 			return e.getMessage();
 		}
 
-		try {
-			resultToDisplay = IOUtils.toString(in, "UTF-8");
-			//to [convert][1] byte stream to a string
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		resultToDisplay = new Scanner(in, "UTF-8").useDelimiter("\\A").next();
 		return resultToDisplay;
 	}
 

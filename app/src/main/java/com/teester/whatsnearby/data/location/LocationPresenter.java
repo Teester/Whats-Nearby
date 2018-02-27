@@ -2,6 +2,7 @@ package com.teester.whatsnearby.data.location;
 
 import android.location.Location;
 
+import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 public class LocationPresenter implements LocationServiceContract.Presenter {
@@ -37,10 +38,13 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 			lastQueryLocation = location;
 		}
 
+		boolean debug_mode = preferences.getBooleanPreference("debug_mode");
 		preferences.setFloatPreference("location_accuracy", location.getAccuracy());
 		preferences.setFloatPreference("distance_to_last_query", location.distanceTo(lastQueryLocation));
 		preferences.setLongPreference("query_interval", System.currentTimeMillis() - lastQueryTime);
 		preferences.setFloatPreference("distance_to_last_location", location.distanceTo(lastLocation));
+		preferences.setDoublePreference("latitude", location.getLatitude());
+		preferences.setDoublePreference("longitude", location.getLongitude());
 
 		boolean query = true;
 
@@ -66,9 +70,12 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 			query = false;
 		}
 
-//		if (BuildConfig.DEBUG) {
-//			query = true;
-//		}
+		// If we're in debug mode, query every time
+		if (debug_mode == true) {
+			if (BuildConfig.DEBUG) {
+				query = true;
+			}
+		}
 
 		if (query == true) {
 			lastQueryLocation = location;

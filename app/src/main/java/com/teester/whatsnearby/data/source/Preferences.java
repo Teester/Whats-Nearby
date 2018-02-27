@@ -52,5 +52,13 @@ public class Preferences implements SourceContract.Preferences {
 		prefs.edit().putFloat(preference, value).apply();
 	}
 
+	@Override
+	public double getDoublePreference(String preference) {
+		return Double.longBitsToDouble(prefs.getLong(preference, 0));
+	}
 
+	@Override
+	public void setDoublePreference(String preference, double value) {
+		prefs.edit().putLong(preference, Double.doubleToRawLongBits(value)).apply();
+	}
 }
