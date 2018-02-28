@@ -26,11 +26,12 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 
 	@Override
 	public void init() {
+		// required empty method
 	}
 
 	@Override
 	public void destroy() {
-
+		// required empty method
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 		OsmObjectType listOfQuestions = PoiTypes.getPoiType(poiType);
 		listOfQuestions.shuffleQuestions();
 
-		if (preferences.getBooleanPreference("logged_in_to_osm") == true) {
+		if (preferences.getBooleanPreference("logged_in_to_osm")) {
 			view.setViewPager(poiList.get(0), listOfQuestions);
 			if (poiList.size() == 1) {
 				view.makeTextViewInvisible();

@@ -7,8 +7,6 @@ import com.teester.whatsnearby.data.source.SourceContract;
 
 public class LocationPresenter implements LocationServiceContract.Presenter {
 
-	private static final String TAG = LocationPresenter.class.getSimpleName();
-
 	private static final int INTERVAL = 1 * 60 * 1000;
 	private static final int MINQUERYINTERVAL = 60 * 60 * 1000;
 	private static final double MINQUERYDISTANCE = 20;
@@ -71,13 +69,11 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 		}
 
 		// If we're in debug mode, query every time
-		if (debug_mode == true) {
-			if (BuildConfig.DEBUG) {
+		if (debug_mode && BuildConfig.DEBUG) {
 				query = true;
-			}
 		}
 
-		if (query == true) {
+		if (query) {
 			lastQueryLocation = location;
 
 			// Cancel all notifications before we run a new query.  If we're querying,
@@ -85,7 +81,6 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 			//service.cancelNotifications();
 			service.performOverpassQuery(location);
 		}
-		//service.performOverpassQuery(location);
 		lastLocation = location;
 	}
 
@@ -96,11 +91,12 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 
 	@Override
 	public void updateLastQueryTime() {
+		// required empty method
 	}
-
 
 	@Override
 	public void createLostClient() {
+		// required empty method
 	}
 
 	@Override
@@ -110,6 +106,6 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 
 	@Override
 	public void destroy() {
-
+		// required empty method
 	}
 }

@@ -19,12 +19,12 @@ import static org.mockito.Mockito.verify;
 public class MainActivityPresenterTest {
 
 	@Mock
-	MainActivityContract.View view;
+	private MainActivityContract.View view;
 
 	@Mock
-	SourceContract.Preferences preferences;
+	private SourceContract.Preferences preferences;
 
-	MainActivityContract.Presenter presenter;
+	private MainActivityContract.Presenter presenter;
 
 	@Before
 	public void setUp() {
@@ -32,7 +32,7 @@ public class MainActivityPresenterTest {
 	}
 
 	@Test
-	public void logout_button_clicked() {
+	public void logoutButtonClicked() {
 		presenter.onButtonClicked();
 
 		verify(preferences).setStringPreference(eq("oauth_verifier"), eq(""));
@@ -43,7 +43,7 @@ public class MainActivityPresenterTest {
 	}
 
 	@Test
-	public void check_if_in_oAuth_flow() {
+	public void checkIfInOAuthFlow() {
 		URI url = null;
 		try {
 			url = new URI("http://www.teester.com/data=?oauth_verifier=1&oauth_token=2");

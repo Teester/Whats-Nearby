@@ -15,23 +15,22 @@ import java.util.Map;
 
 public class MainActivityPresenter implements MainActivityContract.Presenter {
 
-	private static final String TAG = MainActivityPresenter.class.getSimpleName();
-
 	private SourceContract.Preferences preferences;
 	private MainActivityContract.View view;
 
 	public MainActivityPresenter(MainActivityContract.View view, SourceContract.Preferences preferences) {
 		this.view = view;
 		this.preferences = preferences;
-		//this.view.setPresenter(this);
 	}
 
 	@Override
 	public void init() {
+		// required empty method
 	}
 
 	@Override
 	public void destroy() {
+		// required empty method
 	}
 
 	/**
@@ -39,10 +38,10 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	 */
 	@Override
 	public void showIfLoggedIn() {
-		boolean logged_in = preferences.getBooleanPreference("logged_in_to_osm");
+		boolean loggedIn = preferences.getBooleanPreference("logged_in_to_osm");
 		int message;
 		int button;
-		if (logged_in == true) {
+		if (loggedIn) {
 			message = R.string.logged_in_as;
 			button = R.string.log_out;
 		} else {
@@ -83,7 +82,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 		preferences.setStringPreference("oauth_token", "");
 		preferences.setStringPreference("oauth_token_secret", "");
 
-		if (preferences.getBooleanPreference("logged_in_to_osm") == true) {
+		if (preferences.getBooleanPreference("logged_in_to_osm")) {
 			preferences.setBooleanPreference("logged_in_to_osm", false);
 		} else {
 			view.startOAuth();
@@ -95,7 +94,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	public void toggleDebugMode() {
 		String preference = "debug_mode";
 		boolean debug = preferences.getBooleanPreference(preference);
-		if (debug == true) {
+		if (debug) {
 			preferences.setBooleanPreference(preference, false);
 		} else {
 			preferences.setBooleanPreference(preference, true);

@@ -26,14 +26,8 @@ import com.teester.whatsnearby.data.source.SourceContract;
  */
 public class OsmLoginFragment extends Fragment implements View.OnClickListener, OsmLoginFragmentContract.View {
 
-	private static final String TAG = OsmLoginFragment.class.getSimpleName();
-
 	private OsmLoginFragmentContract.Presenter osmLoginPresenter;
-	private OnFragmentInteractionListener mListener;
-
-	public OsmLoginFragment() {
-		// Required empty public constructor
-	}
+	private OnFragmentInteractionListener listener;
 
 	/**
 	 * Use this factory method to create a new instance of
@@ -68,8 +62,8 @@ public class OsmLoginFragment extends Fragment implements View.OnClickListener, 
 	}
 
 	public void onButtonPressed(Uri uri) {
-		if (mListener != null) {
-			mListener.onOsmLoginFragmentInteraction(uri);
+		if (listener != null) {
+			listener.onOsmLoginFragmentInteraction(uri);
 		}
 	}
 
@@ -77,7 +71,7 @@ public class OsmLoginFragment extends Fragment implements View.OnClickListener, 
 	public void onAttach(Context context) {
 		super.onAttach(context);
 		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
+			listener = (OnFragmentInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -87,13 +81,13 @@ public class OsmLoginFragment extends Fragment implements View.OnClickListener, 
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		mListener = null;
+		listener = null;
 	}
 
 	@Override
 	public void onClick(View view) {
 		if (view.getId() == R.id.osmLoginButton) {
-			osmLoginPresenter.ClickedOsmLoginButton();
+			osmLoginPresenter.clickedOsmLoginButton();
 		}
 	}
 

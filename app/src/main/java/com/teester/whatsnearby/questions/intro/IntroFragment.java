@@ -17,12 +17,11 @@ import com.teester.whatsnearby.data.OsmObject;
 
 public class IntroFragment extends Fragment implements View.OnClickListener, IntroFragmentContract.View {
 
-	private TextView intro_name;
-	private TextView intro_address;
-	private ImageView intro_imageView;
-	private Button intro_button;
+	private TextView introName;
+	private TextView introAddress;
+	private ImageView introImageView;
 	private IntroFragmentContract.Presenter introPresenter;
-	private OnFragmentInteractionListener mListener;
+	private OnFragmentInteractionListener listener;
 
 	@NonNull
 	public static IntroFragment newInstance(OsmObject poi) {
@@ -47,19 +46,19 @@ public class IntroFragment extends Fragment implements View.OnClickListener, Int
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		this.intro_name = view.findViewById(R.id.intro_name);
-		this.intro_address = view.findViewById(R.id.intro_address);
-		this.intro_imageView = view.findViewById(R.id.intro_image);
-		this.intro_button = view.findViewById(R.id.intro_button);
+		this.introName = view.findViewById(R.id.intro_name);
+		this.introAddress = view.findViewById(R.id.intro_address);
+		this.introImageView = view.findViewById(R.id.intro_image);
+		Button introButton = view.findViewById(R.id.intro_button);
 
-		this.intro_button.setOnClickListener(this);
+		introButton.setOnClickListener(this);
 	}
 
 	@Override
-	public  void ShowDetails(String name, String address, int drawable) {
-		this.intro_name.setText(name);
-		this.intro_address.setText(address);
-		this.intro_imageView.setImageResource(drawable);
+	public void showDetails(String name, String address, int drawable) {
+		this.introName.setText(name);
+		this.introAddress.setText(address);
+		this.introImageView.setImageResource(drawable);
 	}
 
 	@Override
@@ -72,7 +71,7 @@ public class IntroFragment extends Fragment implements View.OnClickListener, Int
 	public void onAttach(Context context) {
 		super.onAttach(context);
 		if (context instanceof IntroFragment.OnFragmentInteractionListener) {
-			mListener = (IntroFragment.OnFragmentInteractionListener) context;
+			listener = (IntroFragment.OnFragmentInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -82,16 +81,16 @@ public class IntroFragment extends Fragment implements View.OnClickListener, Int
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		mListener = null;
+		listener = null;
 	}
 	@Override
 	public void onClick(View v) {
-		mListener.onIntroFragmentInteraction();
+		listener.onIntroFragmentInteraction();
 	}
 
 	@Override
 	public void setPresenter(IntroFragmentContract.Presenter presenter) {
-
+		// required empty method
 	}
 
 	public interface OnFragmentInteractionListener {

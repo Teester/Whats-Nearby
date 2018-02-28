@@ -49,6 +49,7 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 
 	@Override
 	public void getPreviousAnswer(String key) {
+		// required empty method
 	}
 
 	@Override
@@ -84,8 +85,8 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					SourceContract.Upload upload = new UploadToOSM(preferences);
-					upload.Upload();
+					SourceContract.upload upload = new UploadToOSM(preferences);
+					upload.uploadToOsm();
 				}
 			}).start();
 		}
@@ -100,11 +101,11 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 
 	@Override
 	public void init() {
-
+		// required empty method
 	}
 
 	@Override
 	public void destroy() {
-
+		// required empty method
 	}
 }

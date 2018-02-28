@@ -6,9 +6,9 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.localDatabase.AppDatabase;
-import com.teester.whatsnearby.data.localDatabase.VisitedLocation;
-import com.teester.whatsnearby.data.localDatabase.VisitedLocationDao;
+import com.teester.whatsnearby.data.database.AppDatabase;
+import com.teester.whatsnearby.data.database.VisitedLocation;
+import com.teester.whatsnearby.data.database.VisitedLocationDao;
 
 import org.junit.After;
 import org.junit.Before;
@@ -52,13 +52,13 @@ public class DatabaseInstrumentedTest {
 	}
 
 	@Test
-	public void onFetchingLocations_shouldGetEmptyList_IfTable_IsEmpty() throws InterruptedException {
+	public void onFetchingLocationsShouldGetEmptyListIfTableIsEmpty() throws InterruptedException {
 		List<VisitedLocation> LocationList = visitedLocationDao.getAllVisitedLocations();
 		assertTrue(LocationList.isEmpty());
 	}
 
 	@Test
-	public void onInsertingLocations_checkIf_RowCountIsCorrect() throws InterruptedException {
+	public void onInsertingLocationsCheckIfRowCountIsCorrect() throws InterruptedException {
 		visitedLocationDao.insert(new VisitedLocation(osmObject));
 		visitedLocationDao.insert(new VisitedLocation(osmObject2));
 		visitedLocationDao.insert(new VisitedLocation(osmObject3));
@@ -69,7 +69,7 @@ public class DatabaseInstrumentedTest {
 	}
 
 	@Test
-	public void onUpdatingALocation_checkIf_UpdateHappensCorrectly() throws InterruptedException {
+	public void onUpdatingALocationCheckIfUpdateHappensCorrectly() throws InterruptedException {
 		VisitedLocation visitedLocation = new VisitedLocation(osmObject);
 		visitedLocationDao.insert(visitedLocation);
 
@@ -82,7 +82,7 @@ public class DatabaseInstrumentedTest {
 	}
 
 	@Test
-	public void onLocationDeletion_CheckIf_LocationIsDeletedFromTable() {
+	public void onLocationDeletionCheckIfLocationIsDeletedFromTable() {
 		visitedLocationDao.insert(new VisitedLocation(osmObject));
 		visitedLocationDao.insert(new VisitedLocation(osmObject2));
 		visitedLocationDao.insert(new VisitedLocation(osmObject3));

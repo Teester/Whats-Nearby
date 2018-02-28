@@ -86,7 +86,7 @@ public class PoiTypes {
 		map.put("jewelry", this.jewelry);
 		map.put("laundry", this.laundry);
 		map.put("mobile_phone", this.mobile_phone);
-		map.put("optician", this.mobile_phone);
+		map.put("optician", this.optician);
 		map.put("perfumery", this.perfumery);
 		map.put("pharmacy", this.pharmacy);
 		map.put("photo", this.photo);

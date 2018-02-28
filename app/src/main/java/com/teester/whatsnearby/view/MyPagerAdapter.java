@@ -13,8 +13,6 @@ import com.teester.whatsnearby.questions.upload.UploadFragment;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
 
-	private static final String TAG = MyPagerAdapter.class.getSimpleName();
-
 	public OsmObjectType listOfQuestions;
 	private OsmObject poi;
 	private int count;
@@ -24,7 +22,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 		this.poi = poi;
 		this.listOfQuestions = listOfQuestions;
 		boolean logged_in = new Preferences(context).getBooleanPreference("logged_in_to_osm");
-		if (logged_in == true) {
+		if (logged_in) {
 			this.count = listOfQuestions.getNoOfQuestions() + 1;
 		} else {
 			this.count = 1;

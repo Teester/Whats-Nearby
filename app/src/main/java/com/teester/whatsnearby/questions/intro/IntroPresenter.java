@@ -27,16 +27,16 @@ public class IntroPresenter implements IntroFragmentContract.Presenter {
 	@Override
 	public void getDetails() {
 		String address = getAddress();
-		view.ShowDetails(poi.getName(), address, poi.getDrawable());
+		view.showDetails(poi.getName(), address, poi.getDrawable());
 	}
 
 	@Override
 	public void init() {
-
+		// required empty method
 	}
 
 	@Override
 	public void destroy() {
-
+		// required empty method
 	}
 }

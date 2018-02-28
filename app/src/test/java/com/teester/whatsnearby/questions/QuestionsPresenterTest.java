@@ -22,13 +22,13 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class QuestionsPresenterTest {
 
-	QuestionsActivityContract.Presenter questionsPresenter;
+	private QuestionsActivityContract.Presenter questionsPresenter;
 
 	@Mock
-	SourceContract.Preferences preferences;
+	private SourceContract.Preferences preferences;
 
 	@Mock
-	QuestionsActivityContract.View view;
+	private QuestionsActivityContract.View view;
 
 	@Before
 	public void setUp() {
@@ -36,7 +36,7 @@ public class QuestionsPresenterTest {
 	}
 
 	@Test
-	public void AddPoiNameToTextViewTestSinglePoiInList() {
+	public void addPoiNameToTextViewTestSinglePoiInList() {
 		List<OsmObject> poiList = new ArrayList<>();
 		poiList.add(new OsmObject(1, "node", "", "restaurant", 1, 1, 1));
 		PoiList.getInstance().setPoiList(poiList);
@@ -48,7 +48,7 @@ public class QuestionsPresenterTest {
 	}
 
 	@Test
-	public void AddPoiNameToTextViewTestMultiplePoiInList() {
+	public void addPoiNameToTextViewTestMultiplePoiInList() {
 		List<OsmObject> poiList = new ArrayList<>();
 		poiList.add(new OsmObject(1, "node", "Kitchen", "restaurant", 1, 1, 1));
 		poiList.add(new OsmObject(1, "node", "", "restaurant", 1, 1, 1));
@@ -61,7 +61,7 @@ public class QuestionsPresenterTest {
 	}
 
 	@Test
-	public void AddPoiNameToTextViewTestNotLoggedIn() {
+	public void addPoiNameToTextViewTestNotLoggedIn() {
 		List<OsmObject> poiList = new ArrayList<>();
 		poiList.add(new OsmObject(1, "node", "Kitchen", "restaurant", 1, 1, 1));
 		poiList.add(new OsmObject(1, "node", "", "restaurant", 1, 1, 1));

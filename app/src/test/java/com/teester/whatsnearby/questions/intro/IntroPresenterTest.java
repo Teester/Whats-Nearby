@@ -19,31 +19,29 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class IntroPresenterTest {
 
-		IntroFragmentContract.Presenter introPresenter;
+	private IntroFragmentContract.Presenter introPresenter;
 
-		@Mock
-		IntroFragmentContract.View view;
+	@Mock
+	private IntroFragmentContract.View view;
 
-		@Before
-		public void setUp() {
-			List<OsmObject> poiList = new ArrayList<>();
-			poiList.add(new OsmObject(1, "node", "Kitchen", "restaurant", 1, 1, 1));
-			poiList.add(new OsmObject(1, "node", "", "restaurant", 1, 1, 1));
-			PoiList.getInstance().setPoiList(poiList);
+	@Before
+	public void setUp() {
+		List<OsmObject> poiList = new ArrayList<>();
+		poiList.add(new OsmObject(1, "node", "Kitchen", "restaurant", 1, 1, 1));
+		poiList.add(new OsmObject(1, "node", "", "restaurant", 1, 1, 1));
+		PoiList.getInstance().setPoiList(poiList);
 
-			introPresenter = new IntroPresenter(view);
-		}
+		introPresenter = new IntroPresenter(view);
+	}
 
-		@After
-		public void tearDown() {
+	@After
+	public void tearDown() {
 			PoiList.getInstance().clearPoiList();
 		}
 
-		@Test
-		public void addPoiToTextview() {
-			introPresenter.getDetails();
-
-			verify(view).ShowDetails("Kitchen", "  ", R.drawable.ic_restaurant);
-		}
-
+	@Test
+	public void addPoiToTextview() {
+		introPresenter.getDetails();
+		verify(view).showDetails("Kitchen", "  ", R.drawable.ic_restaurant);
+	}
 }

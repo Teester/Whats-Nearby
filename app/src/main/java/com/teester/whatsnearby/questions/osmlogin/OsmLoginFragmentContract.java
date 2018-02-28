@@ -4,7 +4,7 @@ interface OsmLoginFragmentContract {
 
 	interface Presenter {
 
-		void ClickedOsmLoginButton();
+		void clickedOsmLoginButton();
 	}
 
 	interface View {

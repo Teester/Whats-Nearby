@@ -48,7 +48,7 @@ public class OsmObjectType {
 		List<String> strList = Arrays.asList(questions);
 		Collections.shuffle(strList);
 		questions = strList.toArray(new String[strList.size()]);
-		this.questions = questions;;
+		this.questions = questions;
 	}
 
 	public int getNoOfQuestions() {

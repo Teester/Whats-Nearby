@@ -14,8 +14,8 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 
-public class OAuth implements SourceContract.OAuth {
-	private static final String TAG = OAuth.class.getSimpleName();
+public class OAuth implements SourceContract.oAuth {
+
 	private static final String CONSUMER_KEY = "1LJqwD4kMz96HTbv9I1U1XBM0AL1RpcjuFOPvW0B";
 	private static final String CONSUMER_SECRET = "KDCLveu82AZawLELpC6yIP3EI8fJa0JqF0ALukbl";
 	private static final String REQUEST_TOKEN_ENDPOINT_URL = "https://www.openstreetmap.org/oauth/request_token";
@@ -42,7 +42,7 @@ public class OAuth implements SourceContract.OAuth {
 		OAuthProvider provider = new CommonsHttpOAuthProvider(REQUEST_TOKEN_ENDPOINT_URL, ACCESS_TOKEN_ENDPOINT_URL, AUTHORIZE_WEBSITE_URL);
 
 		try {
-			if (verifier == "") {
+			if ("".equals(verifier)) {
 				String url = provider.retrieveRequestToken(consumer, CALLBACK_URL);
 
 				preferences.setStringPreference("oauth_token_secret", consumer.getTokenSecret());

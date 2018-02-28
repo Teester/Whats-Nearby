@@ -13,7 +13,7 @@ import static junit.framework.TestCase.assertEquals;
 public class UtilitiesTest {
 
 	@Test
-	public void splitquery_valid_url() throws URISyntaxException, UnsupportedEncodingException {
+	public void splitqueryValidUrl() throws URISyntaxException, UnsupportedEncodingException {
 		String uri = "http://www.overpass-api.de/api/interpreter?data=[out:json]";
 		URI url = new URI(uri);
 
@@ -23,7 +23,7 @@ public class UtilitiesTest {
 	}
 
 	@Test
-	public void calculate_distance() {
+	public void calculateDistance() {
 		double lat1 = 53.1;
 		double lon1 = -7.5;
 		double lat2 = 53.2;
