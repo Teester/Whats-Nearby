@@ -32,11 +32,8 @@ public class QuestionsActivity extends AppCompatActivity
 		QuestionFragment.OnFragmentInteractionListener,
 		IntroFragment.OnFragmentInteractionListener {
 
-	private static final String TAG = QuestionsActivity.class.getSimpleName();
-
 	private NonSwipeableViewPager viewPager;
 	private TextView textView;
-
 	private QuestionsActivityContract.Presenter questionsPresenter;
 
 	@Override
@@ -135,6 +132,6 @@ public class QuestionsActivity extends AppCompatActivity
 
 	@Override
 	public void onNotHereFragmentInteraction() {
-
+		// required empty method
 	}
 }

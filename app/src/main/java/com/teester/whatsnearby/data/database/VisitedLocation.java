@@ -1,4 +1,4 @@
-package com.teester.whatsnearby.data.localDatabase;
+package com.teester.whatsnearby.data.database;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

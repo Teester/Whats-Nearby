@@ -26,7 +26,6 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	private TextView checkdistance;
 	private TextView lastLocation;
 	private MainActivityContract.DebugPresenter debugPresenter;
-	private SourceContract.Preferences preferences;
 	private SharedPreferences sharedPreferences;
 
 	@Override
@@ -113,7 +112,7 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 
 	@Override
 	public void setPresenter(MainActivityContract.DebugPresenter presenter) {
-
+		// required empty method
 	}
 
 	@Override

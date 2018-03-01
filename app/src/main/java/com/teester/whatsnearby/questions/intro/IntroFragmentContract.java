@@ -11,6 +11,6 @@ public interface IntroFragmentContract {
 	}
 
 	interface View extends BaseView<Presenter> {
-		void ShowDetails(String name, String address, int drawable);
+		void showDetails(String name, String address, int drawable);
 	}
 }

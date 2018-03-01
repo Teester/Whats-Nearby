@@ -13,7 +13,7 @@ class OsmLoginPresenter implements OsmLoginFragmentContract.Presenter {
 	}
 
 	@Override
-	public void ClickedOsmLoginButton() {
+	public void clickedOsmLoginButton() {
 		preferences.setStringPreference("oauth_verifier", "");
 		preferences.setStringPreference("oauth_token", "");
 		preferences.setStringPreference("oauth_token_secret", "");

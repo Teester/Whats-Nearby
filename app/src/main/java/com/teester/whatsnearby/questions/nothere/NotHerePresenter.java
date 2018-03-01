@@ -8,9 +8,9 @@ import java.util.List;
 
 public class NotHerePresenter implements NotHereFragmentContract.Presenter {
 
-	NotHereFragmentContract.View view;
-	List<OsmObject> poiList;
-	List<OsmObject> alternateList;
+	private NotHereFragmentContract.View view;
+	private List<OsmObject> poiList;
+	private List<OsmObject> alternateList;
 
 	public NotHerePresenter(NotHereFragmentContract.View view) {
 		this.view = view;
@@ -35,11 +35,11 @@ public class NotHerePresenter implements NotHereFragmentContract.Presenter {
 
 	@Override
 	public void init() {
-
+		// required empty method
 	}
 
 	@Override
 	public void destroy() {
-
+		// required empty method
 	}
 }

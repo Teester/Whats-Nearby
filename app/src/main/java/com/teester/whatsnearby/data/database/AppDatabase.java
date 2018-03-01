@@ -1,4 +1,4 @@
-package com.teester.whatsnearby.data.localDatabase;
+package com.teester.whatsnearby.data.database;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;

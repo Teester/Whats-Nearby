@@ -1,12 +1,9 @@
 package com.teester.whatsnearby.data.source;
 
-import com.teester.whatsnearby.data.location.Notifier;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -14,16 +11,13 @@ public class QueryOverpassTest {
 
 	public QueryOverpass queryOverpass;
 
-	@Mock
-	private Notifier notifier;
-
 	@Before
 	public void setUp() {
 		queryOverpass = new QueryOverpass();
 	}
 
 	@Test
-	public void test_generate_overpass_uri() {
+	public void testGenerateOverpassUri() {
 		double latitude = 53;
 		double longitude = -7;
 		float accuracy = 50;
@@ -34,7 +28,7 @@ public class QueryOverpassTest {
 	}
 
 	@Test
-	public void test_get_overpass_result_poi_type() throws JSONException {
+	public void testGetOverpassResultPoiType() throws JSONException {
 		String expected_result = "hairdresser";
 		JSONObject json = new JSONObject().put("amenity", expected_result);
 

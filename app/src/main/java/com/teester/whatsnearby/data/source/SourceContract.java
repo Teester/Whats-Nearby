@@ -35,12 +35,12 @@ public interface SourceContract {
 		void queryOverpass(double latitude, double longitude, float accuracy);
 	}
 
-	interface Upload {
+	interface upload {
 
-		void Upload();
+		void uploadToOsm();
 	}
 
-	interface OAuth {
+	interface oAuth {
 
 		void processOAuth();
 	}

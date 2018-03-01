@@ -33,12 +33,10 @@ public class MainActivity extends AppCompatActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener,
 		MainActivityContract.View {
 
-	private static final String TAG = MainActivity.class.getSimpleName();
 	private final String LOGGED_IN_PREF = "logged_in_to_osm";
 
 	private TextView textView;
 	private Button button;
-	private Toolbar toolbar;
 	private MenuItem debugMenuItem;
 	private SharedPreferences sharedPreferences;
 	private MainActivityContract.Presenter mainPresenter;
@@ -54,9 +52,9 @@ public class MainActivity extends AppCompatActivity implements
 		mainPresenter.init();
 		this.textView = this.findViewById(R.id.textView);
 		this.button = this.findViewById(R.id.button);
-		this.toolbar = findViewById(R.id.toolbar);
+		Toolbar toolbar = findViewById(R.id.toolbar);
 
-		setSupportActionBar(this.toolbar);
+		setSupportActionBar(toolbar);
 
 		this.button.setOnClickListener(this);
 		checkPermission();
@@ -167,16 +165,16 @@ public class MainActivity extends AppCompatActivity implements
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-		if (s == LOGGED_IN_PREF) {
+		if (s.equals(LOGGED_IN_PREF)) {
 			mainPresenter.showIfLoggedIn();
 		}
-		if (s == "debug_mode") {
+		if ("debug_mode".equals(s)) {
 			toggleDebugMode(sharedPreferences.getBoolean("debug_mode", false));
 		}
 	}
 
 	public void toggleDebugMode(boolean state) {
-		if (state == true) {
+		if (state) {
 			this.debugMenuItem.setTitle("Debug Mode is on");
 		} else {
 			this.debugMenuItem.setTitle("Debug Mode is off");

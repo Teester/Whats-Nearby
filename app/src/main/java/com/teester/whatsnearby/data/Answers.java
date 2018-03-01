@@ -10,9 +10,6 @@ public class Answers {
 
 	private static Answers INSTANCE;
 	private static OsmObject osmObject;
-	private static int id;
-	private static String name;
-	private static String objectType;
 	private static Map<String, String> answerMap = new HashMap<>();
 	private static Map<String, String> changesetTags;
 

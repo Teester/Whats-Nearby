@@ -5,14 +5,10 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 
 import com.mapzen.android.lost.api.LocationListener;
 import com.mapzen.android.lost.api.LocationRequest;
@@ -25,39 +21,16 @@ import com.teester.whatsnearby.main.MainActivity;
 
 public class LocationService extends Service implements LocationServiceContract.Service {
 
-	private static final String TAG = LocationService.class.getSimpleName();
-
 	private static final int PRIORITY = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
-	private static final String OVERPASSLASTQUERYTIMEPREF = "last_overpass_query_time";
 
 	private LocationServiceContract.Presenter locationPresenter;
-	LocationListener listener = new LocationListener() {
+	private LocationListener listener = new LocationListener() {
 		@Override
 		public void onLocationChanged(Location location) {
 			locationPresenter.processLocation(location);
 		}
 	};
-	private SourceContract.Preferences preferences;
 	private LostApiClient client;
-	private Context context;
-
-	/**
-	 * Gets a bitmap of a drawable from a given drawable id
-	 *
-	 * @param context    application context
-	 * @param drawableId the id of the required drawable
-	 * @return A bitmap image
-	 */
-	private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
-		Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-				drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(bitmap);
-		drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-		drawable.draw(canvas);
-
-		return bitmap;
-	}
 
 	@Nullable
 	@Override
@@ -68,8 +41,8 @@ public class LocationService extends Service implements LocationServiceContract.
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		context = getApplicationContext();
-		preferences = new Preferences(context);
+		Context context = getApplicationContext();
+		SourceContract.Preferences preferences = new Preferences(context);
 		locationPresenter = new LocationPresenter(this, preferences);
 		locationPresenter.init();
 	}
@@ -115,7 +88,7 @@ public class LocationService extends Service implements LocationServiceContract.
 
 			@Override
 			public void onConnectionSuspended() {
-
+				// required empty method
 			}
 		}).build();
 		client.connect();
@@ -123,7 +96,6 @@ public class LocationService extends Service implements LocationServiceContract.
 
 	@Override
 	public void performOverpassQuery(final Location location) {
-		SourceContract.Overpass overpassQuery = new QueryOverpass(getApplicationContext());
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

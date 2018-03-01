@@ -13,16 +13,15 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NotHerePresenterTest {
 
-	NotHereFragmentContract.Presenter notHerePresenter;
+	private NotHereFragmentContract.Presenter notHerePresenter;
 
 	@Mock
-	NotHereFragmentContract.View view;
+	private NotHereFragmentContract.View view;
 
 	@Before
 	public void setUp() {

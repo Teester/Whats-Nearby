@@ -22,17 +22,11 @@ import java.util.List;
 
 public class NotHereFragment extends Fragment implements NotHereFragmentContract.View {
 
-	private static final String TAG = NotHereFragment.class.getSimpleName();
-
 	private RecyclerView recyclerView;
 	private TextView textView;
 	private NotHereFragmentContract.Presenter notHerePresenter;
 
 	private OnFragmentInteractionListener mListener;
-
-	public NotHereFragment() {
-		// Required empty public constructor
-	}
 
 	public static NotHereFragment newInstance() {
 		return new NotHereFragment();

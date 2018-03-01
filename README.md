@@ -29,7 +29,7 @@ Download the beta from Google Play.
 
 ## What's the build status?
 
-[![Build Status](https://travis-ci.org/Teester/Whats-Nearby.svg?branch=master)](https://travis-ci.org/Teester/Whats-Nearby) [![codecov](https://codecov.io/gh/Teester/Whats-Nearby/branch/master/graph/badge.svg)](https://codecov.io/gh/Teester/Whats-Nearby)
+[![Build Status](https://travis-ci.org/Teester/Whats-Nearby.svg?branch=master)](https://travis-ci.org/Teester/Whats-Nearby) [![codecov](https://codecov.io/gh/Teester/Whats-Nearby/branch/master/graph/badge.svg)](https://codecov.io/gh/Teester/Whats-Nearby) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6635ff22c9b240f79c6472dfd66b594e)](https://www.codacy.com/app/Teester/Whats-Nearby?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Teester/Whats-Nearby&amp;utm_campaign=Badge_Grade)
 
 ## What's done
 - Basic location determination and notification logic

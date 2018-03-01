@@ -26,7 +26,7 @@ public class PoiListTest {
 	}
 
 	@Test
-	public void get_poi_from_poiList() {
+	public void getPoiFromPoiList() {
 		OsmObject expectedPoi = this.osmObject;
 		OsmObject actualPoi = PoiList.getInstance().getPoiList().get(0);
 
@@ -40,7 +40,7 @@ public class PoiListTest {
 	}
 
 	@Test
-	public void check_poi_list_is_cleared() {
+	public void checkPoiListIsCleared() {
 		PoiList.getInstance().clearPoiList();
 		List<OsmObject> actualResult = PoiList.getInstance().getPoiList();
 
@@ -48,16 +48,15 @@ public class PoiListTest {
 	}
 
 	@Test
-	public void create_alternate_list() {
+	public void createAlternateList() {
 		List<OsmObject> alternateList = PoiList.getInstance().createAlternateList();
 
 		assertEquals(0, alternateList.size());
 	}
 
 	@Test
-	public void check_poi_type() {
+	public void checkPoiType() {
 		OsmObject osmObject = PoiList.getInstance().getPoiList().get(0);
-		OsmObject expectedType = this.osmObject;
 
 		OsmObjectType actualObject = PoiTypes.getPoiType(osmObject.getOsmType());
 		OsmObjectType expectedObject = PoiTypes.getPoiType(this.osmObject.getOsmType());
@@ -66,7 +65,7 @@ public class PoiListTest {
 	}
 
 	@Test
-	public void sort_poi_list() {
+	public void sortPoiList() {
 		OsmObject object1 = new OsmObject(2, "", "", "", 3, 3, 1);
 		OsmObject object2 = new OsmObject(3, "", "", "", 1, 1, 1);
 		OsmObject object3 = new OsmObject(4, "", "", "", 2, 2, 1);

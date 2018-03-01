@@ -11,9 +11,9 @@ public class QuestionObject {
 	private int icon;
 	private int color;
 	private String tag;
-	private String answer_yes;
-	private String answer_no;
-	private String answer_unsure;
+	private String answerYes;
+	private String answerNo;
+	private String answerUnsure;
 
 	public QuestionObject(int id, int question, int icon, int color, String tag, String answer_yes, String answer_no, String answer_unsure) {
 		this.id = id;
@@ -21,9 +21,9 @@ public class QuestionObject {
 		this.icon = icon;
 		this.color = color;
 		this.tag = tag;
-		this.answer_yes = answer_yes;
-		this.answer_no = answer_no;
-		this.answer_unsure = answer_unsure;
+		this.answerYes = answer_yes;
+		this.answerNo = answer_no;
+		this.answerUnsure = answer_unsure;
 	}
 
 	public String getTag() {
@@ -34,28 +34,28 @@ public class QuestionObject {
 		this.tag = tag;
 	}
 
-	public String getAnswer_yes() {
-		return answer_yes;
+	public String getAnswerYes() {
+		return answerYes;
 	}
 
-	public void setAnswer_yes(String answer_yes) {
-		this.answer_yes = answer_yes;
+	public void setAnswerYes(String answer) {
+		this.answerYes = answer;
 	}
 
-	public String getAnswer_no() {
-		return answer_no;
+	public String getAnswerNo() {
+		return answerNo;
 	}
 
-	public void setAnswer_no(String answer_no) {
-		this.answer_no = answer_no;
+	public void setAnswerNo(String answer) {
+		this.answerNo = answer;
 	}
 
-	public String getAnswer_unsure() {
-		return answer_unsure;
+	public String getAnswerUnsure() {
+		return answerUnsure;
 	}
 
-	public void setAnswer_unsure(String answer_unsure) {
-		this.answer_unsure = answer_unsure;
+	public void setAnswerUnsure(String answer) {
+		this.answerUnsure = answer;
 	}
 
 	public int getId() {
@@ -78,16 +78,17 @@ public class QuestionObject {
 		String answer;
 		switch (response) {
 			case "yes":
-				answer = this.answer_yes;
+				answer = this.answerYes;
 				break;
 			case "no":
-				answer = this.answer_no;
+				answer = this.answerNo;
 				break;
 			case "unsure":
-				answer = this.answer_unsure;
+				answer = this.answerUnsure;
 				break;
 			default:
 				answer = "";
+				break;
 		}
 		return answer;
 	}
