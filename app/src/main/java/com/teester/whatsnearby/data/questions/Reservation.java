@@ -6,6 +6,7 @@ public class Reservation extends Question {
 
 	public Reservation() {
 		question = R.string.reservation;
+		drawable = R.drawable.ic_reserved;
 		color = R.color.purple;
 		tag = "reservation";
 	}

@@ -6,6 +6,7 @@ public class Contactless extends Question {
 
 	public Contactless() {
 		question = R.string.contactless;
+		drawable = R.drawable.ic_credit_card;
 		color = R.color.green;
 		tag = "payment:contactless";
 	}
