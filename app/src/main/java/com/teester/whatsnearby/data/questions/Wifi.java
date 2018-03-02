@@ -24,6 +24,7 @@ public class Wifi extends Question {
 				break;
 			default:
 				response = "no";
+				break;
 		}
 		return super.checkPreviousAnswer(response);
 	}

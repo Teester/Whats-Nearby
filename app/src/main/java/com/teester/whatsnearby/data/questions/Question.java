@@ -33,32 +33,32 @@ public abstract class Question implements QuestionsContract {
 	}
 
 	@Override
-	public String getAnswer_yes() {
+	public String getAnswerYes() {
 		return answer_yes;
 	}
 
 	@Override
-	public void setAnswer_yes(String answer_yes) {
+	public void setAnswerYes(String answer_yes) {
 		this.answer_yes = answer_yes;
 	}
 
 	@Override
-	public String getAnswer_no() {
+	public String getAnswerNo() {
 		return answer_no;
 	}
 
 	@Override
-	public void setAnswer_no(String answer_no) {
+	public void setAnswerNo(String answer_no) {
 		this.answer_no = answer_no;
 	}
 
 	@Override
-	public String getAnswer_unsure() {
+	public String getAnswerUnsure() {
 		return answer_unsure;
 	}
 
 	@Override
-	public void setAnswer_unsure(String answer_unsure) {
+	public void setAnswerUnsure(String answer_unsure) {
 		this.answer_unsure = answer_unsure;
 	}
 
@@ -87,6 +87,7 @@ public abstract class Question implements QuestionsContract {
 				break;
 			default:
 				answer = "";
+				break;
 		}
 		return answer;
 	}
@@ -106,6 +107,7 @@ public abstract class Question implements QuestionsContract {
 				break;
 			default:
 				answer = 0;
+				break;
 		}
 		return answer;
 	}

@@ -42,7 +42,7 @@ public class AnswersTest {
 	public void getKeyFromTag() {
 		String tag = this.questionObject.getTag();
 
-		String expectedValue = this.questionObject.getAnswer_yes();
+		String expectedValue = this.questionObject.getAnswerYes();
 		String actualValue = Answers.getAnswerMap().get(tag);
 
 		assertEquals(expectedValue, actualValue);
@@ -88,7 +88,7 @@ public class AnswersTest {
 		String questionTag = halal.getTag();
 		Answers.addAnswer(questionTag, answerTag);
 
-		String expectedValue = halal.getAnswer_yes();
+		String expectedValue = halal.getAnswerYes();
 		String actualValue = Answers.getAnswerMap().get(halal.getTag());
 
 		assertEquals(expectedValue, actualValue);
@@ -102,7 +102,7 @@ public class AnswersTest {
 		String questionTag = kosher.getTag();
 		Answers.addAnswer(questionTag, answerTag);
 
-		String expectedValue = kosher.getAnswer_yes();
+		String expectedValue = kosher.getAnswerYes();
 		String actualValue = Answers.getAnswerMap().get(kosher.getTag());
 
 		assertEquals(expectedValue, actualValue);
@@ -116,7 +116,7 @@ public class AnswersTest {
 		String questionTag = wifi.getTag();
 		Answers.addAnswer(questionTag, answerTag);
 
-		String expectedValue = wifi.getAnswer_yes();
+		String expectedValue = wifi.getAnswerYes();
 		String actualValue = Answers.getAnswerMap().get(wifi.getTag());
 
 		assertEquals(expectedValue, actualValue);

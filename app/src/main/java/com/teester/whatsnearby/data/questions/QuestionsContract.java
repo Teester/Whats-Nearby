@@ -10,17 +10,17 @@ public interface QuestionsContract {
 
 	void setTag(String tag);
 
-	String getAnswer_yes();
+	String getAnswerYes();
 
-	void setAnswer_yes(String answer_yes);
+	void setAnswerYes(String answer_yes);
 
-	String getAnswer_no();
+	String getAnswerNo();
 
-	void setAnswer_no(String answer_no);
+	void setAnswerNo(String answer_no);
 
-	String getAnswer_unsure();
+	String getAnswerUnsure();
 
-	void setAnswer_unsure(String answer_unsure);
+	void setAnswerUnsure(String answer_unsure);
 
 	int getIcon();
 

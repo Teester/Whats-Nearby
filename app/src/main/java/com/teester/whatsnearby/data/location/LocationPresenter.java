@@ -26,9 +26,6 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 
 	@Override
 	public void processLocation(Location location) {
-		// Get the last time the user was notified that they were in a location
-		long lastQueryTime = preferences.getLongPreference(OVERPASSLASTQUERYTIMEPREF);
-
 		if (lastLocation == null) {
 			lastLocation = location;
 		}
@@ -36,15 +33,24 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 			lastQueryLocation = location;
 		}
 
-		boolean debug_mode = preferences.getBooleanPreference("debug_mode");
 		preferences.setFloatPreference("location_accuracy", location.getAccuracy());
 		preferences.setFloatPreference("distance_to_last_query", location.distanceTo(lastQueryLocation));
-		preferences.setLongPreference("query_interval", System.currentTimeMillis() - lastQueryTime);
+		preferences.setLongPreference("query_interval", System.currentTimeMillis() - preferences.getLongPreference(OVERPASSLASTQUERYTIMEPREF));
 		preferences.setFloatPreference("distance_to_last_location", location.distanceTo(lastLocation));
 		preferences.setDoublePreference("latitude", location.getLatitude());
 		preferences.setDoublePreference("longitude", location.getLongitude());
 
+		if (decideWhetherToQuery(location)) {
+			lastQueryLocation = location;
+			service.performOverpassQuery(location);
+		}
+		lastLocation = location;
+	}
+
+	private boolean decideWhetherToQuery(Location location) {
 		boolean query = true;
+		boolean debug_mode = preferences.getBooleanPreference("debug_mode");
+		long lastQueryTime = preferences.getLongPreference(OVERPASSLASTQUERYTIMEPREF);
 
 		// Don't query Overpass if the location is less accurate than 100m
 		if (location.getAccuracy() > MINLOCATIONACCURACY) {
@@ -70,18 +76,9 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 
 		// If we're in debug mode, query every time
 		if (debug_mode && BuildConfig.DEBUG) {
-				query = true;
+			query = true;
 		}
-
-		if (query) {
-			lastQueryLocation = location;
-
-			// Cancel all notifications before we run a new query.  If we're querying,
-			// Overpass, we're no longer in the same place as the last notification.
-			//service.cancelNotifications();
-			service.performOverpassQuery(location);
-		}
-		lastLocation = location;
+		return query;
 	}
 
 	@Override

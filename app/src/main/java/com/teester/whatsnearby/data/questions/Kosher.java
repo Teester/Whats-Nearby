@@ -25,6 +25,7 @@ public class Kosher extends Question {
 				break;
 			default:
 				response = "no";
+				break;
 		}
 		return super.checkPreviousAnswer(response);
 	}
