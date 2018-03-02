@@ -51,13 +51,16 @@ public class QueryOverpass implements SourceContract.Overpass {
 	 */
 	@Override
 	public String getOverpassUri(double latitude, double longitude, float accuracy) {
+		float measuredAccuracy;
 		if (accuracy < 20) {
-			accuracy = 20;
+			measuredAccuracy = 20;
+		} else {
+			measuredAccuracy = accuracy;
 		}
 
 		// Build the Overpass query
 		// getting the centre of nodes, ways and relations a given radius around a location for different types
-		String overpassLocation = String.format("around:%s,%s,%s", accuracy, latitude, longitude);
+		String overpassLocation = String.format("around:%s,%s,%s", measuredAccuracy, latitude, longitude);
 		String nwr = "%1$s[~\"^(%2$s)$\"~\".\"](%3$s);";
 		String types = "shop|amenity|leisure|tourism";
 

@@ -9,7 +9,7 @@ public interface QuestionFragmentContract {
 
 		void getQuestion();
 
-		void getPreviousAnswer(String key);
+		void getPreviousAnswer();
 
 		void onAnswerSelected(int id);
 	}
