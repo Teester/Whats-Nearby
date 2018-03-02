@@ -57,8 +57,8 @@ public class QuestionPresenterTest {
 
 	@Test
 	public void getPreviousAnswerTest() {
-		questionPresenter.getPreviousAnswer();
-		verify(view).setPreviousAnswer(anyInt());
+		questionPresenter.getQuestion();
+		verify(view).setPreviousAnswer(anyString());
 	}
 
 	@Test

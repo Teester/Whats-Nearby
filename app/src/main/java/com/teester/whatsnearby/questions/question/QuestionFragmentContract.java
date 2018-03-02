@@ -18,7 +18,7 @@ public interface QuestionFragmentContract {
 
 		void showQuestion(int question, String name, int color, int drawable);
 
-		void setPreviousAnswer(int answer);
+		void setPreviousAnswer(String answer);
 
 		void setBackgroundColor(int yes, int no, int unsure);
 

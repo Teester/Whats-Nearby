@@ -1,5 +1,11 @@
 package com.teester.whatsnearby.data;
 
+import com.teester.whatsnearby.data.questions.Halal;
+import com.teester.whatsnearby.data.questions.Kosher;
+import com.teester.whatsnearby.data.questions.Question;
+import com.teester.whatsnearby.data.questions.QuestionsContract;
+import com.teester.whatsnearby.data.questions.Wifi;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 public class AnswersTest {
 
-	private QuestionObject questionObject = new QuestionObject(1, 1, 1, 1, "", "", "", "");
+	private QuestionsContract questionObject = new SampleQuestion();
 	private OsmObject osmObject = new OsmObject(1, "", "", "", 1, 1, 1);
 
 	@Before
@@ -36,7 +42,7 @@ public class AnswersTest {
 	public void getKeyFromTag() {
 		String tag = this.questionObject.getTag();
 
-		String expectedValue = this.questionObject.getAnswerYes();
+		String expectedValue = this.questionObject.getAnswer_yes();
 		String actualValue = Answers.getAnswerMap().get(tag);
 
 		assertEquals(expectedValue, actualValue);
@@ -72,5 +78,51 @@ public class AnswersTest {
 		expectedTags.put("", "");
 
 		assertEquals(expectedTags, actualTags);
+	}
+
+	@Test
+	public void testForCustomResponsesHalal() {
+		Answers.clearAnswerList();
+		QuestionsContract halal = new Halal();
+		String answerTag = halal.getAnswer("yes");
+		String questionTag = halal.getTag();
+		Answers.addAnswer(questionTag, answerTag);
+
+		String expectedValue = halal.getAnswer_yes();
+		String actualValue = Answers.getAnswerMap().get(halal.getTag());
+
+		assertEquals(expectedValue, actualValue);
+	}
+
+	@Test
+	public void testForCustomResponsesKosher() {
+		Answers.clearAnswerList();
+		QuestionsContract kosher = new Kosher();
+		String answerTag = kosher.getAnswer("yes");
+		String questionTag = kosher.getTag();
+		Answers.addAnswer(questionTag, answerTag);
+
+		String expectedValue = kosher.getAnswer_yes();
+		String actualValue = Answers.getAnswerMap().get(kosher.getTag());
+
+		assertEquals(expectedValue, actualValue);
+	}
+
+	@Test
+	public void testForCustomResponsesWifi() {
+		Answers.clearAnswerList();
+		QuestionsContract wifi = new Wifi();
+		String answerTag = wifi.getAnswer("yes");
+		String questionTag = wifi.getTag();
+		Answers.addAnswer(questionTag, answerTag);
+
+		String expectedValue = wifi.getAnswer_yes();
+		String actualValue = Answers.getAnswerMap().get(wifi.getTag());
+
+		assertEquals(expectedValue, actualValue);
+	}
+
+	// A sample blank Question to use for tests
+	private class SampleQuestion extends Question {
 	}
 }

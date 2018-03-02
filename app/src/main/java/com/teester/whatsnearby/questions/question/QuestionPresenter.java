@@ -48,7 +48,7 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 	}
 
 	@Override
-	public void getPreviousAnswer(String key) {
+	public void getPreviousAnswer() {
 		// required empty method
 	}
 
