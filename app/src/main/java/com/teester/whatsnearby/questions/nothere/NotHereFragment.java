@@ -119,7 +119,7 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 
 		@Override
 		public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			View view = LayoutInflater.from(getContext()).inflate(R.layout.poi_list_item, parent, false);
+			View view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_poi, parent, false);
 			view.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -153,7 +153,7 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 			public ViewHolder(View view) {
 				super(view);
 				name = view.findViewById(R.id.name);
-				type = view.findViewById(R.id.type);
+				type = view.findViewById(R.id.about_list_content);
 				distance = view.findViewById(R.id.distance);
 				image = view.findViewById(R.id.type_icon);
 			}

@@ -91,6 +91,14 @@ public class MainActivity extends AppCompatActivity implements
 			case R.id.action_debug_mode:
 				mainPresenter.toggleDebugMode();
 				return true;
+			case R.id.action_about:
+				Fragment aboutFragment = new FragmentAbout();
+				getSupportFragmentManager()
+						.beginTransaction()
+						.replace(R.id.activity_main, aboutFragment)
+						.addToBackStack("debug")
+						.commit();
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
