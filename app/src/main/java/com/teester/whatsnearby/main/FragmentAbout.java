@@ -61,12 +61,11 @@ public class FragmentAbout extends Fragment implements MainActivityContract.Abou
 			default:
 				break;
 		}
-
 	}
 
 	@Override
 	public void setPresenter(MainActivityContract.AboutPresenter presenter) {
-
+		// required empty method
 	}
 
 	@Override
