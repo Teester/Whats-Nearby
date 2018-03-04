@@ -70,7 +70,7 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new ClassCastException(context.toString()
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}

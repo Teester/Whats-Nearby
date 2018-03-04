@@ -109,7 +109,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new ClassCastException(context.toString()
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}
