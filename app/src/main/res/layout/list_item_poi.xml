@@ -33,7 +33,7 @@
         tools:text="@string/app_name"/>
 
     <TextView
-        android:id="@+id/type"
+        android:id="@+id/about_list_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_none"
@@ -53,7 +53,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/text_color_light"
         android:textIsSelectable="false"
-        app:layout_constraintBaseline_toBaselineOf="@+id/type"
+        app:layout_constraintBaseline_toBaselineOf="@+id/about_list_content"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Distance"/>
 </android.support.constraint.ConstraintLayout>

@@ -1,0 +1,42 @@
+package com.teester.whatsnearby.main;
+
+import com.teester.whatsnearby.BuildConfig;
+import com.teester.whatsnearby.data.source.SourceContract;
+
+public class AboutPresenter implements MainActivityContract.AboutPresenter {
+
+	private MainActivityContract.AboutView view;
+	private SourceContract.Preferences preferences;
+
+	public AboutPresenter(MainActivityContract.AboutView view) {
+		this.view = view;
+	}
+
+	@Override
+	public void findVersion() {
+		String version = BuildConfig.VERSION_NAME;
+		view.setVersion(version);
+	}
+
+	@Override
+	public void getLicence() {
+		String uri = "http://www.gnu.org/licenses/gpl-3.0.html";
+		view.visitUri(uri);
+	}
+
+	@Override
+	public void getGitHub() {
+		String uri = "https://github.com/Teester/Whats-Nearby";
+		view.visitUri(uri);
+	}
+
+	@Override
+	public void init() {
+		// required empty method
+	}
+
+	@Override
+	public void destroy() {
+		// required empty method
+	}
+}
