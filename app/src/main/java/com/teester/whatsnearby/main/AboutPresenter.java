@@ -1,12 +1,10 @@
 package com.teester.whatsnearby.main;
 
 import com.teester.whatsnearby.BuildConfig;
-import com.teester.whatsnearby.data.source.SourceContract;
 
 public class AboutPresenter implements MainActivityContract.AboutPresenter {
 
 	private MainActivityContract.AboutView view;
-	private SourceContract.Preferences preferences;
 
 	public AboutPresenter(MainActivityContract.AboutView view) {
 		this.view = view;
