@@ -64,11 +64,6 @@ public class FragmentAbout extends Fragment implements MainActivityContract.Abou
 	}
 
 	@Override
-	public void setPresenter(MainActivityContract.AboutPresenter presenter) {
-		// required empty method
-	}
-
-	@Override
 	public void setVersion(String version) {
 		this.version.setText(version);
 	}

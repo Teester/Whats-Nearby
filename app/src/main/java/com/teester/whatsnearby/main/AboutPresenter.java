@@ -27,14 +27,4 @@ public class AboutPresenter implements MainActivityContract.AboutPresenter {
 		String uri = "https://github.com/Teester/Whats-Nearby";
 		view.visitUri(uri);
 	}
-
-	@Override
-	public void init() {
-		// required empty method
-	}
-
-	@Override
-	public void destroy() {
-		// required empty method
-	}
 }
