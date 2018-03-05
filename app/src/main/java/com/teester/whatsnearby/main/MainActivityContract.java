@@ -46,7 +46,7 @@ public interface MainActivityContract {
 		void setLocation(double latitude, double longitude);
 	}
 
-	interface AboutPresenter extends BasePresenter {
+	interface AboutPresenter {
 
 		void findVersion();
 
@@ -55,7 +55,7 @@ public interface MainActivityContract {
 		void getGitHub();
 	}
 
-	interface AboutView extends BaseView<AboutPresenter> {
+	interface AboutView {
 		void setVersion(String version);
 
 		void visitUri(String uri);
