@@ -60,6 +60,8 @@ public class OAuth implements SourceContract.oAuth {
 				provider.setOAuth10a(true);
 				provider.retrieveAccessToken(consumer, verifier);
 
+				new UploadToOSM(preferences);
+
 				preferences.setStringPreference(PreferenceList.OAUTH_TOKEN_SECRET, consumer.getTokenSecret());
 				preferences.setStringPreference(PreferenceList.OAUTH_TOKEN, consumer.getToken());
 				preferences.setBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM, true);

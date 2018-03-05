@@ -38,6 +38,8 @@ public interface SourceContract {
 	interface upload {
 
 		void uploadToOsm();
+
+		void setUsername();
 	}
 
 	interface oAuth {
