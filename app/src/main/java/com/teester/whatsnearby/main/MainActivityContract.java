@@ -18,7 +18,7 @@ public interface MainActivityContract {
 
 	interface View {
 
-		void showIfLoggedIn(int message, int button);
+		void showIfLoggedIn(int message, int button, String user);
 
 		void startOAuth();
 	}
