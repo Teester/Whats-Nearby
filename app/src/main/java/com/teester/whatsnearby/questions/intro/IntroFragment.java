@@ -72,7 +72,7 @@ public class IntroFragment extends Fragment implements View.OnClickListener, Int
 		if (context instanceof IntroFragment.OnFragmentInteractionListener) {
 			listener = (IntroFragment.OnFragmentInteractionListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new ClassCastException(context.toString()
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}

@@ -45,4 +45,19 @@ public interface MainActivityContract {
 
 		void setLocation(double latitude, double longitude);
 	}
+
+	interface AboutPresenter extends BasePresenter {
+
+		void findVersion();
+
+		void getLicence();
+
+		void getGitHub();
+	}
+
+	interface AboutView extends BaseView<AboutPresenter> {
+		void setVersion(String version);
+
+		void visitUri(String uri);
+	}
 }
