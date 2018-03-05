@@ -23,16 +23,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 		this.preferences = preferences;
 	}
 
-	@Override
-	public void init() {
-		// required empty method
-	}
-
-	@Override
-	public void destroy() {
-		// required empty method
-	}
-
 	/**
 	 * Decide on text to be displayed based in the logged_in_to_osm preference
 	 */

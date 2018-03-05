@@ -25,16 +25,6 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 	}
 
 	@Override
-	public void init() {
-		// required empty method
-	}
-
-	@Override
-	public void destroy() {
-		// required empty method
-	}
-
-	@Override
 	public void addPoiNameToTextview() {
 		List<OsmObject> poiList = PoiList.getInstance().getPoiList();
 		String poiType = poiList.get(0).getType();

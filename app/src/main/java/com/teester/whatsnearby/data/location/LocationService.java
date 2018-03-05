@@ -44,7 +44,6 @@ public class LocationService extends Service implements LocationServiceContract.
 		Context context = getApplicationContext();
 		SourceContract.Preferences preferences = new Preferences(context);
 		locationPresenter = new LocationPresenter(this, preferences);
-		locationPresenter.init();
 	}
 
 	@Override
@@ -60,11 +59,6 @@ public class LocationService extends Service implements LocationServiceContract.
 			LocationServices.FusedLocationApi.removeLocationUpdates(client, listener);
 			client.disconnect();
 		}
-	}
-
-	@Override
-	public void setPresenter(LocationServiceContract.Presenter presenter) {
-		locationPresenter = presenter;
 	}
 
 	@Override

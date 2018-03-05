@@ -32,14 +32,4 @@ public class NotHerePresenter implements NotHereFragmentContract.Presenter {
 		PoiList.getInstance().setPoiList(intentList);
 		view.startActivity();
 	}
-
-	@Override
-	public void init() {
-		// required empty method
-	}
-
-	@Override
-	public void destroy() {
-		// required empty method
-	}
 }

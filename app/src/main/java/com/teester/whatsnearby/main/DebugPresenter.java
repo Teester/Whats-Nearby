@@ -16,16 +16,6 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 	}
 
 	@Override
-	public void init() {
-		// required empty method
-	}
-
-	@Override
-	public void destroy() {
-		// required empty method
-	}
-
-	@Override
 	public void getDetails() {
 		getLastQuery();
 		getCheckDistance();

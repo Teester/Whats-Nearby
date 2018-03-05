@@ -100,14 +100,4 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 		}
 		Answers.addAnswer(questionTag, answerTag);
 	}
-
-	@Override
-	public void init() {
-		// required empty method
-	}
-
-	@Override
-	public void destroy() {
-		// required empty method
-	}
 }

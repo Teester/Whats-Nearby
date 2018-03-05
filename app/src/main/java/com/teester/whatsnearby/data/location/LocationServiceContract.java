@@ -2,12 +2,9 @@ package com.teester.whatsnearby.data.location;
 
 import android.location.Location;
 
-import com.teester.whatsnearby.BasePresenter;
-import com.teester.whatsnearby.BaseView;
-
 public interface LocationServiceContract {
 
-	interface Presenter extends BasePresenter {
+	interface Presenter {
 
 		void processLocation(Location location);
 
@@ -18,7 +15,7 @@ public interface LocationServiceContract {
 		void updateLastQueryTime();
 	}
 
-	interface Service extends BaseView<Presenter> {
+	interface Service {
 
 		void cancelNotifications();
 
