@@ -32,7 +32,6 @@ public class IntroFragment extends Fragment implements View.OnClickListener, Int
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		introPresenter = new IntroPresenter(this);
-		introPresenter.init();
 	}
 
 	@Nullable
@@ -86,11 +85,6 @@ public class IntroFragment extends Fragment implements View.OnClickListener, Int
 	@Override
 	public void onClick(View v) {
 		listener.onIntroFragmentInteraction();
-	}
-
-	@Override
-	public void setPresenter(IntroFragmentContract.Presenter presenter) {
-		// required empty method
 	}
 
 	public interface OnFragmentInteractionListener {

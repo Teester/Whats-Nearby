@@ -1,16 +1,12 @@
 package com.teester.whatsnearby.questions.intro;
 
-import com.teester.whatsnearby.BasePresenter;
-import com.teester.whatsnearby.BaseView;
-
-
 public interface IntroFragmentContract {
-	interface Presenter extends BasePresenter {
+	interface Presenter {
 		void getDetails();
 
 	}
 
-	interface View extends BaseView<Presenter> {
+	interface View {
 		void showDetails(String name, String address, int drawable);
 	}
 }

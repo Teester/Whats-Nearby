@@ -22,6 +22,8 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 	public LocationPresenter(LocationServiceContract.Service service, SourceContract.Preferences preferences) {
 		this.service = service;
 		this.preferences = preferences;
+		this.service.createLostClient(INTERVAL);
+
 	}
 
 	@Override
@@ -96,13 +98,4 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 		// required empty method
 	}
 
-	@Override
-	public void init() {
-		this.service.createLostClient(INTERVAL);
-	}
-
-	@Override
-	public void destroy() {
-		// required empty method
-	}
 }

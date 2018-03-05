@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		SourceContract.Preferences preferences = new Preferences(getApplicationContext());
 		mainPresenter = new MainActivityPresenter(this, preferences);
-		mainPresenter.init();
 		this.textView = this.findViewById(R.id.textView);
 		this.button = this.findViewById(R.id.button);
 		Toolbar toolbar = findViewById(R.id.toolbar);
@@ -195,10 +194,5 @@ public class MainActivity extends AppCompatActivity implements
 				new OAuth(getApplicationContext());
 			}
 		}).start();
-	}
-
-	@Override
-	public void setPresenter(MainActivityContract.Presenter presenter) {
-		mainPresenter = presenter;
 	}
 }

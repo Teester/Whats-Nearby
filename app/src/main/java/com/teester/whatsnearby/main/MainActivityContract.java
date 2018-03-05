@@ -1,13 +1,10 @@
 package com.teester.whatsnearby.main;
 
-import com.teester.whatsnearby.BasePresenter;
-import com.teester.whatsnearby.BaseView;
-
 import java.net.URI;
 
 public interface MainActivityContract {
 
-	interface Presenter extends BasePresenter {
+	interface Presenter {
 
 		void showIfLoggedIn();
 
@@ -19,20 +16,20 @@ public interface MainActivityContract {
 
 	}
 
-	interface View extends BaseView<Presenter> {
+	interface View {
 
 		void showIfLoggedIn(int message, int button);
 
 		void startOAuth();
 	}
 
-	interface DebugPresenter extends BasePresenter {
+	interface DebugPresenter {
 
 		void getDetails();
 
 	}
 
-	interface DebugView extends BaseView<DebugPresenter> {
+	interface DebugView {
 
 		void setLastQueryTime(String time, int color);
 

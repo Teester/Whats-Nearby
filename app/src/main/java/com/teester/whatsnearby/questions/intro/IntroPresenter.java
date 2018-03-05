@@ -30,13 +30,4 @@ public class IntroPresenter implements IntroFragmentContract.Presenter {
 		view.showDetails(poi.getName(), address, poi.getDrawable());
 	}
 
-	@Override
-	public void init() {
-		// required empty method
-	}
-
-	@Override
-	public void destroy() {
-		// required empty method
-	}
 }

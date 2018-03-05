@@ -46,7 +46,6 @@ public class QuestionsActivity extends AppCompatActivity
 
 		SourceContract.Preferences preferences = new Preferences(getApplicationContext());
 		questionsPresenter = new QuestionsPresenter(this, preferences);
-		questionsPresenter.init();
 
 		NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.cancelAll();
@@ -123,11 +122,6 @@ public class QuestionsActivity extends AppCompatActivity
 				new OAuth(getApplicationContext());
 			}
 		}).start();
-	}
-
-	@Override
-	public void setPresenter(QuestionsActivityContract.Presenter presenter) {
-		questionsPresenter = presenter;
 	}
 
 	@Override

@@ -101,11 +101,6 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 		startActivity(intent);
 	}
 
-	@Override
-	public void setPresenter(NotHereFragmentContract.Presenter presenter) {
-		notHerePresenter = presenter;
-	}
-
 	public interface OnFragmentInteractionListener {
 		void onNotHereFragmentInteraction();
 	}

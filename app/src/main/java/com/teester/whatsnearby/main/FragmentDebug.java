@@ -111,11 +111,6 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	}
 
 	@Override
-	public void setPresenter(MainActivityContract.DebugPresenter presenter) {
-		// required empty method
-	}
-
-	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 		switch (s) {
 			case "latitude":

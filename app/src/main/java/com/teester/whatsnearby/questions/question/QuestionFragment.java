@@ -72,7 +72,6 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 
 		Preferences preferences = new Preferences(getContext());
 		questionPresenter = new QuestionPresenter(this, position, preferences);
-		questionPresenter.init();
 	}
 
 	@Override
@@ -168,11 +167,6 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 		this.answerYes.setBackgroundColor(ContextCompat.getColor(getContext(), yes));
 		this.answerNo.setBackgroundColor(ContextCompat.getColor(getContext(), no));
 		this.answerUnsure.setBackgroundColor(ContextCompat.getColor(getContext(), unsure));
-	}
-
-	@Override
-	public void setPresenter(QuestionFragmentContract.Presenter presenter) {
-		questionPresenter = presenter;
 	}
 
 	@Override
