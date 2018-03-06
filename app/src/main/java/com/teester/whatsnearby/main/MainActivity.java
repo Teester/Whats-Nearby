@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.location.LocationService;
 import com.teester.whatsnearby.data.source.OAuth;
 import com.teester.whatsnearby.data.source.Preferences;
@@ -32,8 +33,6 @@ public class MainActivity extends AppCompatActivity implements
 		View.OnClickListener,
 		SharedPreferences.OnSharedPreferenceChangeListener,
 		MainActivityContract.View {
-
-	private final String LOGGED_IN_PREF = "logged_in_to_osm";
 
 	private TextView textView;
 	private Button button;
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements
 		if (!BuildConfig.DEBUG) {
 			this.debugMenuItem.setVisible(false);
 		}
-		toggleDebugMode(sharedPreferences.getBoolean("debug_mode", false));
+		toggleDebugMode(sharedPreferences.getBoolean(PreferenceList.DEBUG_MODE, false));
 
 		return true;
 	}
@@ -172,11 +171,11 @@ public class MainActivity extends AppCompatActivity implements
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-		if (s.equals(LOGGED_IN_PREF)) {
+		if (s.equals(PreferenceList.LOGGED_IN_TO_OSM)) {
 			mainPresenter.showIfLoggedIn();
 		}
-		if ("debug_mode".equals(s)) {
-			toggleDebugMode(sharedPreferences.getBoolean("debug_mode", false));
+		if (PreferenceList.DEBUG_MODE.equals(s)) {
+			toggleDebugMode(sharedPreferences.getBoolean(PreferenceList.DEBUG_MODE, false));
 		}
 	}
 

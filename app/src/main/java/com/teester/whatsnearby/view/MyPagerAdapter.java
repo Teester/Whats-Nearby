@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.questions.question.QuestionFragment;
 import com.teester.whatsnearby.questions.upload.UploadFragment;
@@ -21,7 +22,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 		super(fragmentManager);
 		this.poi = poi;
 		this.listOfQuestions = listOfQuestions;
-		boolean logged_in = new Preferences(context).getBooleanPreference("logged_in_to_osm");
+		boolean logged_in = new Preferences(context).getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM);
 		if (logged_in) {
 			this.count = listOfQuestions.getNoOfQuestions() + 1;
 		} else {

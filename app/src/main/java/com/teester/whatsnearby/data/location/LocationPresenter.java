@@ -3,6 +3,7 @@ package com.teester.whatsnearby.data.location;
 import android.location.Location;
 
 import com.teester.whatsnearby.BuildConfig;
+import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 public class LocationPresenter implements LocationServiceContract.Presenter {
@@ -11,7 +12,6 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 	private static final int MINQUERYINTERVAL = 60 * 60 * 1000;
 	private static final double MINQUERYDISTANCE = 20;
 	private static final int MINLOCATIONACCURACY = 100;
-	private static final String OVERPASSLASTQUERYTIMEPREF = "last_overpass_query_time";
 
 	private Location lastLocation;
 	private Location lastQueryLocation;
@@ -35,12 +35,12 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 			lastQueryLocation = location;
 		}
 
-		preferences.setFloatPreference("location_accuracy", location.getAccuracy());
-		preferences.setFloatPreference("distance_to_last_query", location.distanceTo(lastQueryLocation));
-		preferences.setLongPreference("query_interval", System.currentTimeMillis() - preferences.getLongPreference(OVERPASSLASTQUERYTIMEPREF));
-		preferences.setFloatPreference("distance_to_last_location", location.distanceTo(lastLocation));
-		preferences.setDoublePreference("latitude", location.getLatitude());
-		preferences.setDoublePreference("longitude", location.getLongitude());
+		preferences.setFloatPreference(PreferenceList.LOCATION_ACCURACY, location.getAccuracy());
+		preferences.setFloatPreference(PreferenceList.DISTANCE_TO_LAST_QUERY, location.distanceTo(lastQueryLocation));
+		preferences.setLongPreference(PreferenceList.QUERY_INTERVAL, System.currentTimeMillis() - preferences.getLongPreference(PreferenceList.LAST_QUERY_TIME));
+		preferences.setFloatPreference(PreferenceList.DISTANCE_TO_LAST_LOCATION, location.distanceTo(lastLocation));
+		preferences.setDoublePreference(PreferenceList.LATITUDE, location.getLatitude());
+		preferences.setDoublePreference(PreferenceList.LONGITUDE, location.getLongitude());
 
 		if (decideWhetherToQuery(location)) {
 			lastQueryLocation = location;
@@ -51,8 +51,8 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 
 	private boolean decideWhetherToQuery(Location location) {
 		boolean query = true;
-		boolean debug_mode = preferences.getBooleanPreference("debug_mode");
-		long lastQueryTime = preferences.getLongPreference(OVERPASSLASTQUERYTIMEPREF);
+		boolean debug_mode = preferences.getBooleanPreference(PreferenceList.DEBUG_MODE);
+		long lastQueryTime = preferences.getLongPreference(PreferenceList.LAST_QUERY_TIME);
 
 		// Don't query Overpass if the location is less accurate than 100m
 		if (location.getAccuracy() > MINLOCATIONACCURACY) {
