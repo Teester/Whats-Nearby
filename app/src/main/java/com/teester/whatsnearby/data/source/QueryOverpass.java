@@ -6,13 +6,13 @@ import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.Utilities;
 import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
 import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.database.AppDatabase;
 import com.teester.whatsnearby.data.database.VisitedLocation;
 import com.teester.whatsnearby.data.location.Notifier;
+import com.teester.whatsnearby.data.pois.PoiContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -124,7 +124,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 
 							String type = getType(tags);
 
-							OsmObjectType poitype = PoiTypes.getPoiType(type);
+							PoiContract poitype = PoiTypes.getPoiType(type);
 							if (poitype != null) {
 								OsmObject object = new OsmObject(id, osmType, name, type, lat, lon, distance);
 								Iterator<String> keysIterator = tags.keys();
@@ -194,7 +194,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 
 			OsmObject poi = poiList.get(0);
 			boolean recentlyVisited = checkDatabaseForLocation(poi.getId());
-			OsmObjectType type = PoiTypes.getPoiType(poi.getType());
+			PoiContract type = PoiTypes.getPoiType(poi.getType());
 			int drawable = type.getObjectIcon();
 			System.out.println(String.format("At %s before: %s", poi.getName(), recentlyVisited));
 			if (!recentlyVisited) {

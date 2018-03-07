@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.pois.PoiContract;
 import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.questions.question.QuestionFragment;
@@ -14,11 +14,11 @@ import com.teester.whatsnearby.questions.upload.UploadFragment;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
 
-	public OsmObjectType listOfQuestions;
+	public PoiContract listOfQuestions;
 	private OsmObject poi;
 	private int count;
 
-	public MyPagerAdapter(FragmentManager fragmentManager, OsmObject poi, OsmObjectType listOfQuestions, Context context) {
+	public MyPagerAdapter(FragmentManager fragmentManager, OsmObject poi, PoiContract listOfQuestions, Context context) {
 		super(fragmentManager);
 		this.poi = poi;
 		this.listOfQuestions = listOfQuestions;

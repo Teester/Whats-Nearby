@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.pois.PoiContract;
 import com.teester.whatsnearby.data.source.OAuth;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
@@ -93,7 +93,7 @@ public class QuestionsActivity extends AppCompatActivity
 	}
 
 	@Override
-	public void setViewPager(OsmObject poi, OsmObjectType listOfQuestions) {
+	public void setViewPager(OsmObject poi, PoiContract listOfQuestions) {
 		FragmentPagerAdapter adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), poi, listOfQuestions, getApplicationContext());
 		viewPager.setAdapter(adapterViewPager);
 	}
