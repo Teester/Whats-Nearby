@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
 
@@ -113,14 +114,14 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 		switch (s) {
-			case "latitude":
-			case "longitude":
-			case "distance_to_last_location":
-			case "last_query_time":
-			case "last_notification_time":
-			case "distance_to_last_query":
-			case "last_query":
-			case "location_accuracy":
+			case PreferenceList.LATITUDE:
+			case PreferenceList.LONGITUDE:
+			case PreferenceList.DISTANCE_TO_LAST_LOCATION:
+			case PreferenceList.LAST_QUERY_TIME:
+			case PreferenceList.LAST_NOTIFICATION_TIME:
+			case PreferenceList.DISTANCE_TO_LAST_QUERY:
+			case PreferenceList.LAST_QUERY:
+			case PreferenceList.LOCATION_ACCURACY:
 				debugPresenter.getDetails();
 				break;
 			default:

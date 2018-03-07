@@ -9,6 +9,7 @@ import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
+import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.database.AppDatabase;
 import com.teester.whatsnearby.data.database.VisitedLocation;
 import com.teester.whatsnearby.data.location.Notifier;
@@ -151,12 +152,12 @@ public class QueryOverpass implements SourceContract.Overpass {
 	@Override
 	public void queryOverpass(double latitude, double longitude, float accuracy) {
 		SourceContract.Preferences preferences = new Preferences(context);
-		preferences.setLongPreference("last_query_time", System.currentTimeMillis());
+		preferences.setLongPreference(PreferenceList.LAST_QUERY_TIME, System.currentTimeMillis());
 		this.queryLatitude = latitude;
 		this.queryLongitude = longitude;
 		String overpassUrl = getOverpassUri(latitude, longitude, accuracy);
 		String overpassQuery = queryOverpassApi(overpassUrl);
-		preferences.setStringPreference("last_query", overpassQuery);
+		preferences.setStringPreference(PreferenceList.LAST_QUERY, overpassQuery);
 		processResult(overpassQuery);
 	}
 

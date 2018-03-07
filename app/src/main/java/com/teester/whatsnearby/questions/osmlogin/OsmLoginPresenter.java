@@ -1,5 +1,6 @@
 package com.teester.whatsnearby.questions.osmlogin;
 
+import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 class OsmLoginPresenter implements OsmLoginFragmentContract.Presenter {
@@ -14,9 +15,9 @@ class OsmLoginPresenter implements OsmLoginFragmentContract.Presenter {
 
 	@Override
 	public void clickedOsmLoginButton() {
-		preferences.setStringPreference("oauth_verifier", "");
-		preferences.setStringPreference("oauth_token", "");
-		preferences.setStringPreference("oauth_token_secret", "");
+		preferences.setStringPreference(PreferenceList.OAUTH_VERIFIER, "");
+		preferences.setStringPreference(PreferenceList.OAUTH_TOKEN, "");
+		preferences.setStringPreference(PreferenceList.OAUTH_TOKEN_SECRET, "");
 
 		view.startOAuth();
 	}

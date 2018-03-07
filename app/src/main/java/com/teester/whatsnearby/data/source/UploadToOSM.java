@@ -1,6 +1,7 @@
 package com.teester.whatsnearby.data.source;
 
 import com.teester.whatsnearby.data.Answers;
+import com.teester.whatsnearby.data.PreferenceList;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -56,8 +57,8 @@ public class UploadToOSM implements SourceContract.upload {
 	}
 
 	private OsmConnection getConnection() {
-		String oauth_token_secret = preferences.getStringPreference("oauth_token_secret");
-		String oauth_token = preferences.getStringPreference("oauth_token");
+		String oauth_token_secret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
+		String oauth_token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
 
 		OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		consumer.setTokenWithSecret(oauth_token, oauth_token_secret);
