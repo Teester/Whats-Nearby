@@ -3,9 +3,9 @@ package com.teester.whatsnearby.questions.question;
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
+import com.teester.whatsnearby.data.pois.PoiContract;
 import com.teester.whatsnearby.data.questions.QuestionsContract;
 import com.teester.whatsnearby.data.source.SourceContract;
 import com.teester.whatsnearby.data.source.UploadToOSM;
@@ -17,7 +17,7 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 	private int position;
 	private QuestionFragmentContract.View view;
 	private OsmObject poi;
-	private OsmObjectType listOfQuestions;
+	private PoiContract listOfQuestions;
 	private SourceContract.Preferences preferences;
 
 	public QuestionPresenter(QuestionFragmentContract.View view, int position, SourceContract.Preferences preferences) {

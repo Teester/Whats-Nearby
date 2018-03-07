@@ -16,7 +16,7 @@ import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.pois.PoiContract;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.questions.QuestionsActivity;
 
@@ -54,7 +54,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	 * @param param1 Parameter 1.
 	 * @return A new instance of fragment QuestionFragment.
 	 */
-	public static QuestionFragment newInstance(OsmObject poi, int position, OsmObjectType listOfQuestions) {
+	public static QuestionFragment newInstance(OsmObject poi, int position, PoiContract listOfQuestions) {
 		QuestionFragment fragment = new QuestionFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_PARAM1, position);
