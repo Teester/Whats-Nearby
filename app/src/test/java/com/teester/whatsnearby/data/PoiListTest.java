@@ -1,5 +1,7 @@
 package com.teester.whatsnearby.data;
 
+import com.teester.whatsnearby.data.pois.PoiContract;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,8 +60,8 @@ public class PoiListTest {
 	public void checkPoiType() {
 		OsmObject osmObject = PoiList.getInstance().getPoiList().get(0);
 
-		OsmObjectType actualObject = PoiTypes.getPoiType(osmObject.getOsmType());
-		OsmObjectType expectedObject = PoiTypes.getPoiType(this.osmObject.getOsmType());
+		PoiContract actualObject = PoiTypes.getPoiType(osmObject.getOsmType());
+		PoiContract expectedObject = PoiTypes.getPoiType(this.osmObject.getOsmType());
 
 		assertEquals(expectedObject, actualObject);
 	}

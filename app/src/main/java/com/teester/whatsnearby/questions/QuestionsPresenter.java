@@ -5,6 +5,7 @@ import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
+import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.pois.PoiContract;
 import com.teester.whatsnearby.data.source.SourceContract;
 
