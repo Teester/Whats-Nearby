@@ -11,7 +11,7 @@ import com.teester.whatsnearby.data.PoiTypes;
 import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.database.AppDatabase;
 import com.teester.whatsnearby.data.database.VisitedLocation;
-import com.teester.whatsnearby.data.location.Notifier;
+import com.teester.whatsnearby.data.location.LocationJobNotifier;
 import com.teester.whatsnearby.data.pois.PoiContract;
 
 import org.json.JSONArray;
@@ -199,10 +199,10 @@ public class QueryOverpass implements SourceContract.Overpass {
 			System.out.println(String.format("At %s before: %s", poi.getName(), recentlyVisited));
 			if (!recentlyVisited) {
 				updateDatabase(poi);
-				Notifier.createNotification(context, poi.getName(), drawable);
+				LocationJobNotifier.createNotification(context, poi.getName(), drawable);
 			}
 		} else {
-			Notifier.cancelNotifictions(context);
+			LocationJobNotifier.cancelNotifictions(context);
 		}
 	}
 

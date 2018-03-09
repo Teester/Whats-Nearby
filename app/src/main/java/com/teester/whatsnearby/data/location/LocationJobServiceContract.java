@@ -2,7 +2,7 @@ package com.teester.whatsnearby.data.location;
 
 import android.location.Location;
 
-public interface LocationServiceContract {
+public interface LocationJobServiceContract {
 
 	interface Presenter {
 
@@ -21,8 +21,15 @@ public interface LocationServiceContract {
 
 		void createLostClient(int interval);
 
+	}
+
+	interface Receiver {
+		void createNotification(String name, int drawable);
+
 		void performOverpassQuery(Location location);
 
-		void createNotification(String name, int drawable);
+	}
+
+	interface Notifier {
 	}
 }

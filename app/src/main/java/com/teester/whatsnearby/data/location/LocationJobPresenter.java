@@ -1,12 +1,13 @@
 package com.teester.whatsnearby.data.location;
 
+import android.content.Context;
 import android.location.Location;
 
 import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.SourceContract;
 
-public class LocationPresenter implements LocationServiceContract.Presenter {
+public class LocationJobPresenter implements LocationJobServiceContract.Presenter {
 
 	private static final int INTERVAL = 1 * 60 * 1000;
 	private static final int MINQUERYINTERVAL = 60 * 60 * 1000;
@@ -16,18 +17,19 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 	private Location lastLocation;
 	private Location lastQueryLocation;
 
-	private LocationServiceContract.Service service;
+	private Context context;
+	private LocationJobServiceReceiver receiver;
 	private SourceContract.Preferences preferences;
 
-	public LocationPresenter(LocationServiceContract.Service service, SourceContract.Preferences preferences) {
-		this.service = service;
+	public LocationJobPresenter(Context context, LocationJobServiceReceiver service, SourceContract.Preferences preferences) {
+		this.context = context;
+		this.receiver = service;
 		this.preferences = preferences;
-		this.service.createLostClient(INTERVAL);
-
 	}
 
 	@Override
 	public void processLocation(Location location) {
+		System.out.println("In LocationPresenter.processLocation");
 		if (lastLocation == null) {
 			lastLocation = location;
 		}
@@ -44,7 +46,7 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 
 		if (decideWhetherToQuery(location)) {
 			lastQueryLocation = location;
-			service.performOverpassQuery(location);
+			receiver.performOverpassQuery(context, location);
 		}
 		lastLocation = location;
 	}
@@ -85,7 +87,7 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 
 	@Override
 	public void queryResult() {
-		service.createNotification("", 0);
+		receiver.createNotification(context, "", 0);
 	}
 
 	@Override
