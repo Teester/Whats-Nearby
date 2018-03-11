@@ -6,8 +6,6 @@ public interface QuestionFragmentContract {
 
 		void getQuestion();
 
-		void getPreviousAnswer();
-
 		void onAnswerSelected(int id);
 	}
 

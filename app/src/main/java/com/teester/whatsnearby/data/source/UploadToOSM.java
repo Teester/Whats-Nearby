@@ -49,9 +49,10 @@ public class UploadToOSM implements SourceContract.upload {
 		List<Element> collection = Collections.singletonList(modifiedElement);
 		if (modifiedElement.isModified()) {
 			try {
-				new MapDataDao(osm).updateMap(changesetTags, collection, null);
+				//new MapDataDao(osm).updateMap(changesetTags, collection, null);
+				System.out.println("uploaded");
 			} catch (OsmAuthorizationException e) {
-				//Log.i(TAG, e.toString());
+				System.err.println(e);
 			}
 		}
 	}

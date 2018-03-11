@@ -23,8 +23,9 @@ public class Preferences implements SourceContract.Preferences {
 	}
 
 	@Override
-	public void setStringPreference(String preference, String value) {
+	public Void setStringPreference(String preference, String value) {
 		prefs.edit().putString(preference, value).apply();
+		return null;
 	}
 
 	@Override
