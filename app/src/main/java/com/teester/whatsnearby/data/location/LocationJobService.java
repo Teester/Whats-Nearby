@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.wifi.WifiManager;
 import android.support.v4.app.ActivityCompat;
 
 import com.mapzen.android.lost.api.LocationListener;
@@ -36,7 +37,7 @@ public class LocationJobService extends JobService implements LocationJobService
 	public boolean onStartJob(JobParameters jobParameters) {
 		System.out.println("In LocationJobservice.onStartJob");
 		final Context context = getApplicationContext();
-		SourceContract.Preferences preferences = new Preferences(context);
+		final SourceContract.Preferences preferences = new Preferences(context);
 
 		this.jobParameters = jobParameters;
 
@@ -44,8 +45,14 @@ public class LocationJobService extends JobService implements LocationJobService
 				.addConnectionCallbacks(new LostApiClient.ConnectionCallbacks() {
 					@Override
 					public void onConnected() {
+						int priority;
+						if (checkWifi()) {
+							priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
+						} else {
+							priority = LocationRequest.PRIORITY_HIGH_ACCURACY;
+						}
 						LocationRequest request = LocationRequest.create();
-						request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+						request.setPriority(priority);
 						request.setInterval(300000);
 						request.setFastestInterval(60000);
 
@@ -96,14 +103,17 @@ public class LocationJobService extends JobService implements LocationJobService
 		jobFinished(jobParameters, true);
 	}
 
-
-	@Override
-	public void cancelNotifications() {
-
-	}
-
-	@Override
-	public void createLostClient(int interval) {
-
+	private boolean checkWifi() {
+		WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+		switch (wifiManager.getWifiState()) {
+			case WifiManager.WIFI_STATE_DISABLED:
+			case WifiManager.WIFI_STATE_DISABLING:
+				return false;
+			case WifiManager.WIFI_STATE_ENABLED:
+			case WifiManager.WIFI_STATE_ENABLING:
+			case WifiManager.WIFI_STATE_UNKNOWN:
+			default:
+				return true;
+		}
 	}
 }

@@ -17,10 +17,6 @@ public interface LocationJobServiceContract {
 
 	interface Service {
 
-		void cancelNotifications();
-
-		void createLostClient(int interval);
-
 	}
 
 	interface Receiver {
