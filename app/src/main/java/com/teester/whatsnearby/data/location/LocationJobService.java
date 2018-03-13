@@ -18,12 +18,10 @@ import com.teester.whatsnearby.main.MainActivity;
 public class LocationJobService extends JobService implements LocationJobServiceContract.Service {
 
 	private LostApiClient client;
-	private JobParameters jobParameters;
 
 	@Override
 	public boolean onStartJob(JobParameters jobParameters) {
 		final Context context = getApplicationContext();
-		this.jobParameters = jobParameters;
 
 		client = new LostApiClient.Builder(this)
 				.addConnectionCallbacks(new LostApiClient.ConnectionCallbacks() {

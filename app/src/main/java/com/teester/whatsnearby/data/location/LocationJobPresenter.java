@@ -9,7 +9,6 @@ import com.teester.whatsnearby.data.source.SourceContract;
 
 public class LocationJobPresenter implements LocationJobServiceContract.Presenter {
 
-	private static final int INTERVAL = 1 * 60 * 1000;
 	private static final int MINQUERYINTERVAL = 60 * 60 * 1000;
 	private static final double MINQUERYDISTANCE = 20;
 	private static final int MINLOCATIONACCURACY = 100;
@@ -20,7 +19,6 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 	private Context context;
 	private LocationJobServiceContract.Receiver receiver;
 	private SourceContract.Preferences preferences;
-	private LocationJobServiceContract.Service service;
 
 	public LocationJobPresenter(Context context, LocationJobServiceContract.Receiver service, SourceContract.Preferences preferences) {
 		this.context = context;
