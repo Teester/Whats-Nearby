@@ -18,7 +18,7 @@ import com.teester.whatsnearby.questions.QuestionsActivity;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
-public class Notifier {
+public class LocationJobNotifier implements LocationJobServiceContract.Notifier {
 
 	/**
 	 * Creates a notification and stores the time of notification
@@ -28,7 +28,6 @@ public class Notifier {
 	 * @param drawable - poi drawable id
 	 */
 	public static void createNotification(Context context, String name, int drawable) {
-
 		// Store the time the notification was made
 		SourceContract.Preferences preferences = new Preferences(context);
 		preferences.setLongPreference(PreferenceList.LAST_OVERPASS_QUERY_TIME, System.currentTimeMillis());

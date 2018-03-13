@@ -1,14 +1,14 @@
 package com.teester.whatsnearby.data.location;
 
+import android.content.Context;
 import android.location.Location;
 
 import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.SourceContract;
 
-public class LocationPresenter implements LocationServiceContract.Presenter {
+public class LocationJobPresenter implements LocationJobServiceContract.Presenter {
 
-	private static final int INTERVAL = 1 * 60 * 1000;
 	private static final int MINQUERYINTERVAL = 60 * 60 * 1000;
 	private static final double MINQUERYDISTANCE = 20;
 	private static final int MINLOCATIONACCURACY = 100;
@@ -16,14 +16,14 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 	private Location lastLocation;
 	private Location lastQueryLocation;
 
-	private LocationServiceContract.Service service;
+	private Context context;
+	private LocationJobServiceContract.Receiver receiver;
 	private SourceContract.Preferences preferences;
 
-	public LocationPresenter(LocationServiceContract.Service service, SourceContract.Preferences preferences) {
-		this.service = service;
+	public LocationJobPresenter(Context context, LocationJobServiceContract.Receiver service, SourceContract.Preferences preferences) {
+		this.context = context;
+		this.receiver = service;
 		this.preferences = preferences;
-		this.service.createLostClient(INTERVAL);
-
 	}
 
 	@Override
@@ -44,7 +44,8 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 
 		if (decideWhetherToQuery(location)) {
 			lastQueryLocation = location;
-			service.performOverpassQuery(location);
+			receiver.performOverpassQuery(context, location);
+			//service.performOverpassQuery(location);
 		}
 		lastLocation = location;
 	}
@@ -81,21 +82,6 @@ public class LocationPresenter implements LocationServiceContract.Presenter {
 			query = true;
 		}
 		return query;
-	}
-
-	@Override
-	public void queryResult() {
-		service.createNotification("", 0);
-	}
-
-	@Override
-	public void updateLastQueryTime() {
-		// required empty method
-	}
-
-	@Override
-	public void createLostClient() {
-		// required empty method
 	}
 
 }

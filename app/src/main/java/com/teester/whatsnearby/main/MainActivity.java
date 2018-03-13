@@ -1,6 +1,10 @@
 package com.teester.whatsnearby.main;
 
 import android.Manifest;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -21,7 +25,7 @@ import android.widget.TextView;
 import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.PreferenceList;
-import com.teester.whatsnearby.data.location.LocationService;
+import com.teester.whatsnearby.data.location.LocationJobService;
 import com.teester.whatsnearby.data.source.OAuth;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
@@ -104,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements
 
 	@Override
 	protected void onNewIntent(Intent intent) {
+		System.out.println("In MainActivity.onNewIntent");
 		super.onNewIntent(intent);
 		URI url = null;
 		try {
@@ -134,15 +139,24 @@ public class MainActivity extends AppCompatActivity implements
 	}
 
 	private void startLocationService() {
-		Intent intent = new Intent(this, LocationService.class);
-		startService(intent);
+
+		JobScheduler jobScheduler = (JobScheduler) getApplicationContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+		ComponentName jobService = new ComponentName(getApplicationContext().getPackageName(), LocationJobService.class.getName());
+		JobInfo jobInfo = new JobInfo.Builder(1, jobService)
+				.setPeriodic(60000)
+				.build();
+		jobScheduler.schedule(jobInfo);
 	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		Intent intent = new Intent(this, LocationService.class);
-		startService(intent);
+		JobScheduler jobScheduler = (JobScheduler) getApplicationContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+		ComponentName jobService = new ComponentName(getApplicationContext().getPackageName(), LocationJobService.class.getName());
+		JobInfo jobInfo = new JobInfo.Builder(1, jobService)
+				.setPeriodic(60000)
+				.build();
+		jobScheduler.schedule(jobInfo);
 	}
 
 	@Override
