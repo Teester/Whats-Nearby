@@ -139,10 +139,6 @@ public class MainActivity extends AppCompatActivity implements
 	}
 
 	private void startLocationService() {
-		System.out.println("In MainActivity.startLocationService");
-
-//		Intent intent = new Intent(this, LocationService.class);
-//		startService(intent);
 
 		JobScheduler jobScheduler = (JobScheduler) getApplicationContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
 		ComponentName jobService = new ComponentName(getApplicationContext().getPackageName(), LocationJobService.class.getName());
@@ -155,14 +151,10 @@ public class MainActivity extends AppCompatActivity implements
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		System.out.println("In MainActivity.onRequestPermissionResult");
-		//Intent intent = new Intent(this, LocationService.class);
-		//startService(intent);
-
 		JobScheduler jobScheduler = (JobScheduler) getApplicationContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
 		ComponentName jobService = new ComponentName(getApplicationContext().getPackageName(), LocationJobService.class.getName());
 		JobInfo jobInfo = new JobInfo.Builder(1, jobService)
-				.setPersisted(true)
+				.setPeriodic(60000)
 				.build();
 		jobScheduler.schedule(jobInfo);
 	}

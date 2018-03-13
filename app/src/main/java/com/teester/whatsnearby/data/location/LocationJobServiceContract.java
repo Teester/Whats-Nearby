@@ -1,5 +1,6 @@
 package com.teester.whatsnearby.data.location;
 
+import android.content.Context;
 import android.location.Location;
 
 public interface LocationJobServiceContract {
@@ -8,11 +9,6 @@ public interface LocationJobServiceContract {
 
 		void processLocation(Location location);
 
-		void createLostClient();
-
-		void queryResult();
-
-		void updateLastQueryTime();
 	}
 
 	interface Service {
@@ -20,9 +16,10 @@ public interface LocationJobServiceContract {
 	}
 
 	interface Receiver {
-		void createNotification(String name, int drawable);
 
-		void performOverpassQuery(Location location);
+		void performOverpassQuery(Context context, Location location);
+
+		void createNotification(Context context, String name, int drawable);
 
 	}
 

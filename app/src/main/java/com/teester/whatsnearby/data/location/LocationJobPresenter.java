@@ -18,10 +18,11 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 	private Location lastQueryLocation;
 
 	private Context context;
-	private LocationJobServiceReceiver receiver;
+	private LocationJobServiceContract.Receiver receiver;
 	private SourceContract.Preferences preferences;
+	private LocationJobServiceContract.Service service;
 
-	public LocationJobPresenter(Context context, LocationJobServiceReceiver service, SourceContract.Preferences preferences) {
+	public LocationJobPresenter(Context context, LocationJobServiceContract.Receiver service, SourceContract.Preferences preferences) {
 		this.context = context;
 		this.receiver = service;
 		this.preferences = preferences;
@@ -29,7 +30,6 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 
 	@Override
 	public void processLocation(Location location) {
-		System.out.println("In LocationPresenter.processLocation");
 		if (lastLocation == null) {
 			lastLocation = location;
 		}
@@ -47,6 +47,7 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		if (decideWhetherToQuery(location)) {
 			lastQueryLocation = location;
 			receiver.performOverpassQuery(context, location);
+			//service.performOverpassQuery(location);
 		}
 		lastLocation = location;
 	}
@@ -83,21 +84,6 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 			query = true;
 		}
 		return query;
-	}
-
-	@Override
-	public void queryResult() {
-		receiver.createNotification(context, "", 0);
-	}
-
-	@Override
-	public void updateLastQueryTime() {
-		// required empty method
-	}
-
-	@Override
-	public void createLostClient() {
-		// required empty method
 	}
 
 }
