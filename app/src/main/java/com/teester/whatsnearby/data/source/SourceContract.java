@@ -7,7 +7,7 @@ public interface SourceContract {
 
 		boolean getBooleanPreference(String preference);
 
-		void setStringPreference(String preference, String value);
+		Void setStringPreference(String preference, String value);
 
 		void setBooleanPreference(String preference, boolean value);
 

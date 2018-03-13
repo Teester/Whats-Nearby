@@ -48,11 +48,6 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 	}
 
 	@Override
-	public void getPreviousAnswer() {
-		// required empty method
-	}
-
-	@Override
 	public void onAnswerSelected(int id) {
 
 		List<QuestionsContract> questions = this.listOfQuestions.getQuestion();
