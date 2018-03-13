@@ -48,13 +48,13 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		this.lastQueryTime = view.findViewById(R.id.textView6);
-		this.lastNotificationTime = view.findViewById(R.id.textView7);
-		this.lastQuery = view.findViewById(R.id.textView8);
-		this.accuracy = view.findViewById(R.id.textView16);
-		this.querydistance = view.findViewById(R.id.textView14);
-		this.checkdistance = view.findViewById(R.id.textView15);
-		this.lastLocation = view.findViewById(R.id.textView17);
+		this.lastQueryTime = view.findViewById(R.id.debug_last_overpass_query_value);
+		this.lastNotificationTime = view.findViewById(R.id.debug_last_notification_value);
+		this.lastQuery = view.findViewById(R.id.debug_last_overpass_query_result_value);
+		this.accuracy = view.findViewById(R.id.debug_accuracy_value);
+		this.querydistance = view.findViewById(R.id.debug_distance_since_last_query_value);
+		this.checkdistance = view.findViewById(R.id.debug_distance_since_last_location_check_value);
+		this.lastLocation = view.findViewById(R.id.debug_last_location_details_title);
 
 		debugPresenter.getDetails();
 	}
