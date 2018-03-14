@@ -24,6 +24,18 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		this.context = context;
 		this.receiver = service;
 		this.preferences = preferences;
+
+		double lastLatitude = preferences.getDoublePreference(PreferenceList.LAST_LOCATION_LATITUDE);
+		double lastLongitude = preferences.getDoublePreference(PreferenceList.LAST_LOCATION_LONGITUDE);
+		lastLocation = new Location("dummyprovider");
+		lastLocation.setLatitude(lastLatitude);
+		lastLocation.setLongitude(lastLongitude);
+
+		double lastQueryLatitude = preferences.getDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LATITUDE);
+		double lastQueryLongitude = preferences.getDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LONGITUDE);
+		lastQueryLocation = new Location("dummyprovider");
+		lastQueryLocation.setLatitude(lastLatitude);
+		lastQueryLocation.setLongitude(lastLongitude);
 	}
 
 	@Override
@@ -44,10 +56,13 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 
 		if (decideWhetherToQuery(location)) {
 			lastQueryLocation = location;
+			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LATITUDE, location.getLatitude());
+			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LONGITUDE, location.getLongitude());
 			receiver.performOverpassQuery(context, location);
-			//service.performOverpassQuery(location);
 		}
 		lastLocation = location;
+		preferences.setDoublePreference(PreferenceList.LAST_LOCATION_LATITUDE, location.getLatitude());
+		preferences.setDoublePreference(PreferenceList.LAST_LOCATION_LONGITUDE, location.getLongitude());
 	}
 
 	private boolean decideWhetherToQuery(Location location) {
@@ -81,6 +96,7 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		if (debug_mode && BuildConfig.DEBUG) {
 			query = true;
 		}
+		System.out.println("query = " + query);
 		return query;
 	}
 
