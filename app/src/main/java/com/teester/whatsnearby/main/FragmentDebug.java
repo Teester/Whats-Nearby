@@ -54,7 +54,7 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 		this.accuracy = view.findViewById(R.id.debug_accuracy_value);
 		this.querydistance = view.findViewById(R.id.debug_distance_since_last_query_value);
 		this.checkdistance = view.findViewById(R.id.debug_distance_since_last_location_check_value);
-		this.lastLocation = view.findViewById(R.id.debug_last_location_details_title);
+		this.lastLocation = view.findViewById(R.id.debug_most_recent_location_value);
 
 		debugPresenter.getDetails();
 	}
