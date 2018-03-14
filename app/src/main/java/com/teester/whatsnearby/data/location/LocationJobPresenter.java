@@ -96,7 +96,6 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		if (debug_mode && BuildConfig.DEBUG) {
 			query = true;
 		}
-		System.out.println("query = " + query);
 		return query;
 	}
 

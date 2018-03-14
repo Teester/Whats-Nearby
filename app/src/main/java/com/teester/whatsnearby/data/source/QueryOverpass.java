@@ -207,6 +207,11 @@ public class QueryOverpass implements SourceContract.Overpass {
 	}
 
 	private boolean checkDatabaseForLocation(long osmId) {
+		SourceContract.Preferences preferences = new Preferences(context);
+		if (BuildConfig.DEBUG && preferences.getBooleanPreference(PreferenceList.DEBUG_MODE)) {
+			return false;
+		}
+
 		AppDatabase db = AppDatabase.getAppDatabase(context);
 		VisitedLocation location = db.visitedLocationDao().findByOsmId(osmId);
 		List<VisitedLocation> list = db.visitedLocationDao().getAllVisitedLocations();
