@@ -75,5 +75,6 @@
     <string name="source_repository">Source Repository</string>
     <string name="what_s_nearby_on_github">What\'s Nearby on Github</string>
     <string name="authors_string">© 2017–2018 Mark Tully</string>
+    <string name="debug_details">Debug Details</string>
 
 </resources>
