@@ -29,10 +29,27 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 	@Override
 	public void processLocation(Location location) {
 		if (lastLocation == null) {
-			lastLocation = location;
+
+			double lastLatitude = preferences.getDoublePreference(PreferenceList.LAST_LOCATION_LATITUDE);
+			double lastLongitude = preferences.getDoublePreference(PreferenceList.LAST_LOCATION_LONGITUDE);
+			if (lastLatitude == 0 && lastLongitude == 0) {
+				lastLocation = location;
+			} else {
+				lastLocation = new Location("dummyprovider");
+				lastLocation.setLatitude(lastLatitude);
+				lastLocation.setLongitude(lastLongitude);
+			}
 		}
 		if (lastQueryLocation == null) {
-			lastQueryLocation = location;
+			double lastQueryLatitude = preferences.getDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LATITUDE);
+			double lastQueryLongitude = preferences.getDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LONGITUDE);
+			if (lastQueryLatitude == 0 && lastQueryLongitude == 0) {
+				lastQueryLocation = location;
+			} else {
+				lastQueryLocation = new Location("dummyprovider");
+				lastQueryLocation.setLatitude(lastQueryLatitude);
+				lastQueryLocation.setLongitude(lastQueryLongitude);
+			}
 		}
 
 		preferences.setFloatPreference(PreferenceList.LOCATION_ACCURACY, location.getAccuracy());
@@ -44,10 +61,13 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 
 		if (decideWhetherToQuery(location)) {
 			lastQueryLocation = location;
+			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LATITUDE, location.getLatitude());
+			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LONGITUDE, location.getLongitude());
 			receiver.performOverpassQuery(context, location);
-			//service.performOverpassQuery(location);
 		}
 		lastLocation = location;
+		preferences.setDoublePreference(PreferenceList.LAST_LOCATION_LATITUDE, location.getLatitude());
+		preferences.setDoublePreference(PreferenceList.LAST_LOCATION_LONGITUDE, location.getLongitude());
 	}
 
 	private boolean decideWhetherToQuery(Location location) {

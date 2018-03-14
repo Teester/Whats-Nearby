@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-		System.out.println("In MainActivity.onNewIntent");
 		super.onNewIntent(intent);
 		URI url = null;
 		try {
