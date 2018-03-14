@@ -22,7 +22,7 @@ public class OsmLoginPresenterTest {
 	private SourceContract.Preferences preferences;
 
 	@Before
-	public void SetUp() {
+	public void setUp() {
 		presenter = new OsmLoginPresenter(view, preferences);
 	}
 
