@@ -58,6 +58,7 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		preferences.setFloatPreference(PreferenceList.DISTANCE_TO_LAST_LOCATION, location.distanceTo(lastLocation));
 		preferences.setDoublePreference(PreferenceList.LATITUDE, location.getLatitude());
 		preferences.setDoublePreference(PreferenceList.LONGITUDE, location.getLongitude());
+		preferences.setStringPreference(PreferenceList.LOCATION_PROVIDER, location.getProvider());
 
 		if (decideWhetherToQuery(location)) {
 			lastQueryLocation = location;
