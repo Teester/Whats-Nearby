@@ -1,6 +1,10 @@
 package com.teester.whatsnearby.main;
 
 import android.Manifest;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -20,7 +24,8 @@ import android.widget.TextView;
 
 import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.data.location.LocationService;
+import com.teester.whatsnearby.data.PreferenceList;
+import com.teester.whatsnearby.data.location.LocationJobService;
 import com.teester.whatsnearby.data.source.OAuth;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
@@ -33,12 +38,8 @@ public class MainActivity extends AppCompatActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener,
 		MainActivityContract.View {
 
-	private static final String TAG = MainActivity.class.getSimpleName();
-	private final String LOGGED_IN_PREF = "logged_in_to_osm";
-
 	private TextView textView;
 	private Button button;
-	private Toolbar toolbar;
 	private MenuItem debugMenuItem;
 	private SharedPreferences sharedPreferences;
 	private MainActivityContract.Presenter mainPresenter;
@@ -51,12 +52,11 @@ public class MainActivity extends AppCompatActivity implements
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		SourceContract.Preferences preferences = new Preferences(getApplicationContext());
 		mainPresenter = new MainActivityPresenter(this, preferences);
-		mainPresenter.init();
 		this.textView = this.findViewById(R.id.textView);
 		this.button = this.findViewById(R.id.button);
-		this.toolbar = findViewById(R.id.toolbar);
+		Toolbar toolbar = findViewById(R.id.toolbar);
 
-		setSupportActionBar(this.toolbar);
+		setSupportActionBar(toolbar);
 
 		this.button.setOnClickListener(this);
 		checkPermission();
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements
 		if (!BuildConfig.DEBUG) {
 			this.debugMenuItem.setVisible(false);
 		}
-		toggleDebugMode(sharedPreferences.getBoolean("debug_mode", false));
+		toggleDebugMode(sharedPreferences.getBoolean(PreferenceList.DEBUG_MODE, false));
 
 		return true;
 	}
@@ -92,6 +92,14 @@ public class MainActivity extends AppCompatActivity implements
 				return true;
 			case R.id.action_debug_mode:
 				mainPresenter.toggleDebugMode();
+				return true;
+			case R.id.action_about:
+				Fragment aboutFragment = new FragmentAbout();
+				getSupportFragmentManager()
+						.beginTransaction()
+						.replace(R.id.activity_main, aboutFragment)
+						.addToBackStack("debug")
+						.commit();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -130,15 +138,24 @@ public class MainActivity extends AppCompatActivity implements
 	}
 
 	private void startLocationService() {
-		Intent intent = new Intent(this, LocationService.class);
-		startService(intent);
+
+		JobScheduler jobScheduler = (JobScheduler) getApplicationContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+		ComponentName jobService = new ComponentName(getApplicationContext().getPackageName(), LocationJobService.class.getName());
+		JobInfo jobInfo = new JobInfo.Builder(1, jobService)
+				.setPeriodic(60000)
+				.build();
+		jobScheduler.schedule(jobInfo);
 	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		Intent intent = new Intent(this, LocationService.class);
-		startService(intent);
+		JobScheduler jobScheduler = (JobScheduler) getApplicationContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+		ComponentName jobService = new ComponentName(getApplicationContext().getPackageName(), LocationJobService.class.getName());
+		JobInfo jobInfo = new JobInfo.Builder(1, jobService)
+				.setPeriodic(60000)
+				.build();
+		jobScheduler.schedule(jobInfo);
 	}
 
 	@Override
@@ -167,16 +184,16 @@ public class MainActivity extends AppCompatActivity implements
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-		if (s == LOGGED_IN_PREF) {
+		if (s.equals(PreferenceList.LOGGED_IN_TO_OSM)) {
 			mainPresenter.showIfLoggedIn();
 		}
-		if (s == "debug_mode") {
-			toggleDebugMode(sharedPreferences.getBoolean("debug_mode", false));
+		if (PreferenceList.DEBUG_MODE.equals(s)) {
+			toggleDebugMode(sharedPreferences.getBoolean(PreferenceList.DEBUG_MODE, false));
 		}
 	}
 
 	public void toggleDebugMode(boolean state) {
-		if (state == true) {
+		if (state) {
 			this.debugMenuItem.setTitle("Debug Mode is on");
 		} else {
 			this.debugMenuItem.setTitle("Debug Mode is off");
@@ -197,10 +214,5 @@ public class MainActivity extends AppCompatActivity implements
 				new OAuth(getApplicationContext());
 			}
 		}).start();
-	}
-
-	@Override
-	public void setPresenter(MainActivityContract.Presenter presenter) {
-		mainPresenter = presenter;
 	}
 }

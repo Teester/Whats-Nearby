@@ -16,10 +16,9 @@ import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.pois.PoiContract;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.questions.QuestionsActivity;
-import com.teester.whatsnearby.questions.QuestionsPresenter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,23 +35,17 @@ import java.util.Map;
 public class QuestionFragment extends Fragment implements View.OnClickListener, QuestionFragmentContract.View {
 
 	protected static final String ARG_PARAM1 = "param1";
-	private static final String TAG = QuestionFragment.class.getSimpleName();
-	QuestionsPresenter presenter;
 	private OnFragmentInteractionListener mListener;
 	private QuestionFragmentContract.Presenter questionPresenter;
 
-	private TextView question_textView;
-	private ImageView question_imageView;
-	private TextView question_previous_textView;
-	private Button answer_yes;
-	private Button answer_no;
-	private Button answer_unsure;
+	private TextView questionTextView;
+	private ImageView questionImageView;
+	private TextView questionPreviousTextView;
+	private Button answerYes;
+	private Button answerNo;
+	private Button answerUnsure;
 
 	private int position;
-
-	public QuestionFragment() {
-		// Required empty public constructor
-	}
 
 	/**
 	 * Use this factory method to create a new instance of
@@ -61,7 +54,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	 * @param param1 Parameter 1.
 	 * @return A new instance of fragment QuestionFragment.
 	 */
-	public static QuestionFragment newInstance(OsmObject poi, int position, OsmObjectType listOfQuestions) {
+	public static QuestionFragment newInstance(OsmObject poi, int position, PoiContract listOfQuestions) {
 		QuestionFragment fragment = new QuestionFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_PARAM1, position);
@@ -79,7 +72,6 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 
 		Preferences preferences = new Preferences(getContext());
 		questionPresenter = new QuestionPresenter(this, position, preferences);
-		questionPresenter.init();
 	}
 
 	@Override
@@ -92,16 +84,16 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		this.question_textView = view.findViewById(R.id.question_textview);
-		this.question_imageView = view.findViewById(R.id.question_imageView);
-		this.question_previous_textView = view.findViewById(R.id.question_previous_answers);
-		this.answer_yes = view.findViewById(R.id.answer_yes);
-		this.answer_no = view.findViewById(R.id.answer_no);
-		this.answer_unsure = view.findViewById(R.id.answer_unsure);
+		this.questionTextView = view.findViewById(R.id.question_textview);
+		this.questionImageView = view.findViewById(R.id.question_imageView);
+		this.questionPreviousTextView = view.findViewById(R.id.question_previous_answers);
+		this.answerYes = view.findViewById(R.id.answer_yes);
+		this.answerNo = view.findViewById(R.id.answer_no);
+		this.answerUnsure = view.findViewById(R.id.answer_unsure);
 
-		this.answer_yes.setOnClickListener(this);
-		this.answer_no.setOnClickListener(this);
-		this.answer_unsure.setOnClickListener(this);
+		this.answerYes.setOnClickListener(this);
+		this.answerNo.setOnClickListener(this);
+		this.answerUnsure.setOnClickListener(this);
 	}
 
 	@Override
@@ -116,7 +108,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new ClassCastException(context.toString()
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}
@@ -140,27 +132,27 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	@Override
 	public void showQuestion(int question, String name, int color, int drawable) {
 		int colorResource = ContextCompat.getColor(getContext(), color);
-		question_textView.setBackgroundColor(colorResource);
-		question_imageView.setBackgroundTintList(ContextCompat.getColorStateList(this.getContext(), color));
-		question_previous_textView.setBackgroundColor(colorResource);
+		questionTextView.setBackgroundColor(colorResource);
+		questionImageView.setBackgroundTintList(ContextCompat.getColorStateList(this.getContext(), color));
+		questionPreviousTextView.setBackgroundColor(colorResource);
 
-		question_textView.setText(String.format(getString(question), name));
+		questionTextView.setText(String.format(getString(question), name));
 
 		// Not every question has a drawable
 		if (drawable == 0) {
-			this.question_imageView.setImageResource(R.drawable.ic_unsure);
+			this.questionImageView.setImageResource(R.drawable.ic_unsure);
 		} else {
-			this.question_imageView.setImageResource(drawable);
-			this.question_imageView.setColorFilter(ContextCompat.getColor(getContext(), R.color.white));
+			this.questionImageView.setImageResource(drawable);
+			this.questionImageView.setColorFilter(ContextCompat.getColor(getContext(), R.color.white));
 		}
 	}
 
 	@Override
 	public void setPreviousAnswer(String answer) {
-		if (answer == "") {
-			question_previous_textView.setVisibility(View.GONE);
+		if ("".equals(answer)) {
+			questionPreviousTextView.setVisibility(View.GONE);
 		} else {
-			question_previous_textView.setText(String.format(getString(R.string.others_have_answered_this_question), answer));
+			questionPreviousTextView.setText(String.format(getString(R.string.others_have_answered_this_question), answer));
 		}
 	}
 
@@ -172,14 +164,9 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 
 	@Override
 	public void setBackgroundColor(int yes, int no, int unsure) {
-		this.answer_yes.setBackgroundColor(ContextCompat.getColor(getContext(), yes));
-		this.answer_no.setBackgroundColor(ContextCompat.getColor(getContext(), no));
-		this.answer_unsure.setBackgroundColor(ContextCompat.getColor(getContext(), unsure));
-	}
-
-	@Override
-	public void setPresenter(QuestionFragmentContract.Presenter presenter) {
-		questionPresenter = presenter;
+		this.answerYes.setBackgroundColor(ContextCompat.getColor(getContext(), yes));
+		this.answerNo.setBackgroundColor(ContextCompat.getColor(getContext(), no));
+		this.answerUnsure.setBackgroundColor(ContextCompat.getColor(getContext(), unsure));
 	}
 
 	@Override

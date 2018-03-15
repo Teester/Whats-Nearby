@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
 
@@ -26,7 +27,6 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	private TextView checkdistance;
 	private TextView lastLocation;
 	private MainActivityContract.DebugPresenter debugPresenter;
-	private SourceContract.Preferences preferences;
 	private SharedPreferences sharedPreferences;
 
 	@Override
@@ -48,13 +48,13 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		this.lastQueryTime = view.findViewById(R.id.textView6);
-		this.lastNotificationTime = view.findViewById(R.id.textView7);
-		this.lastQuery = view.findViewById(R.id.textView8);
-		this.accuracy = view.findViewById(R.id.textView16);
-		this.querydistance = view.findViewById(R.id.textView14);
-		this.checkdistance = view.findViewById(R.id.textView15);
-		this.lastLocation = view.findViewById(R.id.textView17);
+		this.lastQueryTime = view.findViewById(R.id.debug_last_overpass_query_value);
+		this.lastNotificationTime = view.findViewById(R.id.debug_last_notification_value);
+		this.lastQuery = view.findViewById(R.id.debug_last_overpass_query_result_value);
+		this.accuracy = view.findViewById(R.id.debug_accuracy_value);
+		this.querydistance = view.findViewById(R.id.debug_distance_since_last_query_value);
+		this.checkdistance = view.findViewById(R.id.debug_distance_since_last_location_check_value);
+		this.lastLocation = view.findViewById(R.id.debug_most_recent_location_value);
 
 		debugPresenter.getDetails();
 	}
@@ -112,21 +112,16 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	}
 
 	@Override
-	public void setPresenter(MainActivityContract.DebugPresenter presenter) {
-
-	}
-
-	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 		switch (s) {
-			case "latitude":
-			case "longitude":
-			case "distance_to_last_location":
-			case "last_query_time":
-			case "last_notification_time":
-			case "distance_to_last_query":
-			case "last_query":
-			case "location_accuracy":
+			case PreferenceList.LATITUDE:
+			case PreferenceList.LONGITUDE:
+			case PreferenceList.DISTANCE_TO_LAST_LOCATION:
+			case PreferenceList.LAST_QUERY_TIME:
+			case PreferenceList.LAST_NOTIFICATION_TIME:
+			case PreferenceList.DISTANCE_TO_LAST_QUERY:
+			case PreferenceList.LAST_QUERY:
+			case PreferenceList.LOCATION_ACCURACY:
 				debugPresenter.getDetails();
 				break;
 			default:

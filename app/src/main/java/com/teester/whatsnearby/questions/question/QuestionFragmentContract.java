@@ -1,20 +1,15 @@
 package com.teester.whatsnearby.questions.question;
 
-import com.teester.whatsnearby.BasePresenter;
-import com.teester.whatsnearby.BaseView;
-
 public interface QuestionFragmentContract {
 
-	interface Presenter extends BasePresenter {
+	interface Presenter {
 
 		void getQuestion();
-
-		void getPreviousAnswer(String key);
 
 		void onAnswerSelected(int id);
 	}
 
-	interface View extends BaseView<Presenter> {
+	interface View {
 
 		void showQuestion(int question, String name, int color, int drawable);
 

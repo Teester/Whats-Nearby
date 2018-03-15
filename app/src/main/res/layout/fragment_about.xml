@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cccccc">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/about_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/menu_about"
+        app:titleTextColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/about_version_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:layout_marginEnd="8dp"
+        android:paddingEnd="@dimen/padding_small"
+        android:paddingStart="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
+        android:text="@string/version"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/about_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/about_toolbar"/>
+
+    <TextView
+        android:id="@+id/about_version_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingEnd="@dimen/padding_small"
+        android:paddingStart="@dimen/padding_small"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textIsSelectable="false"
+        app:layout_constraintEnd_toEndOf="@+id/about_version_title"
+        app:layout_constraintStart_toStartOf="@+id/about_version_title"
+        app:layout_constraintTop_toBottomOf="@+id/about_version_title"
+        tools:text="0.12"/>
+
+    <View
+        android:id="@+id/about_version_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:textIsSelectable="false"
+        app:layout_constraintEnd_toEndOf="@+id/about_version_content"
+        app:layout_constraintStart_toStartOf="@+id/about_version_content"
+        app:layout_constraintTop_toBottomOf="@+id/about_version_content"/>
+
+    <TextView
+        android:id="@+id/about_authors_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/padding_small"
+        android:paddingStart="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
+        android:text="@string/authors"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/about_version_divider"
+        app:layout_constraintStart_toStartOf="@+id/about_version_divider"
+        app:layout_constraintTop_toBottomOf="@+id/about_version_divider"/>
+
+    <TextView
+        android:id="@+id/about_authors_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingEnd="@dimen/padding_small"
+        android:paddingStart="@dimen/padding_small"
+        android:text="@string/authors_string"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textIsSelectable="false"
+        app:layout_constraintEnd_toEndOf="@+id/about_authors_title"
+        app:layout_constraintStart_toStartOf="@+id/about_authors_title"
+        app:layout_constraintTop_toBottomOf="@+id/about_authors_title"/>
+
+    <View
+        android:id="@+id/about_authors_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:textIsSelectable="false"
+        app:layout_constraintEnd_toEndOf="@+id/about_authors_content"
+        app:layout_constraintStart_toStartOf="@+id/about_authors_content"
+        app:layout_constraintTop_toBottomOf="@+id/about_authors_content"/>
+
+    <TextView
+        android:id="@+id/about_licence_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:paddingEnd="@dimen/padding_small"
+        android:paddingStart="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
+        android:text="@string/licence"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/about_licence_icon"
+        app:layout_constraintStart_toStartOf="@+id/about_authors_divider"
+        app:layout_constraintTop_toBottomOf="@+id/about_authors_divider"/>
+
+    <TextView
+        android:id="@+id/about_licence_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingEnd="@dimen/padding_small"
+        android:paddingStart="@dimen/padding_small"
+        android:text="@string/gnu_general_public_licence_version_3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintEnd_toStartOf="@+id/about_licence_icon"
+        app:layout_constraintStart_toStartOf="@+id/about_licence_title"
+        app:layout_constraintTop_toBottomOf="@+id/about_licence_title"/>
+
+    <View
+        android:id="@+id/about_licence_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:textIsSelectable="false"
+        app:layout_constraintEnd_toEndOf="@+id/about_licence_icon"
+        app:layout_constraintStart_toStartOf="@+id/about_licence_content"
+        app:layout_constraintTop_toBottomOf="@+id/about_licence_content"/>
+
+    <TextView
+        android:id="@+id/about_source_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/padding_small"
+        android:paddingStart="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
+        android:text="@string/source_repository"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/about_source_icon"
+        app:layout_constraintStart_toStartOf="@+id/about_licence_divider"
+        app:layout_constraintTop_toBottomOf="@+id/about_licence_divider"/>
+
+    <TextView
+        android:id="@+id/about_source_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingEnd="@dimen/padding_small"
+        android:paddingStart="@dimen/padding_small"
+        android:text="@string/what_s_nearby_on_github"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintEnd_toStartOf="@+id/about_source_icon"
+        app:layout_constraintStart_toStartOf="@+id/about_source_title"
+        app:layout_constraintTop_toBottomOf="@+id/about_source_title"/>
+
+    <View
+        android:id="@+id/about_source_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:textIsSelectable="false"
+        app:layout_constraintEnd_toEndOf="@+id/about_source_icon"
+        app:layout_constraintStart_toStartOf="@+id/about_source_content"
+        app:layout_constraintTop_toBottomOf="@+id/about_source_content"/>
+
+    <ImageView
+        android:id="@+id/about_licence_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:contentDescription="@string/icon_content_description"
+        android:padding="@dimen/padding_small"
+        android:tint="#666666"
+        app:layout_constraintBottom_toTopOf="@+id/about_source_title"
+        app:layout_constraintEnd_toEndOf="@+id/about_authors_content"
+        app:layout_constraintTop_toTopOf="@+id/about_licence_title"
+        app:srcCompat="@drawable/ic_open_in_browser"/>
+
+    <ImageView
+        android:id="@+id/about_source_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:contentDescription="@string/icon_content_description"
+        android:padding="@dimen/padding_small"
+        android:tint="#666666"
+        app:layout_constraintBottom_toBottomOf="@+id/about_source_divider"
+        app:layout_constraintEnd_toEndOf="@+id/about_licence_icon"
+        app:layout_constraintTop_toTopOf="@+id/about_source_title"
+        app:srcCompat="@drawable/ic_open_in_browser"/>
+
+</android.support.constraint.ConstraintLayout>

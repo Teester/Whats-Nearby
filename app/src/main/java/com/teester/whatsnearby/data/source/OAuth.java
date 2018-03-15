@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Browser;
 
+import com.teester.whatsnearby.data.PreferenceList;
+
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
@@ -14,8 +16,8 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 
-public class OAuth implements SourceContract.OAuth {
-	private static final String TAG = OAuth.class.getSimpleName();
+public class OAuth implements SourceContract.oAuth {
+
 	private static final String CONSUMER_KEY = "1LJqwD4kMz96HTbv9I1U1XBM0AL1RpcjuFOPvW0B";
 	private static final String CONSUMER_SECRET = "KDCLveu82AZawLELpC6yIP3EI8fJa0JqF0ALukbl";
 	private static final String REQUEST_TOKEN_ENDPOINT_URL = "https://www.openstreetmap.org/oauth/request_token";
@@ -34,19 +36,19 @@ public class OAuth implements SourceContract.OAuth {
 	@Override
 	public void processOAuth() {
 
-		String verifier = preferences.getStringPreference("oauth_verifier");
-		String token = preferences.getStringPreference("oauth_token");
-		String tokenSecret = preferences.getStringPreference("oauth_token_secret");
+		String verifier = preferences.getStringPreference(PreferenceList.OAUTH_VERIFIER);
+		String token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
+		String tokenSecret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
 
 		OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		OAuthProvider provider = new CommonsHttpOAuthProvider(REQUEST_TOKEN_ENDPOINT_URL, ACCESS_TOKEN_ENDPOINT_URL, AUTHORIZE_WEBSITE_URL);
 
 		try {
-			if (verifier == "") {
+			if ("".equals(verifier)) {
 				String url = provider.retrieveRequestToken(consumer, CALLBACK_URL);
 
-				preferences.setStringPreference("oauth_token_secret", consumer.getTokenSecret());
-				preferences.setStringPreference("oauth_token", consumer.getToken());
+				preferences.setStringPreference(PreferenceList.OAUTH_TOKEN_SECRET, consumer.getTokenSecret());
+				preferences.setStringPreference(PreferenceList.OAUTH_TOKEN, consumer.getToken());
 
 				//Open the url in an external browser
 				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -58,9 +60,9 @@ public class OAuth implements SourceContract.OAuth {
 				provider.setOAuth10a(true);
 				provider.retrieveAccessToken(consumer, verifier);
 
-				preferences.setStringPreference("oauth_token_secret", consumer.getTokenSecret());
-				preferences.setStringPreference("oauth_token", consumer.getToken());
-				preferences.setBooleanPreference("logged_in_to_osm", true);
+				preferences.setStringPreference(PreferenceList.OAUTH_TOKEN_SECRET, consumer.getTokenSecret());
+				preferences.setStringPreference(PreferenceList.OAUTH_TOKEN, consumer.getToken());
+				preferences.setBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM, true);
 			}
 		} catch (OAuthMessageSignerException e) {
 			e.printStackTrace();

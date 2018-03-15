@@ -50,25 +50,31 @@ public class QuestionPresenterTest {
 	}
 
 	@Test
-	public void getObjectTest() {
+	public void getQuestionTest() {
+		questionPresenter.getQuestion();
+		verify(view).showQuestion(anyInt(), anyString(), anyInt(), anyInt());
+	}
+
+	@Test
+	public void getPreviousAnswerTest() {
 		questionPresenter.getQuestion();
 		verify(view).setPreviousAnswer(anyString());
 	}
 
 	@Test
-	public void yes_answer_selected() {
+	public void yesAnswerSelected() {
 		questionPresenter.onAnswerSelected(R.id.answer_yes);
 		verify(view).setBackgroundColor(anyInt(), anyInt(), anyInt());
 	}
 
 	@Test
-	public void no_answer_selected() {
+	public void noAnswerSelected() {
 		questionPresenter.onAnswerSelected(R.id.answer_no);
 		verify(view).setBackgroundColor(anyInt(), anyInt(), anyInt());
 	}
 
 	@Test
-	public void unsure_answer_selected() {
+	public void unsureAnswerSelected() {
 		questionPresenter.onAnswerSelected(R.id.answer_unsure);
 		Set<String> keySet = Answers.getAnswerMap().keySet();
 		String key = keySet.toArray(new String[keySet.size()])[0];

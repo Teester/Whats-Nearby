@@ -1,5 +1,7 @@
 package com.teester.whatsnearby.data;
 
+import com.teester.whatsnearby.data.pois.PoiContract;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +63,7 @@ public class OsmObject {
 	}
 
 	public int getDrawable() {
-		OsmObjectType objectType = PoiTypes.getPoiType(this.type);
+		PoiContract objectType = PoiTypes.getPoiType(this.type);
 		int drawable = objectType.getObjectIcon();
 		return drawable;
 	}

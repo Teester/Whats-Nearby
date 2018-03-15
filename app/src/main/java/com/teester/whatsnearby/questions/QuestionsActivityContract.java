@@ -1,24 +1,22 @@
 package com.teester.whatsnearby.questions;
 
-import com.teester.whatsnearby.BasePresenter;
-import com.teester.whatsnearby.BaseView;
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.OsmObjectType;
+import com.teester.whatsnearby.data.pois.PoiContract;
 
 import java.net.URI;
 
 public interface QuestionsActivityContract {
 
-	interface Presenter extends BasePresenter {
+	interface Presenter {
 
 		void addPoiNameToTextview();
 
 		void assessIntentData(URI uri);
 	}
 
-	interface View extends BaseView<Presenter> {
+	interface View {
 
-		void setViewPager(OsmObject osmObject, OsmObjectType listOfQuestions);
+		void setViewPager(OsmObject osmObject, PoiContract listOfQuestions);
 
 		void startNewActivity();
 

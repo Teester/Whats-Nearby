@@ -7,7 +7,7 @@ public interface SourceContract {
 
 		boolean getBooleanPreference(String preference);
 
-		void setStringPreference(String preference, String value);
+		Void setStringPreference(String preference, String value);
 
 		void setBooleanPreference(String preference, boolean value);
 
@@ -35,12 +35,12 @@ public interface SourceContract {
 		void queryOverpass(double latitude, double longitude, float accuracy);
 	}
 
-	interface Upload {
+	interface upload {
 
-		void Upload();
+		void uploadToOsm();
 	}
 
-	interface OAuth {
+	interface oAuth {
 
 		void processOAuth();
 	}

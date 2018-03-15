@@ -1,20 +1,18 @@
 package com.teester.whatsnearby.questions.nothere;
 
-import com.teester.whatsnearby.BasePresenter;
-import com.teester.whatsnearby.BaseView;
 import com.teester.whatsnearby.data.OsmObject;
 
 import java.util.List;
 
 public interface NotHereFragmentContract {
-	interface Presenter extends BasePresenter {
+	interface Presenter {
 		void getPoiDetails();
 
 		void onItemClicked(int i);
 
 	}
 
-	interface View extends BaseView<Presenter> {
+	interface View {
 
 		void setTextview(String string);
 

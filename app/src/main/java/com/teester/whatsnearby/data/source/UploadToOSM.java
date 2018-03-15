@@ -1,6 +1,7 @@
 package com.teester.whatsnearby.data.source;
 
 import com.teester.whatsnearby.data.Answers;
+import com.teester.whatsnearby.data.PreferenceList;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -18,13 +19,11 @@ import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
  * Handles uploading answers to OpenStreetMap
  */
 
-public class UploadToOSM implements SourceContract.Upload {
-	private static final String TAG = UploadToOSM.class.getSimpleName();
+public class UploadToOSM implements SourceContract.upload {
 
 	private static final String CONSUMER_KEY = "1LJqwD4kMz96HTbv9I1U1XBM0AL1RpcjuFOPvW0B";
 	private static final String CONSUMER_SECRET = "KDCLveu82AZawLELpC6yIP3EI8fJa0JqF0ALukbl";
 
-	private Element currentElement;
 	private SourceContract.Preferences preferences;
 
 	public UploadToOSM(SourceContract.Preferences preferences) {
@@ -32,7 +31,7 @@ public class UploadToOSM implements SourceContract.Upload {
 	}
 
 	@Override
-	public void Upload() {
+	public void uploadToOsm() {
 		String type = Answers.getPoiType();
 		long id = Answers.getPoiId();
 		Map<String, String> changesetTags = Answers.getChangesetTags();
@@ -50,16 +49,16 @@ public class UploadToOSM implements SourceContract.Upload {
 		List<Element> collection = Collections.singletonList(modifiedElement);
 		if (modifiedElement.isModified()) {
 			try {
-				long upload = new MapDataDao(osm).updateMap(changesetTags, collection, null);
+				new MapDataDao(osm).updateMap(changesetTags, collection, null);
 			} catch (OsmAuthorizationException e) {
-				//Log.i(TAG, e.toString());
+				e.printStackTrace();
 			}
 		}
 	}
 
 	private OsmConnection getConnection() {
-		String oauth_token_secret = preferences.getStringPreference("oauth_token_secret");
-		String oauth_token = preferences.getStringPreference("oauth_token");
+		String oauth_token_secret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
+		String oauth_token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
 
 		OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		consumer.setTokenWithSecret(oauth_token, oauth_token_secret);
@@ -95,7 +94,7 @@ public class UploadToOSM implements SourceContract.Upload {
 			Map.Entry<String, String> pair = it.next();
 			String key = pair.getKey();
 			String value = pair.getValue();
-			if (value != "") {
+			if (!"".equals(value)) {
 				modifiedElement.getTags().put(key, value);
 			}
 		}

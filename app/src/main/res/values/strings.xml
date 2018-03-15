@@ -66,5 +66,15 @@
     <string name="debug_distance_since_last_location_check" translatable="false">Distance since last location check</string>
     <string name="debug_see_debug_data" translatable="false">See Debug Data</string>
     <string name="debug_most_recent_location" translatable="false">Most recent location:</string>
+    <string name="menu_debug_mode">Debug Mode</string>
+    <string name="menu_about">About What\'s Nearby</string>
+    <string name="version">Version</string>
+    <string name="authors">Authors</string>
+    <string name="licence">Licence</string>
+    <string name="gnu_general_public_licence_version_3">GNU General Public Licence Version 3</string>
+    <string name="source_repository">Source Repository</string>
+    <string name="what_s_nearby_on_github">What\'s Nearby on Github</string>
+    <string name="authors_string">© 2017–2018 Mark Tully</string>
+    <string name="debug_details">Debug Details</string>
 
 </resources>

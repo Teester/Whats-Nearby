@@ -7,6 +7,10 @@
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_debug_mode"
-        android:title="Debug Mode"
+        android:title="@string/menu_debug_mode"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/menu_about"
         app:showAsAction="never"/>
 </menu>

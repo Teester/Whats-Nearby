@@ -6,12 +6,13 @@ import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.Utilities;
 import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
-import com.teester.whatsnearby.data.localDatabase.AppDatabase;
-import com.teester.whatsnearby.data.localDatabase.VisitedLocation;
-import com.teester.whatsnearby.data.location.Notifier;
+import com.teester.whatsnearby.data.PreferenceList;
+import com.teester.whatsnearby.data.database.AppDatabase;
+import com.teester.whatsnearby.data.database.VisitedLocation;
+import com.teester.whatsnearby.data.location.LocationJobNotifier;
+import com.teester.whatsnearby.data.pois.PoiContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,10 +30,8 @@ import java.util.Scanner;
 
 public class QueryOverpass implements SourceContract.Overpass {
 
-	private static final String TAG = QueryOverpass.class.getSimpleName();
 	private double queryLatitude;
 	private double queryLongitude;
-	private double queryAccuracy;
 	private List<OsmObject> poiList = new ArrayList<OsmObject>();
 	private Context context;
 
@@ -53,13 +52,16 @@ public class QueryOverpass implements SourceContract.Overpass {
 	 */
 	@Override
 	public String getOverpassUri(double latitude, double longitude, float accuracy) {
+		float measuredAccuracy;
 		if (accuracy < 20) {
-			accuracy = 20;
+			measuredAccuracy = 20;
+		} else {
+			measuredAccuracy = accuracy;
 		}
 
 		// Build the Overpass query
 		// getting the centre of nodes, ways and relations a given radius around a location for different types
-		String overpassLocation = String.format("around:%s,%s,%s", accuracy, latitude, longitude);
+		String overpassLocation = String.format("around:%s,%s,%s", measuredAccuracy, latitude, longitude);
 		String nwr = "%1$s[~\"^(%2$s)$\"~\".\"](%3$s);";
 		String types = "shop|amenity|leisure|tourism";
 
@@ -122,7 +124,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 
 							String type = getType(tags);
 
-							OsmObjectType poitype = PoiTypes.getPoiType(type);
+							PoiContract poitype = PoiTypes.getPoiType(type);
 							if (poitype != null) {
 								OsmObject object = new OsmObject(id, osmType, name, type, lat, lon, distance);
 								Iterator<String> keysIterator = tags.keys();
@@ -150,13 +152,12 @@ public class QueryOverpass implements SourceContract.Overpass {
 	@Override
 	public void queryOverpass(double latitude, double longitude, float accuracy) {
 		SourceContract.Preferences preferences = new Preferences(context);
-		preferences.setLongPreference("last_query_time", System.currentTimeMillis());
-		queryLatitude = latitude;
-		queryLongitude = longitude;
-		queryAccuracy = accuracy;
+		preferences.setLongPreference(PreferenceList.LAST_QUERY_TIME, System.currentTimeMillis());
+		this.queryLatitude = latitude;
+		this.queryLongitude = longitude;
 		String overpassUrl = getOverpassUri(latitude, longitude, accuracy);
 		String overpassQuery = queryOverpassApi(overpassUrl);
-		preferences.setStringPreference("last_query", overpassQuery);
+		preferences.setStringPreference(PreferenceList.LAST_QUERY, overpassQuery);
 		processResult(overpassQuery);
 	}
 
@@ -167,7 +168,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 	 * @return - the location type
 	 * @throws JSONException - if it's not an amenity, shop, tourism or leisure
 	 */
-	String getType(JSONObject tags) throws JSONException {
+	public String getType(JSONObject tags) throws JSONException {
 		String type = "";
 		if (tags.has("amenity")) {
 			type = tags.getString("amenity");
@@ -193,33 +194,36 @@ public class QueryOverpass implements SourceContract.Overpass {
 
 			OsmObject poi = poiList.get(0);
 			boolean recentlyVisited = checkDatabaseForLocation(poi.getId());
-			OsmObjectType type = PoiTypes.getPoiType(poi.getType());
+			PoiContract type = PoiTypes.getPoiType(poi.getType());
 			int drawable = type.getObjectIcon();
 			System.out.println(String.format("At %s before: %s", poi.getName(), recentlyVisited));
-			if (recentlyVisited == false) {
+			if (!recentlyVisited) {
 				updateDatabase(poi);
-				Notifier.createNotification(context, poi.getName(), drawable);
+				LocationJobNotifier.createNotification(context, poi.getName(), drawable);
 			}
 		} else {
-			Notifier.cancelNotifictions(context);
+			LocationJobNotifier.cancelNotifictions(context);
 		}
 	}
 
 	private boolean checkDatabaseForLocation(long osmId) {
+		SourceContract.Preferences preferences = new Preferences(context);
+		if (BuildConfig.DEBUG && preferences.getBooleanPreference(PreferenceList.DEBUG_MODE)) {
+			return false;
+		}
+
 		AppDatabase db = AppDatabase.getAppDatabase(context);
 		VisitedLocation location = db.visitedLocationDao().findByOsmId(osmId);
 		List<VisitedLocation> list = db.visitedLocationDao().getAllVisitedLocations();
+
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println("name: " + list.get(i).getName() + new Date(list.get(i).getTimeVisited()));
-		}
-		if (location != null) {
-			if (location.getTimeVisited() > System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000)) {
-				return true;
-			}
+			Date timeVisited = new Date(list.get(i).getTimeVisited());
+			System.out.println(String.format("name: %s, Last visited: %s", list.get(i).getName(), timeVisited));
 		}
 
-		return false;
-
+		long time = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000);
+		boolean notifyOrNot = location != null && location.getTimeVisited() > time;
+		return notifyOrNot;
 	}
 
 	private void updateDatabase(OsmObject osmObject) {

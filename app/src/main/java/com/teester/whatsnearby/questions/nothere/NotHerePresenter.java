@@ -8,9 +8,9 @@ import java.util.List;
 
 public class NotHerePresenter implements NotHereFragmentContract.Presenter {
 
-	NotHereFragmentContract.View view;
-	List<OsmObject> poiList;
-	List<OsmObject> alternateList;
+	private NotHereFragmentContract.View view;
+	private List<OsmObject> poiList;
+	private List<OsmObject> alternateList;
 
 	public NotHerePresenter(NotHereFragmentContract.View view) {
 		this.view = view;
@@ -31,15 +31,5 @@ public class NotHerePresenter implements NotHereFragmentContract.Presenter {
 		intentList.add(0, this.alternateList.get(i));
 		PoiList.getInstance().setPoiList(intentList);
 		view.startActivity();
-	}
-
-	@Override
-	public void init() {
-
-	}
-
-	@Override
-	public void destroy() {
-
 	}
 }

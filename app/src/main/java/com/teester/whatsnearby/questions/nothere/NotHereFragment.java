@@ -22,17 +22,11 @@ import java.util.List;
 
 public class NotHereFragment extends Fragment implements NotHereFragmentContract.View {
 
-	private static final String TAG = NotHereFragment.class.getSimpleName();
-
 	private RecyclerView recyclerView;
 	private TextView textView;
 	private NotHereFragmentContract.Presenter notHerePresenter;
 
 	private OnFragmentInteractionListener mListener;
-
-	public NotHereFragment() {
-		// Required empty public constructor
-	}
 
 	public static NotHereFragment newInstance() {
 		return new NotHereFragment();
@@ -76,7 +70,7 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new ClassCastException(context.toString()
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}
@@ -107,11 +101,6 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 		startActivity(intent);
 	}
 
-	@Override
-	public void setPresenter(NotHereFragmentContract.Presenter presenter) {
-		notHerePresenter = presenter;
-	}
-
 	public interface OnFragmentInteractionListener {
 		void onNotHereFragmentInteraction();
 	}
@@ -125,7 +114,7 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 
 		@Override
 		public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			View view = LayoutInflater.from(getContext()).inflate(R.layout.poi_list_item, parent, false);
+			View view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_poi, parent, false);
 			view.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -159,7 +148,7 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 			public ViewHolder(View view) {
 				super(view);
 				name = view.findViewById(R.id.name);
-				type = view.findViewById(R.id.type);
+				type = view.findViewById(R.id.about_list_content);
 				distance = view.findViewById(R.id.distance);
 				image = view.findViewById(R.id.type_icon);
 			}

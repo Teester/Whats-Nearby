@@ -35,22 +35,22 @@ public class Utilities {
 	/**
 	 * Calculates the distance, in metres, between two points
 	 *
-	 * @param lat1 - latitude of location 1
-	 * @param lon1 - longitude of location 1
-	 * @param lat2 - latitude of location 2
-	 * @param lon2 - longitude of location 2
+	 * @param latitude1 - latitude of location 1
+	 * @param longitude1 - longitude of location 1
+	 * @param latitude2 - latitude of location 2
+	 * @param longitude2 - longitude of location 2
 	 * @return - distance between location 1 and 2
 	 */
-	public static float computeDistance(double lat1, double lon1, double lat2, double lon2) {
+	public static float computeDistance(double latitude1, double longitude1, double latitude2, double longitude2) {
 		// Based on http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
 		// using the "Inverse Formula" (section 4)
 
 		int MAXITERS = 20;
 		// Convert lat/long to radians
-		lat1 *= Math.PI / 180.0;
-		lat2 *= Math.PI / 180.0;
-		lon1 *= Math.PI / 180.0;
-		lon2 *= Math.PI / 180.0;
+		double lat1 = latitude1 * (Math.PI / 180.0);
+		double lat2 = latitude2 * (Math.PI / 180.0);
+		double lon1 = longitude1 * (Math.PI / 180.0);
+		double lon2 = longitude2 * (Math.PI / 180.0);
 
 		double a = 6378137.0; // WGS84 major axis
 		double b = 6356752.3142; // WGS84 semi-major axis

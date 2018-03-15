@@ -2,6 +2,7 @@ package com.teester.whatsnearby.main;
 
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.Utilities;
+import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 import java.io.UnsupportedEncodingException;
@@ -15,23 +16,12 @@ import java.util.Map;
 
 public class MainActivityPresenter implements MainActivityContract.Presenter {
 
-	private static final String TAG = MainActivityPresenter.class.getSimpleName();
-
 	private SourceContract.Preferences preferences;
 	private MainActivityContract.View view;
 
 	public MainActivityPresenter(MainActivityContract.View view, SourceContract.Preferences preferences) {
 		this.view = view;
 		this.preferences = preferences;
-		//this.view.setPresenter(this);
-	}
-
-	@Override
-	public void init() {
-	}
-
-	@Override
-	public void destroy() {
 	}
 
 	/**
@@ -39,10 +29,10 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	 */
 	@Override
 	public void showIfLoggedIn() {
-		boolean logged_in = preferences.getBooleanPreference("logged_in_to_osm");
+		boolean loggedIn = preferences.getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM);
 		int message;
 		int button;
-		if (logged_in == true) {
+		if (loggedIn) {
 			message = R.string.logged_in_as;
 			button = R.string.log_out;
 		} else {
@@ -62,10 +52,10 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 		if (uri != null) {
 			try {
 				Map<String, List<String>> list = Utilities.splitQuery(uri);
-				String verifier = list.get("oauth_verifier").get(0);
-				String token = list.get("oauth_token").get(0);
-				preferences.setStringPreference("oauth_verifier", verifier);
-				preferences.setStringPreference("oauth_token", token);
+				String verifier = list.get(PreferenceList.OAUTH_VERIFIER).get(0);
+				String token = list.get(PreferenceList.OAUTH_TOKEN).get(0);
+				preferences.setStringPreference(PreferenceList.OAUTH_VERIFIER, verifier);
+				preferences.setStringPreference(PreferenceList.OAUTH_TOKEN, token);
 				view.startOAuth();
 
 			} catch (UnsupportedEncodingException e) {
@@ -79,12 +69,12 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	 * then either do nothing if logging out or start oAuth if logging in.
 	 */
 	public void onButtonClicked() {
-		preferences.setStringPreference("oauth_verifier", "");
-		preferences.setStringPreference("oauth_token", "");
-		preferences.setStringPreference("oauth_token_secret", "");
+		preferences.setStringPreference(PreferenceList.OAUTH_VERIFIER, "");
+		preferences.setStringPreference(PreferenceList.OAUTH_TOKEN, "");
+		preferences.setStringPreference(PreferenceList.OAUTH_TOKEN_SECRET, "");
 
-		if (preferences.getBooleanPreference("logged_in_to_osm") == true) {
-			preferences.setBooleanPreference("logged_in_to_osm", false);
+		if (preferences.getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM)) {
+			preferences.setBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM, false);
 		} else {
 			view.startOAuth();
 		}
@@ -93,9 +83,9 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
 	@Override
 	public void toggleDebugMode() {
-		String preference = "debug_mode";
+		String preference = PreferenceList.DEBUG_MODE;
 		boolean debug = preferences.getBooleanPreference(preference);
-		if (debug == true) {
+		if (debug) {
 			preferences.setBooleanPreference(preference, false);
 		} else {
 			preferences.setBooleanPreference(preference, true);

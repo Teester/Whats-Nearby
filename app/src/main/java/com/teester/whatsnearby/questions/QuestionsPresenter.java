@@ -3,9 +3,10 @@ package com.teester.whatsnearby.questions;
 import com.teester.whatsnearby.Utilities;
 import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.OsmObjectType;
 import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PoiTypes;
+import com.teester.whatsnearby.data.PreferenceList;
+import com.teester.whatsnearby.data.pois.PoiContract;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 import java.io.UnsupportedEncodingException;
@@ -25,22 +26,13 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 	}
 
 	@Override
-	public void init() {
-	}
-
-	@Override
-	public void destroy() {
-
-	}
-
-	@Override
 	public void addPoiNameToTextview() {
 		List<OsmObject> poiList = PoiList.getInstance().getPoiList();
 		String poiType = poiList.get(0).getType();
-		OsmObjectType listOfQuestions = PoiTypes.getPoiType(poiType);
+		PoiContract listOfQuestions = PoiTypes.getPoiType(poiType);
 		listOfQuestions.shuffleQuestions();
 
-		if (preferences.getBooleanPreference("logged_in_to_osm") == true) {
+		if (preferences.getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM)) {
 			view.setViewPager(poiList.get(0), listOfQuestions);
 			if (poiList.size() == 1) {
 				view.makeTextViewInvisible();
@@ -57,10 +49,10 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 		if (uri != null) {
 			try {
 				Map<String, List<String>> list = Utilities.splitQuery(uri);
-				String verifier = list.get("oauth_verifier").get(0);
-				String token = list.get("oauth_token").get(0);
-				preferences.setStringPreference("oauth_verifier", verifier);
-				preferences.setStringPreference("oauth_token", token);
+				String verifier = list.get(PreferenceList.OAUTH_VERIFIER).get(0);
+				String token = list.get(PreferenceList.OAUTH_TOKEN).get(0);
+				preferences.setStringPreference(PreferenceList.OAUTH_VERIFIER, verifier);
+				preferences.setStringPreference(PreferenceList.OAUTH_TOKEN, token);
 				view.startOAuth();
 
 			} catch (UnsupportedEncodingException e) {

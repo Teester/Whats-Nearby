@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.teester.whatsnearby">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -31,18 +32,22 @@
                     android:scheme="mapquestions"/>
             </intent-filter>
         </activity>
-        <service android:name=".data.location.LocationService"/>
+
         <activity
             android:name="com.teester.whatsnearby.questions.QuestionsActivity"
             android:label="@string/title_activity_questions"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
         <receiver android:name="com.teester.whatsnearby.Startup">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".data.location.LocationJobServiceReceiver"/>
+
+        <service
+            android:name=".data.location.LocationJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 
 </manifest>

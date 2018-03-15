@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/type_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:contentDescription="@string/icon_content_description"
+        android:src="@drawable/ic_bank"
+        android:tint="@color/text_color_light"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/text_color_light"
+        android:textIsSelectable="false"
+        app:layout_constraintLeft_toRightOf="@+id/type_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/app_name"/>
+
+    <TextView
+        android:id="@+id/about_list_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_none"
+        android:layout_marginStart="@dimen/margin_small"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/text_color_light"
+        android:textIsSelectable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/type_icon"
+        app:layout_constraintLeft_toRightOf="@+id/type_icon"
+        tools:text="Type"/>
+
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/text_color_light"
+        android:textIsSelectable="false"
+        app:layout_constraintBaseline_toBaselineOf="@+id/about_list_content"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="Distance"/>
+</android.support.constraint.ConstraintLayout>
