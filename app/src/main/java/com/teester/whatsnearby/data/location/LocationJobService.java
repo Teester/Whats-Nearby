@@ -7,7 +7,6 @@ import android.app.job.JobService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.wifi.WifiManager;
 import android.support.v4.app.ActivityCompat;
 
 import com.mapzen.android.lost.api.LocationRequest;
@@ -27,14 +26,8 @@ public class LocationJobService extends JobService implements LocationJobService
 				.addConnectionCallbacks(new LostApiClient.ConnectionCallbacks() {
 					@Override
 					public void onConnected() {
-						int priority;
-						if (checkWifi()) {
-							priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
-						} else {
-							priority = LocationRequest.PRIORITY_HIGH_ACCURACY;
-						}
 						LocationRequest request = LocationRequest.create();
-						request.setPriority(priority);
+						request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 						request.setInterval(60000);
 						request.setFastestInterval(60000);
 
@@ -72,19 +65,4 @@ public class LocationJobService extends JobService implements LocationJobService
 			return;
 		}
 	}
-
-	private boolean checkWifi() {
-		WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-		switch (wifiManager.getWifiState()) {
-			case WifiManager.WIFI_STATE_DISABLED:
-			case WifiManager.WIFI_STATE_DISABLING:
-				return false;
-			case WifiManager.WIFI_STATE_ENABLED:
-			case WifiManager.WIFI_STATE_ENABLING:
-			case WifiManager.WIFI_STATE_UNKNOWN:
-			default:
-				return true;
-		}
-	}
-
 }
