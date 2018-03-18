@@ -8,6 +8,18 @@ allprojects {
     }
 }
 
+/*
+ * Gets the version name from the latest Git tag
+ */
+def getVersionName = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
@@ -15,9 +27,6 @@ android {
         applicationId 'com.teester.whatsnearby'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 14
-        versionName "0.14"
-        setProperty("archivesBaseName", "whatsnearby-$versionName")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -32,6 +41,20 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    applicationVariants.all { variant ->
+        def flavor = variant.mergedFlavor
+        flavor.versionCode = 14
+        if (variant.buildType.isDebuggable()) {
+            //set properties for debug
+            flavor.versionName = getVersionName()
+        } else {
+            //set properties for release
+            flavor.versionName = "0.14"
+            variant.outputs.all {
+                outputFileName = "whatsnearby-" + flavor.versionName + "-release.apk"
+            }
         }
     }
     lintOptions {
@@ -66,3 +89,5 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.11.0'
     testImplementation 'org.json:json:20180130'
 }
+
+
