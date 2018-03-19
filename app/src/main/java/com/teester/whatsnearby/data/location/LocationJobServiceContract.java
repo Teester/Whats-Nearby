@@ -16,4 +16,11 @@ public interface LocationJobServiceContract {
 
 	interface Notifier {
 	}
+
+
+	interface LocationJobService {
+
+		void locationCallback();
+
+	}
 }
