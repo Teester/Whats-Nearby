@@ -5,6 +5,7 @@ import android.location.Location;
 
 import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.data.PreferenceList;
+import com.teester.whatsnearby.data.source.QueryOverpass;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 public class LocationJobPresenter implements LocationJobServiceContract.Presenter {
@@ -17,12 +18,10 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 	private Location lastQueryLocation;
 
 	private Context context;
-	private LocationJobServiceContract.Receiver receiver;
 	private SourceContract.Preferences preferences;
 
-	public LocationJobPresenter(Context context, LocationJobServiceContract.Receiver service, SourceContract.Preferences preferences) {
+	public LocationJobPresenter(Context context, SourceContract.Preferences preferences) {
 		this.context = context;
-		this.receiver = service;
 		this.preferences = preferences;
 	}
 
@@ -64,7 +63,7 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 			lastQueryLocation = location;
 			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LATITUDE, location.getLatitude());
 			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LONGITUDE, location.getLongitude());
-			receiver.performOverpassQuery(context, location);
+			performOverpassQuery(context, location);
 		}
 		lastLocation = location;
 		preferences.setDoublePreference(PreferenceList.LAST_LOCATION_LATITUDE, location.getLatitude());
@@ -105,4 +104,19 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		return query;
 	}
 
+	@Override
+	public void performOverpassQuery(final Context context, final Location location) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				SourceContract.Overpass overpassQuery = new QueryOverpass(context);
+				overpassQuery.queryOverpass(location.getLatitude(), location.getLongitude(), location.getAccuracy());
+			}
+		}).start();
+	}
+
+	@Override
+	public void createNotification(Context context, String name, int drawable) {
+		LocationJobNotifier.createNotification(context, name, drawable);
+	}
 }
