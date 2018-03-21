@@ -18,7 +18,9 @@ import com.teester.whatsnearby.questions.QuestionsActivity;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
-public class LocationJobNotifier implements LocationJobServiceContract.Notifier {
+public class LocationJobNotifier
+		implements
+		LocationContract.Notifier {
 
 	/**
 	 * Creates a notification and stores the time of notification
@@ -74,7 +76,7 @@ public class LocationJobNotifier implements LocationJobServiceContract.Notifier 
 	 *
 	 * @param context
 	 */
-	public static void cancelNotifictions(Context context) {
+	public static void cancelNotifications(Context context) {
 
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 		notificationManager.cancelAll();

@@ -202,7 +202,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 				LocationJobNotifier.createNotification(context, poi.getName(), drawable);
 			}
 		} else {
-			LocationJobNotifier.cancelNotifictions(context);
+			LocationJobNotifier.cancelNotifications(context);
 		}
 	}
 

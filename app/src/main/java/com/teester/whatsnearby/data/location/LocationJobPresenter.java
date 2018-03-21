@@ -20,26 +20,32 @@ import com.teester.whatsnearby.main.MainActivity;
 
 import static android.support.v4.content.ContextCompat.startActivity;
 
-public class LocationJobPresenter implements LocationJobServiceContract.Presenter, LostApiClient.ConnectionCallbacks, LocationListener {
+public class LocationJobPresenter
+		implements
+		LocationContract.Presenter,
+		LostApiClient.ConnectionCallbacks,
+		LocationListener,
+		Runnable {
 
 	private static final int MINQUERYINTERVAL = 60 * 60 * 1000;
 	private static final double MINQUERYDISTANCE = 20;
 	private static final int MINLOCATIONACCURACY = 100;
 
+	private Location location;
 	private Location lastLocation;
 	private Location lastQueryLocation;
-	private LocationJobServiceContract.LocationJobService locationJobServiceCallback;
+	private LocationContract.LocationJobService locationJobServiceCallback;
 	private LostApiClient client;
 	private Context context;
 	private SourceContract.Preferences preferences;
 
-	public LocationJobPresenter(Context context, LocationJobServiceContract.LocationJobService locationCallback) {
+	public LocationJobPresenter(Context context, LocationContract.LocationJobService locationCallback) {
 		this.context = context;
 		this.preferences = new Preferences(context);
 		this.locationJobServiceCallback = locationCallback;
 	}
 
-	/*
+	/**
 	 *  Creates a LostApiClient with a listener and connects to it
 	 */
 	public void getLocation() {
@@ -47,38 +53,61 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		client.connect();
 	}
 
-	/*
+	/**
 	 *  Sets preferences for the debug screen, updates the recent detected and queried locations
 	 *  and initiates an overpass query
 	 *
-	 *  @location the queried location
+	 *  @param location the queried location
 	 */
 	@Override
 	public void processLocation(Location location) {
+		this.location = location;
 		if (lastLocation == null) {
-
-			double lastLatitude = preferences.getDoublePreference(PreferenceList.LAST_LOCATION_LATITUDE);
-			double lastLongitude = preferences.getDoublePreference(PreferenceList.LAST_LOCATION_LONGITUDE);
-			if (lastLatitude == 0 && lastLongitude == 0) {
-				lastLocation = location;
-			} else {
-				lastLocation = new Location("dummyprovider");
-				lastLocation.setLatitude(lastLatitude);
-				lastLocation.setLongitude(lastLongitude);
-			}
+			lastLocation = setPreviousLocation(PreferenceList.LAST_LOCATION_LATITUDE, PreferenceList.LAST_LOCATION_LONGITUDE);
 		}
 		if (lastQueryLocation == null) {
-			double lastQueryLatitude = preferences.getDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LATITUDE);
-			double lastQueryLongitude = preferences.getDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LONGITUDE);
-			if (lastQueryLatitude == 0 && lastQueryLongitude == 0) {
-				lastQueryLocation = location;
-			} else {
-				lastQueryLocation = new Location("dummyprovider");
-				lastQueryLocation.setLatitude(lastQueryLatitude);
-				lastQueryLocation.setLongitude(lastQueryLongitude);
-			}
+			lastQueryLocation = setPreviousLocation(PreferenceList.LAST_QUERY_LOCATION_LATITUDE, PreferenceList.LAST_QUERY_LOCATION_LONGITUDE);
 		}
 
+		boolean queried = decideWhetherToQuery();
+
+		if (queried) {
+			performOverpassQuery();
+		}
+
+		setPreferences(queried);
+	}
+
+	/**
+	 *  Returns a location, depending on whether there are stored preferences or not
+	 *
+	 *  @param location The current location
+	 *  @param latitudePreference A previously stored latitudePreference
+	 *  @param longitudePreference A previously stored longitude
+	 *
+	 *  @return a location
+	 */
+	private Location setPreviousLocation(String latitudePreference, String longitudePreference) {
+		double latitude = preferences.getDoublePreference(latitudePreference);
+		double longitude = preferences.getDoublePreference(longitudePreference);
+
+		Location newLocation;
+		if (latitude == 0 && longitude == 0) {
+			newLocation = location;
+		} else {
+			newLocation = new Location("dummyprovider");
+			newLocation.setLatitude(latitude);
+			newLocation.setLongitude(longitude);
+		}
+		return newLocation;
+	}
+
+	/**
+	 *  Set preferences relating to current location to persist them for the next location
+	 *
+	 *  @param queried Whether or not an overpass query was performed
+	 */
+	private void setPreferences(boolean queried) {
 		preferences.setFloatPreference(PreferenceList.LOCATION_ACCURACY, location.getAccuracy());
 		preferences.setFloatPreference(PreferenceList.DISTANCE_TO_LAST_QUERY, location.distanceTo(lastQueryLocation));
 		preferences.setLongPreference(PreferenceList.QUERY_INTERVAL, System.currentTimeMillis() - preferences.getLongPreference(PreferenceList.LAST_QUERY_TIME));
@@ -86,27 +115,25 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		preferences.setDoublePreference(PreferenceList.LATITUDE, location.getLatitude());
 		preferences.setDoublePreference(PreferenceList.LONGITUDE, location.getLongitude());
 		preferences.setStringPreference(PreferenceList.LOCATION_PROVIDER, location.getProvider());
-
-		if (decideWhetherToQuery(location)) {
-			lastQueryLocation = location;
-			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LATITUDE, location.getLatitude());
-			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LONGITUDE, location.getLongitude());
-			performOverpassQuery(context, location);
-		}
-		lastLocation = location;
 		preferences.setDoublePreference(PreferenceList.LAST_LOCATION_LATITUDE, location.getLatitude());
 		preferences.setDoublePreference(PreferenceList.LAST_LOCATION_LONGITUDE, location.getLongitude());
+
+		if (queried) {
+			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LATITUDE, location.getLatitude());
+			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LONGITUDE, location.getLongitude());
+		}
 	}
 
-	/*
+	/**
 	 *  Logic dictating whether or not to query the Overpass api for a given location based on
 	 *  location accuracy, time since last query and distance since last query.  If the app is in
 	 *  debug mode, it always returns true
 	 *
-	 *  @location The queried location
+	 *  @param location The queried location
+	 *
 	 *  @return a boolean indicating whether or not to query
 	 */
-	private boolean decideWhetherToQuery(Location location) {
+	private boolean decideWhetherToQuery() {
 		boolean query = true;
 		boolean debug_mode = preferences.getBooleanPreference(PreferenceList.DEBUG_MODE);
 		long lastQueryTime = preferences.getLongPreference(PreferenceList.LAST_QUERY_TIME);
@@ -140,32 +167,26 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		return query;
 	}
 
-	/*
+	/**
 	 *  Initiates an overpass query on a new thread
-	 *
-	 *  @context the application context
-	 *  @location the queried location
 	 */
 	@Override
-	public void performOverpassQuery(final Context context, final Location location) {
-		SourceContract.Overpass overpassQuery = new QueryOverpass(context);
-		overpassQuery.queryOverpass(location.getLatitude(), location.getLongitude(), location.getAccuracy());
-
+	public void performOverpassQuery() {
+		new Thread(this).start();
 	}
 
-	/*
+	/**
 	 *  Initiates the creation of a notification
 	 *
-	 *  @context the application context
-	 *  @name the location name for the notification
-	 *  @drawable the drawable associated with the location type
+	 *  @param name the location name for the notification
+	 *  @param drawable the drawable associated with the location type
 	 */
 	@Override
-	public void createNotification(Context context, String name, int drawable) {
+	public void createNotification(String name, int drawable) {
 		LocationJobNotifier.createNotification(context, name, drawable);
 	}
 
-	/*
+	/**
 	 *  When connected to the location client, ensure we have permissions and request location
 	 *  updates
 	 */
@@ -182,7 +203,7 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 
 	}
 
-	/*
+	/**
 	 *  When the connection is suspended, we don't need to worry about it.  The job will just be
 	 *  skipped
 	 */
@@ -191,7 +212,7 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		// required empty method
 	}
 
-	/*
+	/**
 	 *  When the location changes, process it, disconnect from the client and inform the jobservice
 	 *  that the job is finished
 	 */
@@ -203,7 +224,7 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		locationJobServiceCallback.locationCallback();
 	}
 
-	/*
+	/**
 	 *  Ensures we have android permissions for location and starts the main activity if we don't
 	 */
 	private void checkLocationPermission() {
@@ -218,4 +239,12 @@ public class LocationJobPresenter implements LocationJobServiceContract.Presente
 		}
 	}
 
+	/**
+	 * Runs an overpass query on a background thread
+	 */
+	@Override
+	public void run() {
+		SourceContract.Overpass overpassQuery = new QueryOverpass(context);
+		overpassQuery.queryOverpass(location.getLatitude(), location.getLongitude(), location.getAccuracy());
+	}
 }

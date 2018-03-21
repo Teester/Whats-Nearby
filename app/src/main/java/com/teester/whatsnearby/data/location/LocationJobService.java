@@ -3,13 +3,21 @@ package com.teester.whatsnearby.data.location;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 
-public class LocationJobService extends JobService implements Runnable, LocationJobServiceContract.LocationJobService {
+public class LocationJobService
+		extends
+		JobService
+		implements
+		Runnable,
+		LocationContract.LocationJobService {
 
 	private JobParameters jobParameters;
-	private LocationJobServiceContract.LocationJobService locationJobServiceCallback;
+	private LocationContract.LocationJobService locationJobServiceCallback;
 
-	/*
+	/**
 	 *  When the job is started, run it on a background thread
+	 *
+	 *  @param jobParameters the job's parameters
+	 *  @return whether to reschedule or not
 	 */
 	@Override
 	public boolean onStartJob(final JobParameters jobParameters) {
@@ -21,15 +29,18 @@ public class LocationJobService extends JobService implements Runnable, Location
 		return false;
 	}
 
-	/*
+	/**
 	 *  When the job is stopped, we don't need to do anything
+	 *
+	 *  @param jobParameters the job's parameters
+	 *  @return whether to reschedule or not
 	 */
 	@Override
 	public boolean onStopJob(JobParameters jobParameters) {
 		return false;
 	}
 
-	/*
+	/**
 	 *  When we get a response from the backgrund thred, indicate the job is finished & needs rescheduling
 	 */
 	@Override
@@ -37,7 +48,7 @@ public class LocationJobService extends JobService implements Runnable, Location
 		jobFinished(jobParameters, true);
 	}
 
-	/*
+	/**
 	 *  Get the location and process it
 	 */
 	@Override
