@@ -43,7 +43,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".data.location.LocationJobServiceReceiver"/>
 
         <service
             android:name=".data.location.LocationJobService"

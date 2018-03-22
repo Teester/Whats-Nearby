@@ -1,68 +1,59 @@
 package com.teester.whatsnearby.data.location;
 
-import android.Manifest;
-import android.app.PendingIntent;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
 
-import com.mapzen.android.lost.api.LocationRequest;
-import com.mapzen.android.lost.api.LocationServices;
-import com.mapzen.android.lost.api.LostApiClient;
-import com.teester.whatsnearby.main.MainActivity;
+public class LocationJobService
+		extends
+		JobService
+		implements
+		Runnable,
+		LocationContract.LocationJobService {
 
-public class LocationJobService extends JobService implements LocationJobServiceContract.Service {
+	private JobParameters jobParameters;
+	private LocationContract.LocationJobService locationJobServiceCallback;
 
-	private LostApiClient client;
-
+	/**
+	 *  When the job is started, run it on a background thread
+	 *
+	 *  @param jobParameters the job's parameters
+	 *  @return whether to reschedule or not
+	 */
 	@Override
-	public boolean onStartJob(JobParameters jobParameters) {
-		final Context context = getApplicationContext();
+	public boolean onStartJob(final JobParameters jobParameters) {
+		this.jobParameters = jobParameters;
+		locationJobServiceCallback = this;
 
-		client = new LostApiClient.Builder(this)
-				.addConnectionCallbacks(new LostApiClient.ConnectionCallbacks() {
-					@Override
-					public void onConnected() {
-						LocationRequest request = LocationRequest.create();
-						request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-						request.setInterval(60000);
-						request.setFastestInterval(60000);
+		new Thread(this).start();
 
-						Intent resultIntent = new Intent(context, LocationJobServiceReceiver.class);
-						PendingIntent callbackIntent = PendingIntent.getBroadcast(context, 10000, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-						checkLocationPermission();
-
-						LocationServices.FusedLocationApi.requestLocationUpdates(client, request, callbackIntent);
-					}
-
-					@Override
-					public void onConnectionSuspended() {
-						// required empty method
-					}
-				}).build();
-		client.connect();
-		jobFinished(jobParameters, true);
 		return false;
 	}
 
+	/**
+	 *  When the job is stopped, we don't need to do anything
+	 *
+	 *  @param jobParameters the job's parameters
+	 *  @return whether to reschedule or not
+	 */
 	@Override
 	public boolean onStopJob(JobParameters jobParameters) {
 		return false;
 	}
 
-	public void checkLocationPermission() {
+	/**
+	 *  When we get a response from the backgrund thred, indicate the job is finished & needs rescheduling
+	 */
+	@Override
+	public void locationCallback() {
+		jobFinished(jobParameters, true);
+	}
 
-		if (ActivityCompat.checkSelfPermission(getApplicationContext(),
-				Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-			Intent intent = new Intent(getBaseContext(), MainActivity.class);
-			startActivity(intent);
-
-			return;
-		}
+	/**
+	 *  Get the location and process it
+	 */
+	@Override
+	public void run() {
+		LocationJobPresenter locationJobPresenter = new LocationJobPresenter(getApplicationContext(), locationJobServiceCallback);
+		locationJobPresenter.getLocation();
 	}
 }
