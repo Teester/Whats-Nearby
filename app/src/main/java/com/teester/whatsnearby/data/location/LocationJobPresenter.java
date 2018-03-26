@@ -126,7 +126,7 @@ public class LocationJobPresenter
 
 	/**
 	 *  Logic dictating whether or not to query the Overpass api for a given location based on
-	 *  location accuracy, time since last query and distance since last query.  If the app is in
+	 *  location accuracy, time since last notification and distance since last query.  If the app is in
 	 *  debug mode, it always returns true
 	 *
 	 *  @param location The queried location
@@ -136,15 +136,15 @@ public class LocationJobPresenter
 	private boolean decideWhetherToQuery() {
 		boolean query = true;
 		boolean debug_mode = preferences.getBooleanPreference(PreferenceList.DEBUG_MODE);
-		long lastQueryTime = preferences.getLongPreference(PreferenceList.LAST_QUERY_TIME);
+		long lastNotificationTime = preferences.getLongPreference(PreferenceList.LAST_NOTIFICATION_TIME);
 
 		// Don't query Overpass if the location is less accurate than 100m
 		if (location.getAccuracy() > MINLOCATIONACCURACY) {
 			query = false;
 		}
 
-		// Don't query Overpass if less than 1 hour has passed since the last query
-		if (System.currentTimeMillis() - lastQueryTime < MINQUERYINTERVAL) {
+		// Don't query Overpass if less than 1 hour has passed since the last notification
+		if (System.currentTimeMillis() - lastNotificationTime < MINQUERYINTERVAL) {
 			query = false;
 		}
 
