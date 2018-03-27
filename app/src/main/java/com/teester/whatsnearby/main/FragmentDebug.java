@@ -3,8 +3,8 @@ package com.teester.whatsnearby.main;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +30,7 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	private SharedPreferences sharedPreferences;
 
 	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
@@ -46,7 +46,7 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	}
 
 	@Override
-	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		this.lastQueryTime = view.findViewById(R.id.debug_last_overpass_query_value);
 		this.lastNotificationTime = view.findViewById(R.id.debug_last_notification_value);
@@ -74,13 +74,13 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	@Override
 	public void setLastQueryTime(String time, int color) {
 		this.lastQueryTime.setText(time);
-		this.lastQueryTime.setTextColor(getResources().getColor(color));
+		this.lastQueryTime.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), color));
 	}
 
 	@Override
 	public void setLastNotificationTime(String notificationTime, int color) {
 		this.lastNotificationTime.setText(notificationTime);
-		this.lastNotificationTime.setTextColor(getResources().getColor(color));
+		this.lastNotificationTime.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), color));
 	}
 
 	@Override
@@ -91,19 +91,19 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	@Override
 	public void setAccuracy(String accuracy, int color) {
 		this.accuracy.setText(accuracy);
-		this.accuracy.setTextColor(getResources().getColor(color));
+		this.accuracy.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), color));
 	}
 
 	@Override
 	public void setQuerydistance(String querydistance, int color) {
 		this.querydistance.setText(querydistance);
-		this.querydistance.setTextColor(getResources().getColor(color));
+		this.querydistance.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), color));
 	}
 
 	@Override
 	public void setCheckdistance(String queryTimeSince, int color) {
 		this.checkdistance.setText(queryTimeSince);
-		this.checkdistance.setTextColor(getResources().getColor(color));
+		this.checkdistance.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), color));
 	}
 
 	@Override

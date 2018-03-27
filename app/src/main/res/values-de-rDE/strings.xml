@@ -46,4 +46,14 @@
     <string name="close">Schließen</string>
     <string name="others_have_answered_this_question">Andere haben diese Frage mit ‘%s’ beantwortet</string>
     <string name="intro_answer_questions">Fragen beantworten</string>
+    <string name="menu_debug_mode">Debug-Modus</string>
+    <string name="menu_about">Über What\'s Nearby</string>
+    <string name="version">Version</string>
+    <string name="authors">Autoren</string>
+    <string name="licence">Lizenz</string>
+    <string name="gnu_general_public_licence_version_3">GNU General Public Licence Version 3</string>
+    <string name="source_repository">Source Repository</string>
+    <string name="what_s_nearby_on_github">What\'s Nearby auf Github</string>
+    <string name="authors_string">© 2017–2018 Mark Tully</string>
+    <string name="debug_details">Debug Details</string>
 </resources>

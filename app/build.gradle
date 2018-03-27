@@ -8,6 +8,18 @@ allprojects {
     }
 }
 
+/*
+ * Gets the version name from the latest Git tag
+ */
+def getVersionName = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
@@ -15,9 +27,7 @@ android {
         applicationId 'com.teester.whatsnearby'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 14
-        versionName "0.14"
-        setProperty("archivesBaseName", "whatsnearby-$versionName")
+        versionCode 15
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -34,6 +44,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    applicationVariants.all { variant ->
+        def flavor = variant.mergedFlavor
+        if (variant.buildType.isDebuggable()) {
+            //set properties for debug
+            flavor.versionName = getVersionName()
+        } else {
+            //set properties for release
+            flavor.versionName = "0.15"
+            variant.outputs.all {
+                outputFileName = "whatsnearby-" + flavor.versionName + "-release.apk"
+            }
+        }
+    }
     lintOptions {
         abortOnError false
     }
@@ -45,7 +68,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.0'
     implementation 'com.android.support:support-v4:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'android.arch.lifecycle:extensions:1.1.0'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
     implementation 'com.mapzen.android:lost:3.0.4'
@@ -60,9 +83,11 @@ dependencies {
     }
 
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    androidTestImplementation 'android.arch.core:core-testing:1.1.0'
+    androidTestImplementation 'android.arch.core:core-testing:1.1.1'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.11.0'
     testImplementation 'org.json:json:20180130'
 }
+
+

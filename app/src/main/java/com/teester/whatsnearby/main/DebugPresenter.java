@@ -76,7 +76,8 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 
 	private void getAccuracy() {
 		float accuracy = preferences.getFloatPreference(PreferenceList.LOCATION_ACCURACY);
-		String accuracyString = String.format(Locale.getDefault(), "%.0fm", accuracy);
+		String provider = preferences.getStringPreference(PreferenceList.LOCATION_PROVIDER);
+		String accuracyString = String.format(Locale.getDefault(), "%s, %.0fm", provider, accuracy);
 		int accuracyColor = R.color.green;
 		if (accuracy > 50) {
 			accuracyColor = R.color.red;
