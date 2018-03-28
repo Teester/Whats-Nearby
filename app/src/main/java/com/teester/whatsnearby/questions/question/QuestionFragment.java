@@ -2,6 +2,7 @@ package com.teester.whatsnearby.questions.question;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -15,13 +16,11 @@ import android.widget.TextView;
 import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.Answers;
-import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.pois.PoiContract;
 import com.teester.whatsnearby.data.source.Preferences;
-import com.teester.whatsnearby.questions.QuestionsActivity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -51,10 +50,9 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	 * Use this factory method to create a new instance of
 	 * this fragment using the provided parameters.
 	 *
-	 * @param param1 Parameter 1.
 	 * @return A new instance of fragment QuestionFragment.
 	 */
-	public static QuestionFragment newInstance(OsmObject poi, int position, PoiContract listOfQuestions) {
+	public static QuestionFragment newInstance(int position) {
 		QuestionFragment fragment = new QuestionFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_PARAM1, position);
@@ -75,14 +73,14 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		return inflater.inflate(R.layout.fragment_question, container, false);
 	}
 
 	@Override
-	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		this.questionTextView = view.findViewById(R.id.question_textview);
 		this.questionImageView = view.findViewById(R.id.question_imageView);
@@ -131,7 +129,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 
 	@Override
 	public void showQuestion(int question, String name, int color, int drawable) {
-		int colorResource = ContextCompat.getColor(getContext(), color);
+		int colorResource = ContextCompat.getColor(Objects.requireNonNull(getContext()), color);
 		questionTextView.setBackgroundColor(colorResource);
 		questionImageView.setBackgroundTintList(ContextCompat.getColorStateList(this.getContext(), color));
 		questionPreviousTextView.setBackgroundColor(colorResource);
@@ -157,14 +155,8 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
 	}
 
 	@Override
-	public void makeActivityTextViewInvisible() {
-		QuestionsActivity activity = (QuestionsActivity) getActivity();
-		activity.makeTextViewInvisible();
-	}
-
-	@Override
 	public void setBackgroundColor(int yes, int no, int unsure) {
-		this.answerYes.setBackgroundColor(ContextCompat.getColor(getContext(), yes));
+		this.answerYes.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), yes));
 		this.answerNo.setBackgroundColor(ContextCompat.getColor(getContext(), no));
 		this.answerUnsure.setBackgroundColor(ContextCompat.getColor(getContext(), unsure));
 	}

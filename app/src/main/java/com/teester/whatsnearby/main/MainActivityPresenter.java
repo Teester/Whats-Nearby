@@ -19,7 +19,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	private SourceContract.Preferences preferences;
 	private MainActivityContract.View view;
 
-	public MainActivityPresenter(MainActivityContract.View view, SourceContract.Preferences preferences) {
+	MainActivityPresenter(MainActivityContract.View view, SourceContract.Preferences preferences) {
 		this.view = view;
 		this.preferences = preferences;
 	}

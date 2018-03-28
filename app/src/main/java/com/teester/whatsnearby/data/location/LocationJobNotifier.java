@@ -38,7 +38,7 @@ public class LocationJobNotifier
 		resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-		int mNotificationId = 001;
+        int mNotificationId = 1;
 		NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(context, "whats_nearby_1")
 						.setSmallIcon(R.drawable.ic_small_icon)
@@ -50,6 +50,7 @@ public class LocationJobNotifier
 						.setAutoCancel(true);
 		mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
 		NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        assert mNotifyMgr != null;
 		mNotifyMgr.notify(mNotificationId, mBuilder.build());
 	}
 
@@ -62,6 +63,7 @@ public class LocationJobNotifier
 	 */
 	private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
 		Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        assert drawable != null;
 		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
 				drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
@@ -74,11 +76,12 @@ public class LocationJobNotifier
 	/**
 	 * Cancels any notifications from the app
 	 *
-	 * @param context
+     * @param context The application context
 	 */
 	public static void cancelNotifications(Context context) {
 
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        assert notificationManager != null;
 		notificationManager.cancelAll();
 	}
 }

@@ -175,18 +175,7 @@ public class LocationJobPresenter
 		new Thread(this).start();
 	}
 
-	/**
-	 *  Initiates the creation of a notification
-	 *
-	 *  @param name the location name for the notification
-	 *  @param drawable the drawable associated with the location type
-	 */
-	@Override
-	public void createNotification(String name, int drawable) {
-		LocationJobNotifier.createNotification(context, name, drawable);
-	}
-
-	/**
+    /**
 	 *  When connected to the location client, ensure we have permissions and request location
 	 *  updates
 	 */

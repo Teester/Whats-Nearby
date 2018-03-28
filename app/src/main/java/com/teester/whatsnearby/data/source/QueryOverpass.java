@@ -32,14 +32,14 @@ public class QueryOverpass implements SourceContract.Overpass {
 
 	private double queryLatitude;
 	private double queryLongitude;
-	private List<OsmObject> poiList = new ArrayList<OsmObject>();
+	private List<OsmObject> poiList = new ArrayList<>();
 	private Context context;
 
 	public QueryOverpass(Context context) {
 		this.context = context;
 	}
 
-	public QueryOverpass() {
+	QueryOverpass() {
 	}
 
 	/**
@@ -69,24 +69,22 @@ public class QueryOverpass implements SourceContract.Overpass {
 		String way = String.format(nwr, "way", types, overpassLocation);
 		String relation = String.format(nwr, "relation", types, overpassLocation);
 
-		String overpassUrl = String.format("https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s);out%%20center%%20meta%%20qt;", node, way, relation);
-
-		return overpassUrl;
+		return String.format("https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s);out%%20center%%20meta%%20qt;", node, way, relation);
 	}
 
 	@Override
 	public String queryOverpassApi(String urlString) {
 
-		String resultToDisplay = "";
+		String resultToDisplay;
 		String userAgent = String.format("%s/%s", "whatsnearby", BuildConfig.VERSION_NAME);
-		InputStream in = null;
+		InputStream in;
 		try {
 			URL url = new URL(urlString);
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.setRequestProperty("User-Agent", userAgent);
 			in = new BufferedInputStream(urlConnection.getInputStream());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			return e.getMessage();
 		}
 
@@ -141,6 +139,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 					}
 				}
 			} catch (final JSONException e) {
+				e.printStackTrace();
 			}
 
 			PoiList.getInstance().setPoiList(poiList);
@@ -222,8 +221,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 		}
 
 		long time = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000);
-		boolean notifyOrNot = location != null && location.getTimeVisited() > time;
-		return notifyOrNot;
+		return location != null && location.getTimeVisited() > time;
 	}
 
 	private void updateDatabase(OsmObject osmObject) {

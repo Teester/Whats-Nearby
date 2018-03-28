@@ -8,7 +8,7 @@ public class IntroPresenter implements IntroFragmentContract.Presenter {
 	private IntroFragmentContract.View view;
 	private OsmObject poi;
 
-	public IntroPresenter(IntroFragmentContract.View view) {
+	IntroPresenter(IntroFragmentContract.View view) {
 		this.view = view;
 		poi = PoiList.getInstance().getPoiList().get(0);
 	}
@@ -20,8 +20,7 @@ public class IntroPresenter implements IntroFragmentContract.Presenter {
 		if (city == null) { city = ""; }
 		String number = poi.getTag("addr:housenumber");
 		if (number == null) { number = ""; }
-		String key = String.format("%s %s %s", number, street, city);
-		return key;
+		return String.format("%s %s %s", number, street, city);
 	}
 
 	@Override

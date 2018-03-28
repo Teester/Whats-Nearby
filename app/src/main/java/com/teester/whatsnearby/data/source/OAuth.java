@@ -64,13 +64,10 @@ public class OAuth implements SourceContract.oAuth {
 				preferences.setStringPreference(PreferenceList.OAUTH_TOKEN, consumer.getToken());
 				preferences.setBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM, true);
 			}
-		} catch (OAuthMessageSignerException e) {
-			e.printStackTrace();
-		} catch (OAuthNotAuthorizedException e) {
-			e.printStackTrace();
-		} catch (OAuthExpectationFailedException e) {
-			e.printStackTrace();
-		} catch (OAuthCommunicationException e) {
+        } catch (OAuthMessageSignerException |
+                OAuthNotAuthorizedException |
+                OAuthExpectationFailedException |
+                OAuthCommunicationException e) {
 			e.printStackTrace();
 		}
 	}

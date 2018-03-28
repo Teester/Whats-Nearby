@@ -15,10 +15,10 @@ public class Utilities {
 	 *
 	 * @param url - the url to be parsed
 	 * @return - a map containing the parameters and their values
-	 * @throws UnsupportedEncodingException
+	 * @throws UnsupportedEncodingException Incorrect encoding
 	 */
 	public static Map<String, List<String>> splitQuery(URI url) throws UnsupportedEncodingException {
-		final Map<String, List<String>> query_pairs = new LinkedHashMap<String, List<String>>();
+		final Map<String, List<String>> query_pairs = new LinkedHashMap<>();
 		final String[] pairs = url.getQuery().split("&");
 		for (String pair : pairs) {
 			final int idx = pair.indexOf("=");
@@ -71,12 +71,12 @@ public class Utilities {
 
 		double sigma = 0.0;
 		double deltaSigma = 0.0;
-		double cosSqAlpha = 0.0;
-		double cos2SM = 0.0;
-		double cosSigma = 0.0;
-		double sinSigma = 0.0;
-		double cosLambda = 0.0;
-		double sinLambda = 0.0;
+		double cosSqAlpha;
+		double cos2SM;
+		double cosSigma;
+		double sinSigma;
+		double cosLambda;
+		double sinLambda;
 
 		double lambda = L; // initial guess
 		for (int iter = 0; iter < MAXITERS; iter++) {
@@ -109,7 +109,6 @@ public class Utilities {
 			}
 		}
 
-		float distance = (float) (b * A * (sigma - deltaSigma));
-		return distance;
+		return (float) (b * A * (sigma - deltaSigma));
 	}
 }

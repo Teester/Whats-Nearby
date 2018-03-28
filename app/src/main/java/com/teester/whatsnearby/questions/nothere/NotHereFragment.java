@@ -1,8 +1,8 @@
 package com.teester.whatsnearby.questions.nothere;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +17,6 @@ import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.OsmObject;
 import com.teester.whatsnearby.questions.QuestionsActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NotHereFragment extends Fragment implements NotHereFragmentContract.View {
@@ -25,12 +24,6 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 	private RecyclerView recyclerView;
 	private TextView textView;
 	private NotHereFragmentContract.Presenter notHerePresenter;
-
-	private OnFragmentInteractionListener mListener;
-
-	public static NotHereFragment newInstance() {
-		return new NotHereFragment();
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,40 +38,17 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		return inflater.inflate(R.layout.fragment_not_here, container, false);
 	}
 
 	@Override
-	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		this.textView = view.findViewById(R.id.question_textview);
 		this.recyclerView = view.findViewById(R.id.recyclerView);
-	}
-
-	public void onButtonPressed(ArrayList<OsmObject> uri) {
-		if (mListener != null) {
-			mListener.onNotHereFragmentInteraction();
-		}
-	}
-
-	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
-		} else {
-			throw new ClassCastException(context.toString()
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
 	}
 
 	@Override
@@ -102,18 +72,18 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 	}
 
 	public interface OnFragmentInteractionListener {
-		void onNotHereFragmentInteraction();
 	}
 
 	public class PoiAdapter extends RecyclerView.Adapter<PoiAdapter.ViewHolder> {
 		private List<OsmObject> poiList;
 
-		public PoiAdapter(List<OsmObject> poiList) {
+		PoiAdapter(List<OsmObject> poiList) {
 			this.poiList = poiList;
 		}
 
+		@NonNull
 		@Override
-		public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 			View view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_poi, parent, false);
 			view.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -121,12 +91,11 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 					notHerePresenter.onItemClicked(recyclerView.getChildAdapterPosition(view));
 				}
 			});
-			ViewHolder recyclerViewHolder = new ViewHolder(view);
-			return recyclerViewHolder;
+			return new ViewHolder(view);
 		}
 
 		@Override
-		public void onBindViewHolder(ViewHolder holder, int position) {
+		public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 			OsmObject poi = poiList.get(position);
 			holder.name.setText(poi.getName());
 			holder.type.setText(poi.getType());
@@ -145,7 +114,7 @@ public class NotHereFragment extends Fragment implements NotHereFragmentContract
 			public TextView distance;
 			public ImageView image;
 
-			public ViewHolder(View view) {
+			ViewHolder(View view) {
 				super(view);
 				name = view.findViewById(R.id.name);
 				type = view.findViewById(R.id.about_list_content);

@@ -37,7 +37,7 @@ public class DatabaseInstrumentedTest {
 	private OsmObject osmObject5 = new OsmObject(5, "", "5", "", 1, 1, 1);
 
 	@Before
-	public void initDb() throws Exception {
+	public void initDb() {
 		mDatabase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
 				AppDatabase.class)
 				.allowMainThreadQueries()
@@ -47,18 +47,18 @@ public class DatabaseInstrumentedTest {
 	}
 
 	@After
-	public void closeDb() throws Exception {
+	public void closeDb() {
 		mDatabase.close();
 	}
 
 	@Test
-	public void onFetchingLocationsShouldGetEmptyListIfTableIsEmpty() throws InterruptedException {
+	public void onFetchingLocationsShouldGetEmptyListIfTableIsEmpty() {
 		List<VisitedLocation> LocationList = visitedLocationDao.getAllVisitedLocations();
 		assertTrue(LocationList.isEmpty());
 	}
 
 	@Test
-	public void onInsertingLocationsCheckIfRowCountIsCorrect() throws InterruptedException {
+	public void onInsertingLocationsCheckIfRowCountIsCorrect() {
 		visitedLocationDao.insert(new VisitedLocation(osmObject));
 		visitedLocationDao.insert(new VisitedLocation(osmObject2));
 		visitedLocationDao.insert(new VisitedLocation(osmObject3));
@@ -69,7 +69,7 @@ public class DatabaseInstrumentedTest {
 	}
 
 	@Test
-	public void onUpdatingALocationCheckIfUpdateHappensCorrectly() throws InterruptedException {
+	public void onUpdatingALocationCheckIfUpdateHappensCorrectly() {
 		VisitedLocation visitedLocation = new VisitedLocation(osmObject);
 		visitedLocationDao.insert(visitedLocation);
 

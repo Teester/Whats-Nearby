@@ -19,6 +19,5 @@ public interface QuestionFragmentContract {
 
 		void createChangesetTags();
 
-		void makeActivityTextViewInvisible();
 	}
 }

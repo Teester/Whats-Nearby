@@ -96,11 +96,10 @@ public class PoiTypes {
 		map.put("veterinary", new ShopVeterinary());
 	}
 
-	private static synchronized PoiTypes getInstance() {
+    private static synchronized void getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new PoiTypes();
 		}
-		return INSTANCE;
 	}
 
 	public static PoiContract getPoiType(String type) {

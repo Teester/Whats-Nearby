@@ -1,8 +1,10 @@
 package com.teester.whatsnearby.main;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public class FragmentDebug extends Fragment implements MainActivityContract.DebugView, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -28,25 +31,27 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	private TextView lastLocation;
 	private MainActivityContract.DebugPresenter debugPresenter;
 	private SharedPreferences sharedPreferences;
+	private Context context;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
+		context = Objects.requireNonNull(getActivity()).getApplicationContext();
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SourceContract.Preferences preferences = new Preferences(getContext());
 		debugPresenter = new DebugPresenter(this, preferences);
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		return inflater.inflate(R.layout.fragment_debug, container, false);
 	}
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		this.lastQueryTime = view.findViewById(R.id.debug_last_overpass_query_value);
 		this.lastNotificationTime = view.findViewById(R.id.debug_last_notification_value);
@@ -74,13 +79,13 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	@Override
 	public void setLastQueryTime(String time, int color) {
 		this.lastQueryTime.setText(time);
-		this.lastQueryTime.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), color));
+		this.lastQueryTime.setTextColor(ContextCompat.getColor(context, color));
 	}
 
 	@Override
 	public void setLastNotificationTime(String notificationTime, int color) {
 		this.lastNotificationTime.setText(notificationTime);
-		this.lastNotificationTime.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), color));
+		this.lastNotificationTime.setTextColor(ContextCompat.getColor(context, color));
 	}
 
 	@Override
@@ -91,19 +96,19 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	@Override
 	public void setAccuracy(String accuracy, int color) {
 		this.accuracy.setText(accuracy);
-		this.accuracy.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), color));
+		this.accuracy.setTextColor(ContextCompat.getColor(context, color));
 	}
 
 	@Override
 	public void setQuerydistance(String querydistance, int color) {
 		this.querydistance.setText(querydistance);
-		this.querydistance.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), color));
+		this.querydistance.setTextColor(ContextCompat.getColor(context, color));
 	}
 
 	@Override
 	public void setCheckdistance(String queryTimeSince, int color) {
 		this.checkdistance.setText(queryTimeSince);
-		this.checkdistance.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), color));
+		this.checkdistance.setTextColor(ContextCompat.getColor(context, color));
 	}
 
 	@Override

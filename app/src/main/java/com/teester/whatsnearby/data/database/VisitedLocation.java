@@ -22,7 +22,7 @@ public class VisitedLocation {
 	@ColumnInfo(name = "time_visited")
 	private long timeVisited;
 
-	public VisitedLocation(int uid, long osmId, String name, double latitude, double longitude, long timeVisited) {
+    VisitedLocation(int uid, long osmId, String name, double latitude, double longitude, long timeVisited) {
 		this.uid = uid;
 		this.osmId = osmId;
 		this.name = name;
@@ -43,16 +43,8 @@ public class VisitedLocation {
 		return uid;
 	}
 
-	public void setUid(int uid) {
-		this.uid = uid;
-	}
-
 	public long getOsmId() {
 		return osmId;
-	}
-
-	public void setOsmId(long osmId) {
-		this.osmId = osmId;
 	}
 
 	public String getName() {

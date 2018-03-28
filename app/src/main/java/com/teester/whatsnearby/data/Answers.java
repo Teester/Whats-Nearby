@@ -17,17 +17,16 @@ public class Answers {
 
 	}
 
-	private static synchronized Answers getInstance() {
+	private static synchronized void getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new Answers();
 		}
-		return INSTANCE;
 	}
 
 	/**
 	 * Get the list of answers
 	 *
-	 * @return
+	 * @return the list of answers
 	 */
 	public static Map<String, String> getAnswerMap() {
 		getInstance();
@@ -37,7 +36,7 @@ public class Answers {
 	/**
 	 * Add an answer to the list
 	 *
-	 * @param answer
+	 * @param answer the answer (yes, no, unsure) to be added to the list
 	 */
 	public static void addAnswer(String question, String answer) {
 		getInstance();
