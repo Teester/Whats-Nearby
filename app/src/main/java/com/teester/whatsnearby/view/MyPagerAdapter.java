@@ -5,23 +5,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.pois.PoiContract;
 import com.teester.whatsnearby.data.PreferenceList;
+import com.teester.whatsnearby.data.pois.PoiContract;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.questions.question.QuestionFragment;
 import com.teester.whatsnearby.questions.upload.UploadFragment;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
 
-	public PoiContract listOfQuestions;
-	private OsmObject poi;
 	private int count;
 
-	public MyPagerAdapter(FragmentManager fragmentManager, OsmObject poi, PoiContract listOfQuestions, Context context) {
+	public MyPagerAdapter(FragmentManager fragmentManager, PoiContract listOfQuestions, Context context) {
 		super(fragmentManager);
-		this.poi = poi;
-		this.listOfQuestions = listOfQuestions;
 		boolean logged_in = new Preferences(context).getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM);
 		if (logged_in) {
 			this.count = listOfQuestions.getNoOfQuestions() + 1;
@@ -43,7 +38,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 		//	return IntroFragment.newInstance(this.poi);
 		//} else if (position < count - 1) {
 		if (position < count - 1) {
-			return QuestionFragment.newInstance(this.poi, position, this.listOfQuestions);
+			return QuestionFragment.newInstance(position);
 		} else {
 			return UploadFragment.newInstance();
 		}

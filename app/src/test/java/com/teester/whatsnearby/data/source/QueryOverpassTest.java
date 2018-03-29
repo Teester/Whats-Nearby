@@ -9,7 +9,7 @@ import static junit.framework.TestCase.assertEquals;
 
 public class QueryOverpassTest {
 
-	public QueryOverpass queryOverpass;
+    private QueryOverpass queryOverpass;
 
 	@Before
 	public void setUp() {

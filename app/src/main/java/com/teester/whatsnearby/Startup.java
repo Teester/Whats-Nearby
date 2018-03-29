@@ -13,13 +13,14 @@ public class Startup extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (intent.getAction() == Intent.ACTION_BOOT_COMPLETED) {
+		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
 
 			JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
 			ComponentName jobService = new ComponentName(context.getPackageName(), LocationJobService.class.getName());
 			JobInfo jobInfo = new JobInfo.Builder(1, jobService)
 					.setPeriodic(60000)
 					.build();
+			assert jobScheduler != null;
 			jobScheduler.schedule(jobInfo);
 		}
 	}

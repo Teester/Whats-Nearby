@@ -11,7 +11,7 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 	private MainActivityContract.DebugView view;
 	private SourceContract.Preferences preferences;
 
-	public DebugPresenter(MainActivityContract.DebugView view, SourceContract.Preferences preferences) {
+    DebugPresenter(MainActivityContract.DebugView view, SourceContract.Preferences preferences) {
 		this.view = view;
 		this.preferences = preferences;
 	}
@@ -85,7 +85,7 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 		view.setAccuracy(accuracyString, accuracyColor);
 	}
 
-	public void getLocation() {
+    private void getLocation() {
 		double latitude = preferences.getDoublePreference(PreferenceList.LATITUDE);
 		double longitude = preferences.getDoublePreference(PreferenceList.LONGITUDE);
 		view.setLocation(latitude, longitude);

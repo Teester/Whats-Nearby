@@ -8,7 +8,7 @@ class OsmLoginPresenter implements OsmLoginFragmentContract.Presenter {
 	private OsmLoginFragmentContract.View view;
 	private SourceContract.Preferences preferences;
 
-	public OsmLoginPresenter(OsmLoginFragmentContract.View view, SourceContract.Preferences preferences) {
+	OsmLoginPresenter(OsmLoginFragmentContract.View view, SourceContract.Preferences preferences) {
 		this.view = view;
 		this.preferences = preferences;
 	}

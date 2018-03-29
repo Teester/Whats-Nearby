@@ -29,7 +29,7 @@ public class PoiList {
 	/**
 	 * Get a list of points of interest
 	 *
-	 * @return
+     * @return the list of POIs
 	 */
 	public List<OsmObject> getPoiList() {
 		return poiList;
@@ -38,7 +38,7 @@ public class PoiList {
 	/**
 	 * Set a list of points of interest
 	 *
-	 * @param poiList
+     * @param poiList The list of POIs to be set
 	 */
 	public void setPoiList(List<OsmObject> poiList) {
 		this.poiList = poiList;
@@ -47,7 +47,7 @@ public class PoiList {
 	/**
 	 * Create a list of POIs except the first one
 	 *
-	 * @return
+     * @return The new list of POIs
 	 */
 	public List<OsmObject> createAlternateList() {
 		return poiList.subList(1, poiList.size());

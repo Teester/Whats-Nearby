@@ -4,7 +4,6 @@ import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.PreferenceList;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -63,15 +62,14 @@ public class UploadToOSM implements SourceContract.upload {
 		OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		consumer.setTokenWithSecret(oauth_token, oauth_token_secret);
 
-		OsmConnection osm = new OsmConnection(
+        return new OsmConnection(
 				"https://api.openstreetmap.org/api/0.6/",
 				"What's Nearby?", consumer);
-		return osm;
 	}
 
 	private Element getCurrentElement(OsmConnection osm, String type, long id) {
 		// Download the relevant object from OSM
-		Element downloadedElement = null;
+        Element downloadedElement;
 		switch (type) {
 			case "node":
 				downloadedElement = new MapDataDao(osm).getNode(id);
@@ -89,9 +87,7 @@ public class UploadToOSM implements SourceContract.upload {
 	}
 
 	private Element modifyCurrentElement(Element modifiedElement) {
-		Iterator<Map.Entry<String, String>> it = Answers.getAnswerMap().entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, String> pair = it.next();
+        for (Map.Entry<String, String> pair : Answers.getAnswerMap().entrySet()) {
 			String key = pair.getKey();
 			String value = pair.getValue();
 			if (!"".equals(value)) {

@@ -20,7 +20,7 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 	private PoiContract listOfQuestions;
 	private SourceContract.Preferences preferences;
 
-	public QuestionPresenter(QuestionFragmentContract.View view, int position, SourceContract.Preferences preferences) {
+	QuestionPresenter(QuestionFragmentContract.View view, int position, SourceContract.Preferences preferences) {
 		this.view = view;
 		poi = PoiList.getInstance().getPoiList().get(0);
 		listOfQuestions = PoiTypes.getPoiType(poi.getType());
@@ -90,7 +90,7 @@ public class QuestionPresenter implements QuestionFragmentContract.Presenter {
 	}
 
 	private void addAnswer(String questionTag, String answerTag) {
-		if (Answers.getPoiName() != poi.getName()) {
+		if (!Answers.getPoiName().equals(poi.getName())) {
 			Answers.setPoiDetails(poi);
 		}
 		Answers.addAnswer(questionTag, answerTag);

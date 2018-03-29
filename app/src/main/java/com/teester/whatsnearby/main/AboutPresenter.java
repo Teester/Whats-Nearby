@@ -6,7 +6,7 @@ public class AboutPresenter implements MainActivityContract.AboutPresenter {
 
 	private MainActivityContract.AboutView view;
 
-	public AboutPresenter(MainActivityContract.AboutView view) {
+    AboutPresenter(MainActivityContract.AboutView view) {
 		this.view = view;
 	}
 

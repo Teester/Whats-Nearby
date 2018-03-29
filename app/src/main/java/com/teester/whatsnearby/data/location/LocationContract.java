@@ -10,7 +10,6 @@ public interface LocationContract {
 
 		void performOverpassQuery();
 
-		void createNotification(String name, int drawable);
 	}
 
 	interface Notifier {
