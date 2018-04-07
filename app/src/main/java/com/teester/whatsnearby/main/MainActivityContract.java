@@ -44,6 +44,8 @@ public interface MainActivityContract {
 		void setCheckdistance(String queryTimeSince, int color);
 
 		void setLocation(double latitude, double longitude);
+
+		void setReason(String reason);
 	}
 
 	interface AboutPresenter {

@@ -18,6 +18,8 @@ import com.teester.whatsnearby.data.source.QueryOverpass;
 import com.teester.whatsnearby.data.source.SourceContract;
 import com.teester.whatsnearby.main.MainActivity;
 
+import java.util.Locale;
+
 import static android.support.v4.content.ContextCompat.startActivity;
 
 public class LocationJobPresenter
@@ -91,14 +93,10 @@ public class LocationJobPresenter
 		double latitude = preferences.getDoublePreference(latitudePreference);
 		double longitude = preferences.getDoublePreference(longitudePreference);
 
-		Location newLocation;
-		if (latitude == 0 && longitude == 0) {
-			newLocation = location;
-		} else {
-			newLocation = new Location("dummyprovider");
-			newLocation.setLatitude(latitude);
-			newLocation.setLongitude(longitude);
-		}
+		Location newLocation = new Location("dummyprovider");
+		newLocation.setLatitude(latitude);
+		newLocation.setLongitude(longitude);
+
 		return newLocation;
 	}
 
@@ -126,7 +124,7 @@ public class LocationJobPresenter
 
 	/**
 	 *  Logic dictating whether or not to query the Overpass api for a given location based on
-	 *  location accuracy, time since last query and distance since last query.  If the app is in
+	 *  location accuracy, time since last notification and distance since last query.  If the app is in
 	 *  debug mode, it always returns true
 	 *
 	 *  @param location The queried location
@@ -136,27 +134,33 @@ public class LocationJobPresenter
 	private boolean decideWhetherToQuery() {
 		boolean query = true;
 		boolean debug_mode = preferences.getBooleanPreference(PreferenceList.DEBUG_MODE);
-		long lastQueryTime = preferences.getLongPreference(PreferenceList.LAST_QUERY_TIME);
+		long lastNotificationTime = preferences.getLongPreference(PreferenceList.LAST_NOTIFICATION_TIME);
+
+		String notQueryReason = "";
 
 		// Don't query Overpass if the location is less accurate than 100m
 		if (location.getAccuracy() > MINLOCATIONACCURACY) {
+			notQueryReason += String.format(Locale.getDefault(), "Accuracy is not good enough: %.0fm\n", location.getAccuracy());
 			query = false;
 		}
 
-		// Don't query Overpass if less than 1 hour has passed since the last query
-		if (System.currentTimeMillis() - lastQueryTime < MINQUERYINTERVAL) {
+		// Don't query Overpass if less than 1 hour has passed since the last notification
+		if (System.currentTimeMillis() - lastNotificationTime < MINQUERYINTERVAL) {
+			notQueryReason += String.format(Locale.getDefault(), "Not long enough since last notification: %dmins\n", ((System.currentTimeMillis() - lastNotificationTime) / 60000));
 			query = false;
 		}
 
 		// Don't query Overpass is you've moved more than 20m from the last location query (5 mins ago)
 		// (indicates you're probably not in the same place as 5 mins ago)
 		if (location.distanceTo(lastLocation) > MINQUERYDISTANCE) {
+			notQueryReason += String.format(Locale.getDefault(), "Too far enough from last location: %.0fm\n", location.distanceTo(lastLocation));
 			query = false;
 		}
 
 		// Don't query Overpass is youre still within 20m of the last location query that you were
 		// notified about (indicates you've probably still in the same place)
 		if (location.distanceTo(lastQueryLocation) < MINQUERYDISTANCE) {
+			notQueryReason += String.format(Locale.getDefault(), "Not far enough from location of last query: %.0fm\n", location.distanceTo(lastQueryLocation));
 			query = false;
 		}
 
@@ -164,6 +168,14 @@ public class LocationJobPresenter
 		if (debug_mode && BuildConfig.DEBUG) {
 			query = true;
 		}
+
+		if (query) {
+			notQueryReason += "Queried";
+		}
+
+		preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, notQueryReason);
+		System.out.println(notQueryReason);
+
 		return query;
 	}
 

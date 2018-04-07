@@ -23,9 +23,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class QueryOverpass implements SourceContract.Overpass {
@@ -213,11 +213,11 @@ public class QueryOverpass implements SourceContract.Overpass {
 
 		AppDatabase db = AppDatabase.getAppDatabase(context);
 		VisitedLocation location = db.visitedLocationDao().findByOsmId(osmId);
-		List<VisitedLocation> list = db.visitedLocationDao().getAllVisitedLocations();
 
-		for (int i = 0; i < list.size(); i++) {
-			Date timeVisited = new Date(list.get(i).getTimeVisited());
-			System.out.println(String.format("name: %s, Last visited: %s", list.get(i).getName(), timeVisited));
+		if (location != null) {
+			String pref = preferences.getStringPreference(PreferenceList.NOT_QUERY_REASON);
+			pref += String.format(Locale.getDefault(), "Notified about %s within the last week", location.getName());
+			preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, pref);
 		}
 
 		long time = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000);
