@@ -143,6 +143,9 @@ public class MainActivity extends AppCompatActivity implements
 		ComponentName jobService = new ComponentName(getApplicationContext().getPackageName(), LocationJobService.class.getName());
 		JobInfo jobInfo = new JobInfo.Builder(1, jobService)
 				.setPeriodic(60000)
+				.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+				.setBackoffCriteria(60000, JobInfo.BACKOFF_POLICY_LINEAR)
+				.setPersisted(true)
 				.build();
 		assert jobScheduler != null;
 		jobScheduler.schedule(jobInfo);
