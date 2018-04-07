@@ -29,6 +29,7 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	private TextView querydistance;
 	private TextView checkdistance;
 	private TextView lastLocation;
+	private TextView reason;
 	private MainActivityContract.DebugPresenter debugPresenter;
 	private SharedPreferences sharedPreferences;
 	private Context context;
@@ -60,6 +61,7 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 		this.querydistance = view.findViewById(R.id.debug_distance_since_last_query_value);
 		this.checkdistance = view.findViewById(R.id.debug_distance_since_last_location_check_value);
 		this.lastLocation = view.findViewById(R.id.debug_most_recent_location_value);
+		this.reason = view.findViewById(R.id.debug_reason);
 
 		debugPresenter.getDetails();
 	}
@@ -114,6 +116,11 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	@Override
 	public void setLocation(double latitude, double longitude) {
 		this.lastLocation.setText(String.format(Locale.getDefault(), "%f, %f", latitude, longitude));
+	}
+
+	@Override
+	public void setReason(String reason) {
+		this.reason.setText(reason);
 	}
 
 	@Override

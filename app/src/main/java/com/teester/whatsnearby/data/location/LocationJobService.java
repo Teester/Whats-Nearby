@@ -53,6 +53,7 @@ public class LocationJobService
 	 */
 	@Override
 	public void run() {
+		System.out.println("Getting location");
 		LocationJobPresenter locationJobPresenter = new LocationJobPresenter(getApplicationContext(), locationJobServiceCallback);
 		locationJobPresenter.getLocation();
 	}

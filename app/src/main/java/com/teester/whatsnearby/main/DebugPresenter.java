@@ -25,6 +25,7 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 		getQueryDistance();
 		getAccuracy();
 		getLocation();
+		getReason();
 	}
 
 	private void getQueryDistance() {
@@ -89,5 +90,10 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 		double latitude = preferences.getDoublePreference(PreferenceList.LATITUDE);
 		double longitude = preferences.getDoublePreference(PreferenceList.LONGITUDE);
 		view.setLocation(latitude, longitude);
+	}
+
+	private void getReason() {
+		String reason = preferences.getStringPreference(PreferenceList.NOT_QUERY_REASON);
+		view.setReason(reason);
 	}
 }

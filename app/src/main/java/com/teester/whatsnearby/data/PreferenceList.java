@@ -26,4 +26,5 @@ public class PreferenceList {
 	public final static String LAST_QUERY_LOCATION_LATITUDE = "last_query_location_latitude";
 	public final static String LAST_QUERY_LOCATION_LONGITUDE = "last_query_location_longitude";
 	public final static String LOCATION_PROVIDER = "location_provider";
+	public final static String NOT_QUERY_REASON = "reason_not_to_query";
 }
