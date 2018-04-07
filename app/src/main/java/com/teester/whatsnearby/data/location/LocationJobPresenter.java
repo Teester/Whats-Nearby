@@ -138,12 +138,6 @@ public class LocationJobPresenter
 
 		String notQueryReason = "";
 
-		// Don't query Overpass if the location is less accurate than 100m
-		if (location.getAccuracy() > MINLOCATIONACCURACY) {
-			notQueryReason += String.format(Locale.getDefault(), "Accuracy is not good enough: %.0fm\n", location.getAccuracy());
-			query = false;
-		}
-
 		// Don't query Overpass if less than 1 hour has passed since the last notification
 		if (System.currentTimeMillis() - lastNotificationTime < MINQUERYINTERVAL) {
 			notQueryReason += String.format(Locale.getDefault(), "Not long enough since last notification: %dmins\n", ((System.currentTimeMillis() - lastNotificationTime) / 60000));
@@ -153,7 +147,7 @@ public class LocationJobPresenter
 		// Don't query Overpass is you've moved more than 20m from the last location query (5 mins ago)
 		// (indicates you're probably not in the same place as 5 mins ago)
 		if (location.distanceTo(lastLocation) > MINQUERYDISTANCE) {
-			notQueryReason += String.format(Locale.getDefault(), "Too far enough from last location: %.0fm\n", location.distanceTo(lastLocation));
+			notQueryReason += String.format(Locale.getDefault(), "Too far from last location: %.0fm\n", location.distanceTo(lastLocation));
 			query = false;
 		}
 

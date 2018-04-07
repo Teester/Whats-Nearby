@@ -55,6 +55,8 @@ public class QueryOverpass implements SourceContract.Overpass {
 		float measuredAccuracy;
 		if (accuracy < 20) {
 			measuredAccuracy = 20;
+		} else if (accuracy > 100) {
+			measuredAccuracy = 100;
 		} else {
 			measuredAccuracy = accuracy;
 		}
