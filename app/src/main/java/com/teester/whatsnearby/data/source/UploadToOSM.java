@@ -56,8 +56,8 @@ public class UploadToOSM implements SourceContract.upload {
 	}
 
 	private OsmConnection getConnection() {
-		String oauth_token_secret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
-		String oauth_token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
+		String oauth_token_secret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
+		String oauth_token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
 
 		OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		consumer.setTokenWithSecret(oauth_token, oauth_token_secret);
