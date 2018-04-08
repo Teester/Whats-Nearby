@@ -115,6 +115,7 @@ public class LocationJobPresenter
 		preferences.setStringPreference(PreferenceList.LOCATION_PROVIDER, location.getProvider());
 		preferences.setDoublePreference(PreferenceList.LAST_LOCATION_LATITUDE, location.getLatitude());
 		preferences.setDoublePreference(PreferenceList.LAST_LOCATION_LONGITUDE, location.getLongitude());
+		preferences.setLongPreference(PreferenceList.LAST_LOCATION_TIME, System.currentTimeMillis());
 
 		if (queried) {
 			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LATITUDE, location.getLatitude());
@@ -140,21 +141,21 @@ public class LocationJobPresenter
 
 		// Don't query Overpass if less than 1 hour has passed since the last notification
 		if (System.currentTimeMillis() - lastNotificationTime < MINQUERYINTERVAL) {
-			notQueryReason += String.format(Locale.getDefault(), "Not long enough since last notification: %dmins\n", ((System.currentTimeMillis() - lastNotificationTime) / 60000));
+			notQueryReason += String.format(Locale.getDefault(), "• Not long enough since last notification: %dmins\n", ((System.currentTimeMillis() - lastNotificationTime) / 60000));
 			query = false;
 		}
 
 		// Don't query Overpass is you've moved more than 20m from the last location query (5 mins ago)
 		// (indicates you're probably not in the same place as 5 mins ago)
 		if (location.distanceTo(lastLocation) > MINQUERYDISTANCE) {
-			notQueryReason += String.format(Locale.getDefault(), "Too far from last location: %.0fm\n", location.distanceTo(lastLocation));
+			notQueryReason += String.format(Locale.getDefault(), "• Too far from last location: %.0fm\n", location.distanceTo(lastLocation));
 			query = false;
 		}
 
 		// Don't query Overpass is youre still within 20m of the last location query that you were
 		// notified about (indicates you've probably still in the same place)
 		if (location.distanceTo(lastQueryLocation) < MINQUERYDISTANCE) {
-			notQueryReason += String.format(Locale.getDefault(), "Not far enough from location of last query: %.0fm\n", location.distanceTo(lastQueryLocation));
+			notQueryReason += String.format(Locale.getDefault(), "• Not far enough from location of last query: %.0fm\n", location.distanceTo(lastQueryLocation));
 			query = false;
 		}
 
@@ -164,7 +165,7 @@ public class LocationJobPresenter
 		}
 
 		if (query) {
-			notQueryReason += "Queried";
+			notQueryReason += "• Queried";
 		}
 
 		preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, notQueryReason);
