@@ -17,15 +17,18 @@ import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
 
-import java.util.Locale;
 import java.util.Objects;
 
-public class FragmentDebug extends Fragment implements MainActivityContract.DebugView, SharedPreferences.OnSharedPreferenceChangeListener {
+public class FragmentDebug
+		extends
+		Fragment
+		implements
+		MainActivityContract.DebugView,
+		SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private TextView lastQueryTime;
 	private TextView lastNotificationTime;
 	private TextView lastQuery;
-	private TextView accuracy;
 	private TextView querydistance;
 	private TextView checkdistance;
 	private TextView lastLocation;
@@ -57,7 +60,6 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 		this.lastQueryTime = view.findViewById(R.id.debug_last_overpass_query_value);
 		this.lastNotificationTime = view.findViewById(R.id.debug_last_notification_value);
 		this.lastQuery = view.findViewById(R.id.debug_last_overpass_query_result_value);
-		this.accuracy = view.findViewById(R.id.debug_accuracy_value);
 		this.querydistance = view.findViewById(R.id.debug_distance_since_last_query_value);
 		this.checkdistance = view.findViewById(R.id.debug_distance_since_last_location_check_value);
 		this.lastLocation = view.findViewById(R.id.debug_most_recent_location_value);
@@ -95,11 +97,6 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 		this.lastQuery.setText(queryTime);
 	}
 
-	@Override
-	public void setAccuracy(String accuracy, int color) {
-		this.accuracy.setText(accuracy);
-		this.accuracy.setTextColor(ContextCompat.getColor(context, color));
-	}
 
 	@Override
 	public void setQuerydistance(String querydistance, int color) {
@@ -114,8 +111,8 @@ public class FragmentDebug extends Fragment implements MainActivityContract.Debu
 	}
 
 	@Override
-	public void setLocation(double latitude, double longitude) {
-		this.lastLocation.setText(String.format(Locale.getDefault(), "%f, %f", latitude, longitude));
+	public void setLocation(String location) {
+		this.lastLocation.setText(location);
 	}
 
 	@Override

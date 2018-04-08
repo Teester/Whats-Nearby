@@ -4,6 +4,8 @@ import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.SourceContract;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class DebugPresenter implements MainActivityContract.DebugPresenter {
@@ -23,13 +25,12 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 		getLastNotificationTime();
 		getLastQueryTime();
 		getQueryDistance();
-		getAccuracy();
 		getLocation();
 		getReason();
 	}
 
 	private void getQueryDistance() {
-		float preference = preferences.getFloatPreference(PreferenceList.DISTANCE_TO_LAST_LOCATION);
+		float preference = preferences.getFloatPreference(PreferenceList.DISTANCE_TO_LAST_QUERY);
 		String querydistance = String.format(Locale.getDefault(), "%.0fm", preference);
 		int color = R.color.green;
 		if (preference < 20) {
@@ -61,7 +62,7 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 	}
 
 	private void getCheckDistance() {
-		float preference = preferences.getFloatPreference(PreferenceList.DISTANCE_TO_LAST_QUERY);
+		float preference = preferences.getFloatPreference(PreferenceList.DISTANCE_TO_LAST_LOCATION);
 		String checkdistance = String.format(Locale.getDefault(), "%.0fm", preference);
 		int color = R.color.green;
 		if (preference > 20) {
@@ -75,21 +76,16 @@ public class DebugPresenter implements MainActivityContract.DebugPresenter {
 		view.setLastQuery(lastQuery);
 	}
 
-	private void getAccuracy() {
-		float accuracy = preferences.getFloatPreference(PreferenceList.LOCATION_ACCURACY);
-		String provider = preferences.getStringPreference(PreferenceList.LOCATION_PROVIDER);
-		String accuracyString = String.format(Locale.getDefault(), "%s, %.0fm", provider, accuracy);
-		int accuracyColor = R.color.green;
-		if (accuracy > 100) {
-			accuracyColor = R.color.red;
-		}
-		view.setAccuracy(accuracyString, accuracyColor);
-	}
-
     private void getLocation() {
 		double latitude = preferences.getDoublePreference(PreferenceList.LATITUDE);
 		double longitude = preferences.getDoublePreference(PreferenceList.LONGITUDE);
-		view.setLocation(latitude, longitude);
+	    float accuracy = preferences.getFloatPreference(PreferenceList.LOCATION_ACCURACY);
+	    long time = preferences.getLongPreference(PreferenceList.LAST_LOCATION_TIME);
+	    Date date = new Date(time);
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM HH:mm", Locale.getDefault());
+	    String dateString = dateFormat.format(date);
+	    String location = String.format(Locale.getDefault(), "%f, %f ± %.0fm at %s", latitude, longitude, accuracy, dateString);
+	    view.setLocation(location);
 	}
 
 	private void getReason() {

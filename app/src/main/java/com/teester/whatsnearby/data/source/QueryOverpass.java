@@ -218,7 +218,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 
 		if (location != null) {
 			String pref = preferences.getStringPreference(PreferenceList.NOT_QUERY_REASON);
-			pref += String.format(Locale.getDefault(), "Notified about %s within the last week", location.getName());
+			pref += String.format(Locale.getDefault(), "• Notified about %s within the last week", location.getName());
 			preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, pref);
 		}
 
