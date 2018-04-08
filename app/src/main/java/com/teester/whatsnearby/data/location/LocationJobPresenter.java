@@ -31,7 +31,6 @@ public class LocationJobPresenter
 
 	private static final int MINQUERYINTERVAL = 60 * 60 * 1000;
 	private static final double MINQUERYDISTANCE = 20;
-	private static final int MINLOCATIONACCURACY = 100;
 
 	private Location location;
 	private Location lastLocation;
