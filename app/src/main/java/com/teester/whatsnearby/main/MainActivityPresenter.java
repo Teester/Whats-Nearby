@@ -96,7 +96,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
 	private String getUserName() {
 		String preference = preferences.getStringPreference(PreferenceList.OSM_USER_NAME);
-		if (preference == "") {
+		if ("".equals(preference)) {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {

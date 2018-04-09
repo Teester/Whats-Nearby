@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		SourceContract.Preferences preferences = new Preferences(getApplicationContext());
-		final Preferences preferences1 = new Preferences(getApplicationContext());
 		mainPresenter = new MainActivityPresenter(this, preferences);
 		this.textView = this.findViewById(R.id.textView);
 		this.button = this.findViewById(R.id.button);
