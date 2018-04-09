@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -27,7 +28,9 @@ public class MainActivityPresenterTest {
 	private MainActivityContract.Presenter presenter;
 
 	@Before
-	public void setUp() {
+	public void
+
+	setUp() {
 		presenter = new MainActivityPresenter(view, preferences);
 	}
 
@@ -39,7 +42,7 @@ public class MainActivityPresenterTest {
 		verify(preferences).setStringPreference(eq("oauth_token"), eq(""));
 		verify(preferences).setStringPreference(eq("oauth_token_secret"), eq(""));
 		verify(view).startOAuth();
-		verify(view).showIfLoggedIn(anyInt(), anyInt());
+		verify(view).showIfLoggedIn(anyInt(), anyInt(), (String) any());
 	}
 
 	@Test
@@ -53,5 +56,11 @@ public class MainActivityPresenterTest {
 		presenter.checkIfOauth(url);
 
 		verify(view).startOAuth();
+	}
+
+	@Test
+	public void checkIfUsernameIsSetCorrectly() {
+		presenter.showIfLoggedIn();
+		verify(view).showIfLoggedIn(anyInt(), anyInt(), (String) any());
 	}
 }
