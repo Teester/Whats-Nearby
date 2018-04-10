@@ -4,6 +4,7 @@ import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.Utilities;
 import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.SourceContract;
+import com.teester.whatsnearby.data.source.UploadToOSM;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -19,7 +20,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	private SourceContract.Preferences preferences;
 	private MainActivityContract.View view;
 
-	public MainActivityPresenter(MainActivityContract.View view, SourceContract.Preferences preferences) {
+	MainActivityPresenter(MainActivityContract.View view, SourceContract.Preferences preferences) {
 		this.view = view;
 		this.preferences = preferences;
 	}
@@ -32,6 +33,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 		boolean loggedIn = preferences.getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM);
 		int message;
 		int button;
+		String userName = getUserName();
 		if (loggedIn) {
 			message = R.string.logged_in_as;
 			button = R.string.log_out;
@@ -39,7 +41,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 			message = R.string.not_logged_in;
 			button = R.string.authorise_openstreetmap;
 		}
-		view.showIfLoggedIn(message, button);
+		view.showIfLoggedIn(message, button, userName);
 	}
 
 	/**
@@ -90,5 +92,20 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 		} else {
 			preferences.setBooleanPreference(preference, true);
 		}
+	}
+
+	private String getUserName() {
+		String preference = preferences.getStringPreference(PreferenceList.OSM_USER_NAME);
+		if ("".equals(preference)) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					SourceContract.upload upload = new UploadToOSM(preferences);
+					upload.setUsername();
+				}
+			}).start();
+			preference = preferences.getStringPreference(PreferenceList.OSM_USER_NAME);
+		}
+		return preference;
 	}
 }

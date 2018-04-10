@@ -25,6 +25,7 @@ import com.teester.whatsnearby.view.NonSwipeableViewPager;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 public class QuestionsActivity extends AppCompatActivity
 		implements QuestionsActivityContract.View,
@@ -48,6 +49,7 @@ public class QuestionsActivity extends AppCompatActivity
 		questionsPresenter = new QuestionsPresenter(this, preferences);
 
 		NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+		assert notificationManager != null;
 		notificationManager.cancelAll();
 	}
 
@@ -63,7 +65,7 @@ public class QuestionsActivity extends AppCompatActivity
 		setIntent(intent);
 		URI url = null;
 		try {
-			url = new URI(intent.getData().toString());
+			url = new URI(Objects.requireNonNull(intent.getData()).toString());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -86,15 +88,9 @@ public class QuestionsActivity extends AppCompatActivity
 		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
 	}
 
-	public void newPlaceClicked(View v) {
-		Fragment fragment = new QuestionFragment();
-		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
-
-	}
-
 	@Override
 	public void setViewPager(OsmObject poi, PoiContract listOfQuestions) {
-		FragmentPagerAdapter adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), poi, listOfQuestions, getApplicationContext());
+		FragmentPagerAdapter adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), listOfQuestions, getApplicationContext());
 		viewPager.setAdapter(adapterViewPager);
 	}
 
@@ -124,8 +120,4 @@ public class QuestionsActivity extends AppCompatActivity
 		}).start();
 	}
 
-	@Override
-	public void onNotHereFragmentInteraction() {
-		// required empty method
-	}
 }

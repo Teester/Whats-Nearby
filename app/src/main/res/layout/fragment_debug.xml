@@ -41,7 +41,7 @@
             android:id="@+id/debug_last_overpass_query_result_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginTop="8dp"
             android:text="@string/debug_last_overpass_query_result"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintStart_toStartOf="@+id/debug_last_notification_title"
@@ -69,10 +69,12 @@
 
         <TextView
             android:id="@+id/debug_last_overpass_query_result_value"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="@string/debug_no_data_recorded_yet"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/debug_last_overpass_query_result_title"
             app:layout_constraintTop_toBottomOf="@+id/debug_last_overpass_query_result_title"/>
 
@@ -80,7 +82,7 @@
             android:id="@+id/debug_last_location_details_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/debug_last_location_details"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -88,28 +90,19 @@
             app:layout_constraintTop_toBottomOf="@+id/debug_toolbar"/>
 
         <TextView
-            android:id="@+id/debug_accuracy_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/debug_accuracy"
-            app:layout_constraintStart_toStartOf="@+id/debug_most_recent_location_title"
-            app:layout_constraintTop_toBottomOf="@+id/debug_most_recent_location_title"/>
-
-        <TextView
             android:id="@+id/debug_distance_since_last_query_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginTop="8dp"
             android:text="@string/debug_distance_since_last_query"
-            app:layout_constraintStart_toStartOf="@+id/debug_accuracy_title"
-            app:layout_constraintTop_toBottomOf="@+id/debug_accuracy_title"/>
+            app:layout_constraintStart_toStartOf="@+id/debug_reason"
+            app:layout_constraintTop_toBottomOf="@+id/debug_reason"/>
 
         <TextView
             android:id="@+id/debug_distance_since_last_location_check_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginTop="8dp"
             android:text="@string/debug_distance_since_last_location_check"
             app:layout_constraintStart_toStartOf="@+id/debug_distance_since_last_query_title"
             app:layout_constraintTop_toBottomOf="@+id/debug_distance_since_last_query_title"/>
@@ -133,31 +126,16 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
-            android:id="@+id/debug_accuracy_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:text="@string/debug_no_data_recorded_yet"
-            app:layout_constraintBaseline_toBaselineOf="@+id/debug_accuracy_title"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <TextView
-            android:id="@+id/debug_most_recent_location_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/debug_most_recent_location"
-            app:layout_constraintStart_toStartOf="@+id/debug_last_location_details_title"
-            app:layout_constraintTop_toBottomOf="@+id/debug_last_location_details_title"/>
-
-        <TextView
             android:id="@+id/debug_most_recent_location_value"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/debug_no_data_recorded_yet"
-            app:layout_constraintBaseline_toBaselineOf="@+id/debug_most_recent_location_title"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/debug_last_location_details_title"
+            app:layout_constraintTop_toBottomOf="@+id/debug_last_location_details_title"/>
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/debug_toolbar"
@@ -171,6 +149,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/debug_details"
             app:titleTextColor="@color/text_color_light"/>
+
+        <TextView
+            android:id="@+id/debug_reason"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Reason for no query"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/debug_most_recent_location_value"
+            app:layout_constraintTop_toBottomOf="@+id/debug_most_recent_location_value"/>
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

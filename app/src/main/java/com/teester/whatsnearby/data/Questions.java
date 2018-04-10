@@ -60,11 +60,11 @@ public class Questions {
 		map.put("wifi_fee", new WifiFee());
 		map.put("women", new Women());
 	}
-	private static synchronized Questions getInstance() {
+
+    private static synchronized void getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new Questions();
 		}
-		return INSTANCE;
 	}
 
 	public static Question getQuestion(String question) {

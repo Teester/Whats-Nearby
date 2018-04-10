@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
-import com.teester.whatsnearby.data.OsmObject;
 
 public class IntroFragment extends Fragment implements View.OnClickListener, IntroFragmentContract.View {
 
@@ -22,11 +21,6 @@ public class IntroFragment extends Fragment implements View.OnClickListener, Int
 	private ImageView introImageView;
 	private IntroFragmentContract.Presenter introPresenter;
 	private OnFragmentInteractionListener listener;
-
-	@NonNull
-	public static IntroFragment newInstance(OsmObject poi) {
-		return new IntroFragment();
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -12,7 +12,7 @@ public class NotHerePresenter implements NotHereFragmentContract.Presenter {
 	private List<OsmObject> poiList;
 	private List<OsmObject> alternateList;
 
-	public NotHerePresenter(NotHereFragmentContract.View view) {
+	NotHerePresenter(NotHereFragmentContract.View view) {
 		this.view = view;
 		poiList = PoiList.getInstance().getPoiList();
 		alternateList = poiList.subList(1, poiList.size());
@@ -27,7 +27,7 @@ public class NotHerePresenter implements NotHereFragmentContract.Presenter {
 
 	@Override
 	public void onItemClicked(int i) {
-		ArrayList<OsmObject> intentList = new ArrayList<OsmObject>();
+		ArrayList<OsmObject> intentList = new ArrayList<>();
 		intentList.add(0, this.alternateList.get(i));
 		PoiList.getInstance().setPoiList(intentList);
 		view.startActivity();

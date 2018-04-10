@@ -19,7 +19,7 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 	private QuestionsActivityContract.View view;
 	private SourceContract.Preferences preferences;
 
-	public QuestionsPresenter(QuestionsActivityContract.View view, SourceContract.Preferences preferences) {
+	QuestionsPresenter(QuestionsActivityContract.View view, SourceContract.Preferences preferences) {
 		this.view = view;
 		this.preferences = preferences;
 		Answers.clearAnswerList();

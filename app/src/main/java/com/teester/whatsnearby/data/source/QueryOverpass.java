@@ -23,23 +23,23 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class QueryOverpass implements SourceContract.Overpass {
 
 	private double queryLatitude;
 	private double queryLongitude;
-	private List<OsmObject> poiList = new ArrayList<OsmObject>();
+	private List<OsmObject> poiList = new ArrayList<>();
 	private Context context;
 
 	public QueryOverpass(Context context) {
 		this.context = context;
 	}
 
-	public QueryOverpass() {
+	QueryOverpass() {
 	}
 
 	/**
@@ -55,6 +55,8 @@ public class QueryOverpass implements SourceContract.Overpass {
 		float measuredAccuracy;
 		if (accuracy < 20) {
 			measuredAccuracy = 20;
+		} else if (accuracy > 100) {
+			measuredAccuracy = 100;
 		} else {
 			measuredAccuracy = accuracy;
 		}
@@ -69,24 +71,28 @@ public class QueryOverpass implements SourceContract.Overpass {
 		String way = String.format(nwr, "way", types, overpassLocation);
 		String relation = String.format(nwr, "relation", types, overpassLocation);
 
-		String overpassUrl = String.format("https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s);out%%20center%%20meta%%20qt;", node, way, relation);
-
-		return overpassUrl;
+		return String.format("https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s);out%%20center%%20meta%%20qt;", node, way, relation);
 	}
 
+	/**
+	 * Querys overpass with a given string and gets json back
+	 *
+	 * @param urlString the url to query
+	 * @return json retrieved from overpass
+	 */
 	@Override
 	public String queryOverpassApi(String urlString) {
 
-		String resultToDisplay = "";
+		String resultToDisplay;
 		String userAgent = String.format("%s/%s", "whatsnearby", BuildConfig.VERSION_NAME);
-		InputStream in = null;
+		InputStream in;
 		try {
 			URL url = new URL(urlString);
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.setRequestProperty("User-Agent", userAgent);
 			in = new BufferedInputStream(urlConnection.getInputStream());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			return e.getMessage();
 		}
 
@@ -94,6 +100,11 @@ public class QueryOverpass implements SourceContract.Overpass {
 		return resultToDisplay;
 	}
 
+	/**
+	 * Converts the json returned from overpass into usable objects
+	 *
+	 * @param result The json from overpass
+	 */
 	@Override
 	public void processResult(String result) {
 		if (result != null) {
@@ -141,6 +152,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 					}
 				}
 			} catch (final JSONException e) {
+				e.printStackTrace();
 			}
 
 			PoiList.getInstance().setPoiList(poiList);
@@ -149,6 +161,13 @@ public class QueryOverpass implements SourceContract.Overpass {
 		}
 	}
 
+	/**
+	 * Entry point to query Overpass
+	 *
+	 * @param latitude Location latitude
+	 * @param longitude Location longitude
+	 * @param accuracy Location accuracy
+	 */
 	@Override
 	public void queryOverpass(double latitude, double longitude, float accuracy) {
 		SourceContract.Preferences preferences = new Preferences(context);
@@ -206,6 +225,12 @@ public class QueryOverpass implements SourceContract.Overpass {
 		}
 	}
 
+	/**
+	 * Checks the room database to see if we've been here before recently
+	 *
+	 * @param osmId the id of the object we're interested in
+	 * @return true if we've been there in the last week
+	 */
 	private boolean checkDatabaseForLocation(long osmId) {
 		SourceContract.Preferences preferences = new Preferences(context);
 		if (BuildConfig.DEBUG && preferences.getBooleanPreference(PreferenceList.DEBUG_MODE)) {
@@ -214,18 +239,22 @@ public class QueryOverpass implements SourceContract.Overpass {
 
 		AppDatabase db = AppDatabase.getAppDatabase(context);
 		VisitedLocation location = db.visitedLocationDao().findByOsmId(osmId);
-		List<VisitedLocation> list = db.visitedLocationDao().getAllVisitedLocations();
 
-		for (int i = 0; i < list.size(); i++) {
-			Date timeVisited = new Date(list.get(i).getTimeVisited());
-			System.out.println(String.format("name: %s, Last visited: %s", list.get(i).getName(), timeVisited));
+		if (location != null) {
+			String pref = preferences.getStringPreference(PreferenceList.NOT_QUERY_REASON);
+			pref += String.format(Locale.getDefault(), "• Notified about %s within the last week", location.getName());
+			preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, pref);
 		}
 
 		long time = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000);
-		boolean notifyOrNot = location != null && location.getTimeVisited() > time;
-		return notifyOrNot;
+		return location != null && location.getTimeVisited() > time;
 	}
 
+	/**
+	 * Adds an object to the room database
+	 *
+	 * @param osmObject the object to be added
+	 */
 	private void updateDatabase(OsmObject osmObject) {
 		AppDatabase db = AppDatabase.getAppDatabase(context);
 		VisitedLocation location = db.visitedLocationDao().findByOsmId(osmObject.getId());

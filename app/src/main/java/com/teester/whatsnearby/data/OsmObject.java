@@ -64,7 +64,6 @@ public class OsmObject {
 
 	public int getDrawable() {
 		PoiContract objectType = PoiTypes.getPoiType(this.type);
-		int drawable = objectType.getObjectIcon();
-		return drawable;
+        return objectType.getObjectIcon();
 	}
 }

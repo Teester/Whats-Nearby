@@ -4,7 +4,6 @@ import com.teester.whatsnearby.data.Answers;
 import com.teester.whatsnearby.data.PreferenceList;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import de.westnordost.osmapi.OsmConnection;
 import de.westnordost.osmapi.common.errors.OsmAuthorizationException;
 import de.westnordost.osmapi.map.MapDataDao;
 import de.westnordost.osmapi.map.data.Element;
+import de.westnordost.osmapi.user.UserDao;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 
@@ -57,21 +57,20 @@ public class UploadToOSM implements SourceContract.upload {
 	}
 
 	private OsmConnection getConnection() {
-		String oauth_token_secret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
-		String oauth_token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
+		String oauth_token_secret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
+		String oauth_token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
 
 		OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		consumer.setTokenWithSecret(oauth_token, oauth_token_secret);
 
-		OsmConnection osm = new OsmConnection(
+        return new OsmConnection(
 				"https://api.openstreetmap.org/api/0.6/",
 				"What's Nearby?", consumer);
-		return osm;
 	}
 
 	private Element getCurrentElement(OsmConnection osm, String type, long id) {
 		// Download the relevant object from OSM
-		Element downloadedElement = null;
+        Element downloadedElement;
 		switch (type) {
 			case "node":
 				downloadedElement = new MapDataDao(osm).getNode(id);
@@ -89,9 +88,7 @@ public class UploadToOSM implements SourceContract.upload {
 	}
 
 	private Element modifyCurrentElement(Element modifiedElement) {
-		Iterator<Map.Entry<String, String>> it = Answers.getAnswerMap().entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, String> pair = it.next();
+        for (Map.Entry<String, String> pair : Answers.getAnswerMap().entrySet()) {
 			String key = pair.getKey();
 			String value = pair.getValue();
 			if (!"".equals(value)) {
@@ -100,5 +97,14 @@ public class UploadToOSM implements SourceContract.upload {
 		}
 
 		return modifiedElement;
+	}
+
+	@Override
+	public void setUsername() {
+		OsmConnection connection = getConnection();
+
+		UserDao userDao = new UserDao(connection);
+		String name = userDao.getMine().displayName;
+		preferences.setStringPreference(PreferenceList.OSM_USER_NAME, name);
 	}
 }

@@ -40,7 +40,7 @@
     <string name="none_of_these_places">Aucun de ces endroits</string>
     <string name="check_pois_instruction">Cliquez sur le bouton ci-dessous pour vérifier les points d\'intérêt autour de votre position actuelle.</string>
     <string name="check_now_button">Vérifie maintenant!</string>
-    <string name="logged_in_as">Vous êtes actuellement connecté à OpenStreetMap.\nWhat\'s Nearby? vous avertira lorsque vous vous trouvez dans un endroit où des informations sont manquantes dans OpenStreetMap.</string>
+    <string name="logged_in_as">Vous êtes actuellement connecté à OpenStreetMap en tant que %s.\nWhat\'s Nearby? vous avertira lorsque vous vous trouvez dans un endroit où des informations sont manquantes dans OpenStreetMap.</string>
     <string name="log_out">Connectez - Out</string>
     <string name="close">Fermer</string>
     <string name="changeset_comment">Ajout de détails à %s</string>

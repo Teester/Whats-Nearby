@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements
 		this.textView = this.findViewById(R.id.textView);
 		this.button = this.findViewById(R.id.button);
 		Toolbar toolbar = findViewById(R.id.toolbar);
-
 		setSupportActionBar(toolbar);
 
 		this.button.setOnClickListener(this);
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
-		URI url = null;
+		URI url;
 		try {
 			if (intent.getData() != null) {
 				url = new URI(intent.getData().toString());
@@ -143,19 +142,18 @@ public class MainActivity extends AppCompatActivity implements
 		ComponentName jobService = new ComponentName(getApplicationContext().getPackageName(), LocationJobService.class.getName());
 		JobInfo jobInfo = new JobInfo.Builder(1, jobService)
 				.setPeriodic(60000)
+				.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+				.setBackoffCriteria(60000, JobInfo.BACKOFF_POLICY_LINEAR)
+				.setPersisted(true)
 				.build();
+		assert jobScheduler != null;
 		jobScheduler.schedule(jobInfo);
 	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		JobScheduler jobScheduler = (JobScheduler) getApplicationContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
-		ComponentName jobService = new ComponentName(getApplicationContext().getPackageName(), LocationJobService.class.getName());
-		JobInfo jobInfo = new JobInfo.Builder(1, jobService)
-				.setPeriodic(60000)
-				.build();
-		jobScheduler.schedule(jobInfo);
+		startLocationService();
 	}
 
 	@Override
@@ -201,8 +199,8 @@ public class MainActivity extends AppCompatActivity implements
 	}
 
 	@Override
-	public void showIfLoggedIn(int messageStringId, int buttonStringId) {
-		textView.setText(getString(messageStringId));
+	public void showIfLoggedIn(int messageStringId, int buttonStringId, String user) {
+		textView.setText(String.format(getString(messageStringId), user));
 		button.setText(getString(buttonStringId));
 	}
 

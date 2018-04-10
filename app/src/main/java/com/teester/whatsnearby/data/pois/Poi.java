@@ -62,9 +62,9 @@ public class Poi implements PoiContract {
 
 	@Override
 	public List<QuestionsContract> getQuestion() {
-		List<QuestionsContract> k = new ArrayList<QuestionsContract>();
-		for (int i = 0; i < questions.length; i++) {
-			QuestionsContract question = Questions.getQuestion(questions[i]);
+        List<QuestionsContract> k = new ArrayList<>();
+        for (String question1 : questions) {
+            QuestionsContract question = Questions.getQuestion(question1);
 			k.add(question);
 		}
 		return k;

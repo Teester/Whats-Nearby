@@ -60,17 +60,16 @@ public class OAuth implements SourceContract.oAuth {
 				provider.setOAuth10a(true);
 				provider.retrieveAccessToken(consumer, verifier);
 
+				new UploadToOSM(preferences);
+
 				preferences.setStringPreference(PreferenceList.OAUTH_TOKEN_SECRET, consumer.getTokenSecret());
 				preferences.setStringPreference(PreferenceList.OAUTH_TOKEN, consumer.getToken());
 				preferences.setBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM, true);
 			}
-		} catch (OAuthMessageSignerException e) {
-			e.printStackTrace();
-		} catch (OAuthNotAuthorizedException e) {
-			e.printStackTrace();
-		} catch (OAuthExpectationFailedException e) {
-			e.printStackTrace();
-		} catch (OAuthCommunicationException e) {
+        } catch (OAuthMessageSignerException |
+                OAuthNotAuthorizedException |
+                OAuthExpectationFailedException |
+                OAuthCommunicationException e) {
 			e.printStackTrace();
 		}
 	}

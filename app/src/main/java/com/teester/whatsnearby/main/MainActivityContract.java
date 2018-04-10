@@ -18,7 +18,7 @@ public interface MainActivityContract {
 
 	interface View {
 
-		void showIfLoggedIn(int message, int button);
+		void showIfLoggedIn(int message, int button, String user);
 
 		void startOAuth();
 	}
@@ -35,15 +35,15 @@ public interface MainActivityContract {
 
 		void setLastQuery(String queryTime);
 
-		void setAccuracy(String accuracy, int color);
-
 		void setQuerydistance(String querydistance, int color);
 
 		void setLastNotificationTime(String notificationTime, int color);
 
 		void setCheckdistance(String queryTimeSince, int color);
 
-		void setLocation(double latitude, double longitude);
+		void setLocation(String location);
+
+		void setReason(String reason);
 	}
 
 	interface AboutPresenter {
