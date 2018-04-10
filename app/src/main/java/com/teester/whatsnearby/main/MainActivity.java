@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements
 		this.textView = this.findViewById(R.id.textView);
 		this.button = this.findViewById(R.id.button);
 		Toolbar toolbar = findViewById(R.id.toolbar);
-
 		setSupportActionBar(toolbar);
 
 		this.button.setOnClickListener(this);
@@ -200,8 +199,8 @@ public class MainActivity extends AppCompatActivity implements
 	}
 
 	@Override
-	public void showIfLoggedIn(int messageStringId, int buttonStringId) {
-		textView.setText(getString(messageStringId));
+	public void showIfLoggedIn(int messageStringId, int buttonStringId, String user) {
+		textView.setText(String.format(getString(messageStringId), user));
 		button.setText(getString(buttonStringId));
 	}
 

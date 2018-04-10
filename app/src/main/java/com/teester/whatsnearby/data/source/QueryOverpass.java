@@ -74,6 +74,12 @@ public class QueryOverpass implements SourceContract.Overpass {
 		return String.format("https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(%s%s%s);out%%20center%%20meta%%20qt;", node, way, relation);
 	}
 
+	/**
+	 * Querys overpass with a given string and gets json back
+	 *
+	 * @param urlString the url to query
+	 * @return json retrieved from overpass
+	 */
 	@Override
 	public String queryOverpassApi(String urlString) {
 
@@ -94,6 +100,11 @@ public class QueryOverpass implements SourceContract.Overpass {
 		return resultToDisplay;
 	}
 
+	/**
+	 * Converts the json returned from overpass into usable objects
+	 *
+	 * @param result The json from overpass
+	 */
 	@Override
 	public void processResult(String result) {
 		if (result != null) {
@@ -150,6 +161,13 @@ public class QueryOverpass implements SourceContract.Overpass {
 		}
 	}
 
+	/**
+	 * Entry point to query Overpass
+	 *
+	 * @param latitude Location latitude
+	 * @param longitude Location longitude
+	 * @param accuracy Location accuracy
+	 */
 	@Override
 	public void queryOverpass(double latitude, double longitude, float accuracy) {
 		SourceContract.Preferences preferences = new Preferences(context);
@@ -207,6 +225,12 @@ public class QueryOverpass implements SourceContract.Overpass {
 		}
 	}
 
+	/**
+	 * Checks the room database to see if we've been here before recently
+	 *
+	 * @param osmId the id of the object we're interested in
+	 * @return true if we've been there in the last week
+	 */
 	private boolean checkDatabaseForLocation(long osmId) {
 		SourceContract.Preferences preferences = new Preferences(context);
 		if (BuildConfig.DEBUG && preferences.getBooleanPreference(PreferenceList.DEBUG_MODE)) {
@@ -226,6 +250,11 @@ public class QueryOverpass implements SourceContract.Overpass {
 		return location != null && location.getTimeVisited() > time;
 	}
 
+	/**
+	 * Adds an object to the room database
+	 *
+	 * @param osmObject the object to be added
+	 */
 	private void updateDatabase(OsmObject osmObject) {
 		AppDatabase db = AppDatabase.getAppDatabase(context);
 		VisitedLocation location = db.visitedLocationDao().findByOsmId(osmObject.getId());

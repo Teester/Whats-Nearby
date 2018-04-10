@@ -11,6 +11,7 @@ import de.westnordost.osmapi.OsmConnection;
 import de.westnordost.osmapi.common.errors.OsmAuthorizationException;
 import de.westnordost.osmapi.map.MapDataDao;
 import de.westnordost.osmapi.map.data.Element;
+import de.westnordost.osmapi.user.UserDao;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 
@@ -96,5 +97,14 @@ public class UploadToOSM implements SourceContract.upload {
 		}
 
 		return modifiedElement;
+	}
+
+	@Override
+	public void setUsername() {
+		OsmConnection connection = getConnection();
+
+		UserDao userDao = new UserDao(connection);
+		String name = userDao.getMine().displayName;
+		preferences.setStringPreference(PreferenceList.OSM_USER_NAME, name);
 	}
 }
