@@ -95,8 +95,8 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 	}
 
 	private String getUserName() {
-		String preference = preferences.getStringPreference(PreferenceList.OSM_USER_NAME);
-		if ("".equals(preference)) {
+		boolean loggedIn = preferences.getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM);
+		if (loggedIn) {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -104,8 +104,9 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 					upload.setUsername();
 				}
 			}).start();
-			preference = preferences.getStringPreference(PreferenceList.OSM_USER_NAME);
 		}
+
+		String preference = preferences.getStringPreference(PreferenceList.OSM_USER_NAME);
 		return preference;
 	}
 }
