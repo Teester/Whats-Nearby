@@ -164,7 +164,7 @@ public class LocationJobPresenter
 		}
 
 		if (query) {
-			notQueryReason += "• Queried";
+			notQueryReason += "• Queried\n";
 		}
 
 		preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, notQueryReason);

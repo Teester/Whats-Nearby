@@ -25,4 +25,9 @@ public interface VisitedLocationDao {
 
 	@Update
 	void update(VisitedLocation visitedLocation);
+
+	@Query("select * from VisitedLocation " +
+			"where latitude between (:latitude-0.01) and (:latitude+0.01) " +
+			"and longitude between (:longitude-0.01) and (:longitude+0.01)")
+	List<VisitedLocation> findByLocation(double latitude, double longitude);
 }
