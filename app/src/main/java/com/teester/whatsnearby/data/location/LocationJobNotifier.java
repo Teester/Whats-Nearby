@@ -33,7 +33,6 @@ public class LocationJobNotifier
 		// Store the time the notification was made
 		SourceContract.Preferences preferences = new Preferences(context);
 		preferences.setLongPreference(PreferenceList.LAST_OVERPASS_QUERY_TIME, System.currentTimeMillis());
-		preferences.setLongPreference(PreferenceList.LAST_NOTIFICATION_TIME, System.currentTimeMillis());
 		Intent resultIntent = new Intent(context, QuestionsActivity.class);
 		resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
