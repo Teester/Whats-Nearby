@@ -25,7 +25,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class QueryOverpass implements SourceContract.Overpass {
@@ -174,10 +173,14 @@ public class QueryOverpass implements SourceContract.Overpass {
 		preferences.setLongPreference(PreferenceList.LAST_QUERY_TIME, System.currentTimeMillis());
 		this.queryLatitude = latitude;
 		this.queryLongitude = longitude;
-		String overpassUrl = getOverpassUri(latitude, longitude, accuracy);
-		String overpassQuery = queryOverpassApi(overpassUrl);
-		preferences.setStringPreference(PreferenceList.LAST_QUERY, overpassQuery);
-		processResult(overpassQuery);
+
+		if (!checkDatabaseForLocation(latitude, longitude)) {
+			String overpassUrl = getOverpassUri(latitude, longitude, accuracy);
+			String overpassQuery = queryOverpassApi(overpassUrl);
+			preferences.setStringPreference(PreferenceList.LAST_QUERY, overpassQuery);
+			processResult(overpassQuery);
+		}
+
 	}
 
 	/**
@@ -205,6 +208,36 @@ public class QueryOverpass implements SourceContract.Overpass {
 	}
 
 	/**
+	 * Checks the room database to see if we've been here before recently
+	 *
+	 * @param currentLocation the current location
+	 * @return true if we've been at a location near here in the last week
+	 */
+	private boolean checkDatabaseForLocation(double latitude, double longitude) {
+		final long time = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000);
+
+		SourceContract.Preferences preferences = new Preferences(context);
+		if (BuildConfig.DEBUG && preferences.getBooleanPreference(PreferenceList.DEBUG_MODE)) {
+			return false;
+		}
+
+		AppDatabase db = AppDatabase.getAppDatabase(context);
+		List<VisitedLocation> locations = db.visitedLocationDao().findByLocation(latitude, longitude);
+		for (int i = 0; i < locations.size(); i++) {
+			VisitedLocation location = locations.get(i);
+			float distance = Utilities.computeDistance(latitude, longitude, location.getLatitude(), location.getLongitude());
+			if (distance < 20 && location.getTimeVisited() > time) {
+				String notQueryReason = preferences.getStringPreference(PreferenceList.NOT_QUERY_REASON);
+				notQueryReason += "• Been notified at this location in the past week\n";
+				System.out.println(notQueryReason);
+				preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, notQueryReason);
+				return true;
+			}
+		}
+
+		return false;
+	}
+	/**
 	 * Prepares the notification to be displayed.
 	 */
 	private void prepareNotification() {
@@ -212,42 +245,14 @@ public class QueryOverpass implements SourceContract.Overpass {
 			Answers.setPoiDetails(poiList.get(0));
 
 			OsmObject poi = poiList.get(0);
-			boolean recentlyVisited = checkDatabaseForLocation(poi.getId());
 			PoiContract type = PoiTypes.getPoiType(poi.getType());
 			int drawable = type.getObjectIcon();
-			System.out.println(String.format("At %s before: %s", poi.getName(), recentlyVisited));
-			if (!recentlyVisited) {
-				updateDatabase(poi);
-				LocationJobNotifier.createNotification(context, poi.getName(), drawable);
-			}
+
+			updateDatabase(poi);
+			LocationJobNotifier.createNotification(context, poi.getName(), drawable);
 		} else {
 			LocationJobNotifier.cancelNotifications(context);
 		}
-	}
-
-	/**
-	 * Checks the room database to see if we've been here before recently
-	 *
-	 * @param osmId the id of the object we're interested in
-	 * @return true if we've been there in the last week
-	 */
-	private boolean checkDatabaseForLocation(long osmId) {
-		SourceContract.Preferences preferences = new Preferences(context);
-		if (BuildConfig.DEBUG && preferences.getBooleanPreference(PreferenceList.DEBUG_MODE)) {
-			return false;
-		}
-
-		AppDatabase db = AppDatabase.getAppDatabase(context);
-		VisitedLocation location = db.visitedLocationDao().findByOsmId(osmId);
-
-		if (location != null) {
-			String pref = preferences.getStringPreference(PreferenceList.NOT_QUERY_REASON);
-			pref += String.format(Locale.getDefault(), "• Notified about %s within the last week", location.getName());
-			preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, pref);
-		}
-
-		long time = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000);
-		return location != null && location.getTimeVisited() > time;
 	}
 
 	/**
