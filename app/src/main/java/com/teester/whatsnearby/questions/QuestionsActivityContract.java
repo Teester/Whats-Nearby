@@ -12,6 +12,10 @@ public interface QuestionsActivityContract {
 		void addPoiNameToTextview();
 
 		void assessIntentData(URI uri);
+
+		void savePoiList();
+
+		void restorePoiList();
 	}
 
 	interface View {

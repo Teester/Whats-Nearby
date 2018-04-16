@@ -29,6 +29,7 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 	@Override
 	public void addPoiNameToTextview() {
 		List<OsmObject> poiList = PoiList.getInstance().getPoiList();
+		System.out.println(poiList.size());
 		String poiType = poiList.get(0).getType();
 		PoiContract listOfQuestions = PoiTypes.getPoiType(poiType);
 		listOfQuestions.shuffleQuestions();
@@ -59,6 +60,20 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	@Override
+	public void savePoiList() {
+		String json = PoiList.getInstance().serializePoiList();
+		preferences.setStringPreference(PreferenceList.POILIST, json);
+	}
+
+	@Override
+	public void restorePoiList() {
+		String json = preferences.getStringPreference(PreferenceList.POILIST);
+		if (json != null) {
+			PoiList.getInstance().decodePoiList(json);
 		}
 	}
 }

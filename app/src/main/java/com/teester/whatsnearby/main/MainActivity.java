@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements
 	private MenuItem debugMenuItem;
 	private SharedPreferences sharedPreferences;
 	private MainActivityContract.Presenter mainPresenter;
+	private SourceContract.Preferences preferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements
 		setContentView(R.layout.activity_main);
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		SourceContract.Preferences preferences = new Preferences(getApplicationContext());
+		preferences = new Preferences(getApplicationContext());
 		mainPresenter = new MainActivityPresenter(this, preferences);
 		this.textView = this.findViewById(R.id.textView);
 		this.button = this.findViewById(R.id.button);
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements
 		this.button.setOnClickListener(this);
 		checkPermission();
 		mainPresenter.showIfLoggedIn();
+
+		mainPresenter.restorePoiList();
 	}
 
 	@Override
@@ -163,14 +166,9 @@ public class MainActivity extends AppCompatActivity implements
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
-		sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+		mainPresenter.savePoiList();
 	}
 
 	@Override
