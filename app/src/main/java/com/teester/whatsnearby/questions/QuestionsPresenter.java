@@ -23,6 +23,7 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 		this.view = view;
 		this.preferences = preferences;
 		Answers.clearAnswerList();
+		preferences.setLongPreference(PreferenceList.LAST_NOTIFICATION_TIME, System.currentTimeMillis());
 	}
 
 	@Override
