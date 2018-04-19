@@ -36,7 +36,6 @@ public class QuestionsActivity extends AppCompatActivity
 	private NonSwipeableViewPager viewPager;
 	private TextView textView;
 	private QuestionsActivityContract.Presenter questionsPresenter;
-	private SourceContract.Preferences preferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,7 @@ public class QuestionsActivity extends AppCompatActivity
 		this.textView = findViewById(R.id.answer_not_here);
 		this.viewPager = findViewById(R.id.viewPager);
 
-		preferences = new Preferences(getApplicationContext());
+		SourceContract.Preferences preferences = new Preferences(getApplicationContext());
 		questionsPresenter = new QuestionsPresenter(this, preferences);
 
 		NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
