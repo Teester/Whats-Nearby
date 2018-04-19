@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements
 	private MenuItem debugMenuItem;
 	private SharedPreferences sharedPreferences;
 	private MainActivityContract.Presenter mainPresenter;
-	private SourceContract.Preferences preferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements
 		setContentView(R.layout.activity_main);
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		preferences = new Preferences(getApplicationContext());
+		SourceContract.Preferences preferences = new Preferences(getApplicationContext());
 		mainPresenter = new MainActivityPresenter(this, preferences);
 		this.textView = this.findViewById(R.id.textView);
 		this.button = this.findViewById(R.id.button);

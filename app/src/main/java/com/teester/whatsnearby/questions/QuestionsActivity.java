@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.data.OsmObject;
-import com.teester.whatsnearby.data.PoiList;
-import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.pois.PoiContract;
 import com.teester.whatsnearby.data.source.OAuth;
 import com.teester.whatsnearby.data.source.Preferences;
@@ -68,14 +66,6 @@ public class QuestionsActivity extends AppCompatActivity
 	protected void onResume() {
 		super.onResume();
 		questionsPresenter.addPoiNameToTextview();
-	}
-
-	@Override
-	protected void onDestroy() {
-		String json = PoiList.getInstance().serializePoiList();
-		System.out.println("destroying: "+json);
-		preferences.setStringPreference(PreferenceList.POILIST, json);
-		super.onDestroy();
 	}
 
 	@Override

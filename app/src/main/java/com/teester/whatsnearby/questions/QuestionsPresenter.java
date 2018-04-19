@@ -29,20 +29,21 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 	@Override
 	public void addPoiNameToTextview() {
 		List<OsmObject> poiList = PoiList.getInstance().getPoiList();
-		System.out.println(poiList.size());
-		String poiType = poiList.get(0).getType();
-		PoiContract listOfQuestions = PoiTypes.getPoiType(poiType);
-		listOfQuestions.shuffleQuestions();
+		if (poiList.size() != 0) {
+			String poiType = poiList.get(0).getType();
+			PoiContract listOfQuestions = PoiTypes.getPoiType(poiType);
+			listOfQuestions.shuffleQuestions();
 
-		if (preferences.getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM)) {
-			view.setViewPager(poiList.get(0), listOfQuestions);
-			if (poiList.size() == 1) {
-				view.makeTextViewInvisible();
+			if (preferences.getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM)) {
+				view.setViewPager(poiList.get(0), listOfQuestions);
+				if (poiList.size() == 1) {
+					view.makeTextViewInvisible();
+				} else {
+					view.setTextviewText(poiList.get(0).getName());
+				}
 			} else {
-				view.setTextviewText(poiList.get(0).getName());
+				view.startNewActivity();
 			}
-		} else {
-			view.startNewActivity();
 		}
 	}
 
