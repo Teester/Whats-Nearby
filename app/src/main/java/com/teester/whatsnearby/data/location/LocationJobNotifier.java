@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.SourceContract;
@@ -33,6 +34,9 @@ public class LocationJobNotifier
 		// Store the time the notification was made
 		SourceContract.Preferences preferences = new Preferences(context);
 		preferences.setLongPreference(PreferenceList.LAST_OVERPASS_QUERY_TIME, System.currentTimeMillis());
+		String json = PoiList.getInstance().serializePoiList();
+		preferences.setStringPreference(PreferenceList.POILIST, json);
+
 		Intent resultIntent = new Intent(context, QuestionsActivity.class);
 		resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

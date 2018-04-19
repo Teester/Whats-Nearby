@@ -14,6 +14,11 @@ public interface MainActivityContract {
 
 		void toggleDebugMode();
 
+		String getUserName();
+
+		void savePoiList();
+
+		void restorePoiList();
 	}
 
 	interface View {

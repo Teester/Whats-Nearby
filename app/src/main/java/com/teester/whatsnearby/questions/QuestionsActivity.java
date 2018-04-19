@@ -51,6 +51,14 @@ public class QuestionsActivity extends AppCompatActivity
 		NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 		assert notificationManager != null;
 		notificationManager.cancelAll();
+
+		questionsPresenter.restorePoiList();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		questionsPresenter.savePoiList();
 	}
 
 	@Override

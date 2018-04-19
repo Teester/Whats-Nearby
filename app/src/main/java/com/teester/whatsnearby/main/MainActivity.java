@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements
 		this.button.setOnClickListener(this);
 		checkPermission();
 		mainPresenter.showIfLoggedIn();
+
+		mainPresenter.restorePoiList();
 	}
 
 	@Override
@@ -163,14 +165,9 @@ public class MainActivity extends AppCompatActivity implements
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
-		sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+		mainPresenter.savePoiList();
 	}
 
 	@Override

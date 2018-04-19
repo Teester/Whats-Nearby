@@ -168,7 +168,6 @@ public class LocationJobPresenter
 		}
 
 		preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, notQueryReason);
-		System.out.println(notQueryReason);
 
 		return query;
 	}
