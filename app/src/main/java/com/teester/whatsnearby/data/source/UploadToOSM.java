@@ -27,79 +27,101 @@ public class UploadToOSM implements SourceContract.upload {
     private final SourceContract.Preferences preferences;
     private Element element;
 
-	public UploadToOSM(SourceContract.Preferences preferences) {
-		this.preferences = preferences;
-	}
+    /**
+     * Constructer for uploading object
+     *
+     * @param preferences a preferences object
+     */
+    public UploadToOSM(SourceContract.Preferences preferences) {
+        this.preferences = preferences;
+    }
 
-	@Override
-	public void uploadToOsm() {
-		// Download the relevant object from OSM
+    /**
+     * Uploads the answers to OSM
+     */
+    @Override
+    public void uploadToOsm() {
+        // Download the relevant object from OSM
         getCurrentElement();
 
-		// Add/modify the relevant keys
+        // Add/modify the relevant keys
         modifyCurrentElement();
 
-		// Update the altered object
+        // Update the altered object
         List<Element> collection = Collections.singletonList(element);
         if (element.isModified()) {
-			try {
+            try {
                 Map<String, String> changeSetTags = Answers.getChangesetTags();
                 new MapDataDao(getConnection()).updateMap(changeSetTags, collection, null);
-			} catch (OsmAuthorizationException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+            } catch (OsmAuthorizationException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	private OsmConnection getConnection() {
-		String oauth_token_secret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
-		String oauth_token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
+    /**
+     * Gets the OSM connection details to successfully access OSM data
+     * @return the connection object
+     */
+    private OsmConnection getConnection() {
+        String oauth_token_secret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
+        String oauth_token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
 
-		OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-		consumer.setTokenWithSecret(oauth_token, oauth_token_secret);
+        OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+        consumer.setTokenWithSecret(oauth_token, oauth_token_secret);
 
         return new OsmConnection(
-				"https://api.openstreetmap.org/api/0.6/",
-				"What's Nearby?", consumer);
-	}
+                "https://api.openstreetmap.org/api/0.6/",
+                "What's Nearby?", consumer);
+    }
 
+    /**
+     * Downloads the specified element from OSM
+     */
     private void getCurrentElement() {
         OsmConnection osm = getConnection();
         String type = Answers.getPoiType();
         long id = Answers.getPoiId();
 
-		// Download the relevant object from OSM
-		switch (type) {
-			case "node":
+        // Download the relevant object from OSM
+        switch (type) {
+            case "node":
                 element = new MapDataDao(osm).getNode(id);
-				break;
-			case "way":
-                element = new MapDataDao(osm).getWay(id);
-				break;
-			case "relation":
-                element = new MapDataDao(osm).getRelation(id);
-				break;
-			default:
                 break;
-		}
-	}
+            case "way":
+                element = new MapDataDao(osm).getWay(id);
+                break;
+            case "relation":
+                element = new MapDataDao(osm).getRelation(id);
+                break;
+            default:
+                break;
+        }
+    }
 
+    /**
+     * Modifies the downloaded element with the new tags based on the questions
+     * answered
+     */
     private void modifyCurrentElement() {
         for (Map.Entry<String, String> pair : Answers.getAnswerMap().entrySet()) {
-			String key = pair.getKey();
-			String value = pair.getValue();
-			if (!"".equals(value)) {
+            String key = pair.getKey();
+            String value = pair.getValue();
+            if (!"".equals(value)) {
                 if (!element.getTags().get(key).equals(value)) {
                     element.getTags().put(key, value);
                 }
             }
         }
-	}
+    }
 
-	@Override
-	public void setUsername() {
+    /**
+     * Retrieves the user's OSM username from OSM and stores it in a preference
+     */
+    @Override
+    public void setUsername() {
         UserDao userDao = new UserDao(getConnection());
-		String name = userDao.getMine().displayName;
-		preferences.setStringPreference(PreferenceList.OSM_USER_NAME, name);
-	}
+        String name = userDao.getMine().displayName;
+        preferences.setStringPreference(PreferenceList.OSM_USER_NAME, name);
+    }
 }
