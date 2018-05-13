@@ -95,6 +95,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 			return e.getMessage();
 		}
 
+		updateDatabase();
 		resultToDisplay = new Scanner(in, "UTF-8").useDelimiter("\\A").next();
 		return resultToDisplay;
 	}
@@ -174,7 +175,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 		this.queryLatitude = latitude;
 		this.queryLongitude = longitude;
 
-		if (!checkDatabaseForLocation(latitude, longitude)) {
+		if (!checkDatabaseForLocation()) {
 			String overpassUrl = getOverpassUri(latitude, longitude, accuracy);
 			String overpassQuery = queryOverpassApi(overpassUrl);
 			preferences.setStringPreference(PreferenceList.LAST_QUERY, overpassQuery);
@@ -213,7 +214,7 @@ public class QueryOverpass implements SourceContract.Overpass {
 	 * @param currentLocation the current location
 	 * @return true if we've been at a location near here in the last week
 	 */
-	private boolean checkDatabaseForLocation(double latitude, double longitude) {
+	private boolean checkDatabaseForLocation() {
 		final long time = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000);
 
 		SourceContract.Preferences preferences = new Preferences(context);
@@ -222,10 +223,10 @@ public class QueryOverpass implements SourceContract.Overpass {
 		}
 
 		AppDatabase db = AppDatabase.getAppDatabase(context);
-		List<VisitedLocation> locations = db.visitedLocationDao().findByLocation(latitude, longitude);
+		List<VisitedLocation> locations = db.visitedLocationDao().findByLocation(this.queryLatitude, this.queryLongitude);
 		for (int i = 0; i < locations.size(); i++) {
 			VisitedLocation location = locations.get(i);
-			float distance = Utilities.computeDistance(latitude, longitude, location.getLatitude(), location.getLongitude());
+			float distance = Utilities.computeDistance(this.queryLatitude, this.queryLongitude, location.getLatitude(), location.getLongitude());
 			if (distance < 20 && location.getTimeVisited() > time) {
 				String notQueryReason = preferences.getStringPreference(PreferenceList.NOT_QUERY_REASON);
 				notQueryReason += "• Been notified at this location in the past week\n";
@@ -248,7 +249,6 @@ public class QueryOverpass implements SourceContract.Overpass {
 			PoiContract type = PoiTypes.getPoiType(poi.getType());
 			int drawable = type.getObjectIcon();
 
-			updateDatabase(poi);
 			LocationJobNotifier.createNotification(context, poi.getName(), drawable);
 		} else {
 			LocationJobNotifier.cancelNotifications(context);
@@ -257,18 +257,23 @@ public class QueryOverpass implements SourceContract.Overpass {
 
 	/**
 	 * Adds an object to the room database
-	 *
-	 * @param osmObject the object to be added
 	 */
-	private void updateDatabase(OsmObject osmObject) {
+	private void updateDatabase() {
+		boolean beenHereBefore = false;
 		AppDatabase db = AppDatabase.getAppDatabase(context);
-		VisitedLocation location = db.visitedLocationDao().findByOsmId(osmObject.getId());
-		if (location != null) {
-			location.setTimeVisited(System.currentTimeMillis());
-			db.visitedLocationDao().update(location);
-		} else {
-			location = new VisitedLocation(osmObject);
-			db.visitedLocationDao().insert(location);
+		OsmObject osmObject = new OsmObject(0, "", "", "", this.queryLatitude, this.queryLongitude, 0);
+		VisitedLocation visitedLocation = new VisitedLocation(osmObject);
+		List<VisitedLocation> locationList = db.visitedLocationDao().findByLocation(queryLatitude, queryLongitude);
+		for (int i = 0; i < locationList.size(); i++) {
+			VisitedLocation location = locationList.get(i);
+			float distance = Utilities.computeDistance(location.getLatitude(), location.getLongitude(), queryLatitude, queryLongitude);
+			if (distance < 20) {
+				beenHereBefore = true;
+			}
+		}
+
+		if (!beenHereBefore) {
+			db.visitedLocationDao().insert(visitedLocation);
 		}
 	}
 
