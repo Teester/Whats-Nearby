@@ -24,87 +24,102 @@ public class UploadToOSM implements SourceContract.upload {
 	private static final String CONSUMER_KEY = "1LJqwD4kMz96HTbv9I1U1XBM0AL1RpcjuFOPvW0B";
 	private static final String CONSUMER_SECRET = "KDCLveu82AZawLELpC6yIP3EI8fJa0JqF0ALukbl";
 
-	private SourceContract.Preferences preferences;
+    private final SourceContract.Preferences preferences;
+    private Element element;
 
-	public UploadToOSM(SourceContract.Preferences preferences) {
-		this.preferences = preferences;
-	}
+    /**
+     * Constructer for uploading object
+     *
+     * @param preferences a preferences object
+     */
+    public UploadToOSM(SourceContract.Preferences preferences) {
+        this.preferences = preferences;
+    }
 
-	@Override
-	public void uploadToOsm() {
-		String type = Answers.getPoiType();
-		long id = Answers.getPoiId();
-		Map<String, String> changesetTags = Answers.getChangesetTags();
+    /**
+     * Uploads the answers to OSM
+     */
+    @Override
+    public void uploadToOsm() {
+        // Download the relevant object from OSM
+        getCurrentElement();
 
-		// Get OSM connection details
-		OsmConnection osm = getConnection();
+        // Add/modify the relevant keys
+        modifyCurrentElement();
 
-		// Download the relevant object from OSM
-		Element downloadedElement = getCurrentElement(osm, type, id);
+        // Update the altered object
+        List<Element> collection = Collections.singletonList(element);
+        if (element.isModified()) {
+            try {
+                Map<String, String> changeSetTags = Answers.getChangesetTags();
+                new MapDataDao(getConnection()).updateMap(changeSetTags, collection, null);
+            } catch (OsmAuthorizationException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-		// Add/modify the relevant keys
-		Element modifiedElement = modifyCurrentElement(downloadedElement);
+    /**
+     * Gets the OSM connection details to successfully access OSM data
+     * @return the connection object
+     */
+    private OsmConnection getConnection() {
+        String oauth_token_secret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
+        String oauth_token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
 
-		// Update the altered object
-		List<Element> collection = Collections.singletonList(modifiedElement);
-		if (modifiedElement.isModified()) {
-			try {
-				new MapDataDao(osm).updateMap(changesetTags, collection, null);
-			} catch (OsmAuthorizationException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private OsmConnection getConnection() {
-		String oauth_token_secret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
-		String oauth_token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
-
-		OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-		consumer.setTokenWithSecret(oauth_token, oauth_token_secret);
+        OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+        consumer.setTokenWithSecret(oauth_token, oauth_token_secret);
 
         return new OsmConnection(
-				"https://api.openstreetmap.org/api/0.6/",
-				"What's Nearby?", consumer);
-	}
+                "https://api.openstreetmap.org/api/0.6/",
+                "What's Nearby?", consumer);
+    }
 
-	private Element getCurrentElement(OsmConnection osm, String type, long id) {
-		// Download the relevant object from OSM
-        Element downloadedElement;
-		switch (type) {
-			case "node":
-				downloadedElement = new MapDataDao(osm).getNode(id);
-				break;
-			case "way":
-				downloadedElement = new MapDataDao(osm).getWay(id);
-				break;
-			case "relation":
-				downloadedElement = new MapDataDao(osm).getRelation(id);
-				break;
-			default:
-				return null;
-		}
-		return downloadedElement;
-	}
+    /**
+     * Downloads the specified element from OSM
+     */
+    private void getCurrentElement() {
+        OsmConnection osm = getConnection();
+        String type = Answers.getPoiType();
+        long id = Answers.getPoiId();
 
-	private Element modifyCurrentElement(Element modifiedElement) {
+        // Download the relevant object from OSM
+        switch (type) {
+            case "node":
+                element = new MapDataDao(osm).getNode(id);
+                break;
+            case "way":
+                element = new MapDataDao(osm).getWay(id);
+                break;
+            case "relation":
+                element = new MapDataDao(osm).getRelation(id);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Modifies the downloaded element with the new tags based on the questions
+     * answered
+     */
+    private void modifyCurrentElement() {
         for (Map.Entry<String, String> pair : Answers.getAnswerMap().entrySet()) {
-			String key = pair.getKey();
-			String value = pair.getValue();
-			if (!"".equals(value)) {
-				modifiedElement.getTags().put(key, value);
-			}
-		}
+            String key = pair.getKey();
+            String value = pair.getValue();
+            if (!"".equals(value) && !element.getTags().get(key).equals(value)) {
+                element.getTags().put(key, value);
+            }
+        }
+    }
 
-		return modifiedElement;
-	}
-
-	@Override
-	public void setUsername() {
-		OsmConnection connection = getConnection();
-
-		UserDao userDao = new UserDao(connection);
-		String name = userDao.getMine().displayName;
-		preferences.setStringPreference(PreferenceList.OSM_USER_NAME, name);
-	}
+    /**
+     * Retrieves the user's OSM username from OSM and stores it in a preference
+     */
+    @Override
+    public void setUsername() {
+        UserDao userDao = new UserDao(getConnection());
+        String name = userDao.getMine().displayName;
+        preferences.setStringPreference(PreferenceList.OSM_USER_NAME, name);
+    }
 }
