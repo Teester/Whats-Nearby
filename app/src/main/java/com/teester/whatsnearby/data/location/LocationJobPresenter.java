@@ -158,6 +158,12 @@ public class LocationJobPresenter
 			query = false;
 		}
 
+		// Don't query if the number of times this location has been detected in a row has not met the threshold.
+		if (!checkNumberOfDetections()) {
+			notQueryReason += "• Not enough detections in a row";
+			query = false;
+		}
+
 		// If we're in debug mode, query every time
 		if (debug_mode && BuildConfig.DEBUG) {
 			query = true;
@@ -170,6 +176,38 @@ public class LocationJobPresenter
 		preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, notQueryReason);
 
 		return query;
+	}
+
+	/**
+	 * Query based on the number of location detections close to this location in a row.
+	 * Decide how many detections are needed based on accuracy
+	 *
+	 * @return whether the required number of detections has been reached
+	 */
+	private boolean checkNumberOfDetections() {
+
+		long detections = preferences.getLongPreference(PreferenceList.NUMBER_OF_VISITS);
+		float accuracy = location.getAccuracy();
+		int numberOfDetectionsRequired = 2;
+
+		if (accuracy > 100) {
+			numberOfDetectionsRequired = 3;
+		}
+		if (accuracy > 1000) {
+			numberOfDetectionsRequired = 4;
+		}
+
+		if (location.distanceTo(lastLocation) < 20) {
+			preferences.setLongPreference(PreferenceList.NUMBER_OF_VISITS, detections + 1);
+		} else {
+			preferences.setLongPreference(PreferenceList.NUMBER_OF_VISITS, 1);
+		}
+
+		if (detections < numberOfDetectionsRequired) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	/**
