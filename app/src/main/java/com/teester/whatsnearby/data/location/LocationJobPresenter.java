@@ -203,11 +203,7 @@ public class LocationJobPresenter
 			preferences.setLongPreference(PreferenceList.NUMBER_OF_VISITS, 1);
 		}
 
-		if (detections < numberOfDetectionsRequired) {
-			return false;
-		} else {
-			return true;
-		}
+		return detections < numberOfDetectionsRequired;
 	}
 
 	/**
