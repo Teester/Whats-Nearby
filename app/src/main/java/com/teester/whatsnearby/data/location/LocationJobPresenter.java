@@ -39,6 +39,8 @@ public class LocationJobPresenter
 	private LostApiClient client;
 	private Context context;
 	private SourceContract.Preferences preferences;
+	private boolean query;
+	private String notQueryReason;
 
 	public LocationJobPresenter(Context context, LocationContract.LocationJobService locationCallback) {
 		this.context = context;
@@ -47,7 +49,7 @@ public class LocationJobPresenter
 	}
 
 	/**
-	 *  Creates a LostApiClient with a listener and connects to it
+	 * Creates a LostApiClient with a listener and connects to it
 	 */
 	public void getLocation() {
 		client = new LostApiClient.Builder(context).addConnectionCallbacks(this).build();
@@ -55,10 +57,10 @@ public class LocationJobPresenter
 	}
 
 	/**
-	 *  Sets preferences for the debug screen, updates the recent detected and queried locations
-	 *  and initiates an overpass query
+	 * Sets preferences for the debug screen, updates the recent detected and queried locations
+	 * and initiates an overpass query
 	 *
-	 *  @param location the queried location
+	 * @param location the queried location
 	 */
 	@Override
 	public void processLocation(Location location) {
@@ -70,23 +72,22 @@ public class LocationJobPresenter
 			lastQueryLocation = setPreviousLocation(PreferenceList.LAST_QUERY_LOCATION_LATITUDE, PreferenceList.LAST_QUERY_LOCATION_LONGITUDE);
 		}
 
-		boolean queried = decideWhetherToQuery();
+		decideWhetherToQuery();
 
-		if (queried) {
+		if (query) {
 			performOverpassQuery();
 		}
 
-		setPreferences(queried);
+		setPreferences(query);
 	}
 
 	/**
-	 *  Returns a location, depending on whether there are stored preferences or not
+	 * Returns a location, depending on whether there are stored preferences or not
 	 *
-	 *  @param location The current location
-	 *  @param latitudePreference A previously stored latitudePreference
-	 *  @param longitudePreference A previously stored longitude
-	 *
-	 *  @return a location
+	 * @param location            The current location
+	 * @param latitudePreference  A previously stored latitudePreference
+	 * @param longitudePreference A previously stored longitude
+	 * @return a location
 	 */
 	private Location setPreviousLocation(String latitudePreference, String longitudePreference) {
 		double latitude = preferences.getDoublePreference(latitudePreference);
@@ -100,9 +101,9 @@ public class LocationJobPresenter
 	}
 
 	/**
-	 *  Set preferences relating to current location to persist them for the next location
+	 * Set preferences relating to current location to persist them for the next location
 	 *
-	 *  @param queried Whether or not an overpass query was performed
+	 * @param queried Whether or not an overpass query was performed
 	 */
 	private void setPreferences(boolean queried) {
 		preferences.setFloatPreference(PreferenceList.LOCATION_ACCURACY, location.getAccuracy());
@@ -123,46 +124,20 @@ public class LocationJobPresenter
 	}
 
 	/**
-	 *  Logic dictating whether or not to query the Overpass api for a given location based on
-	 *  location accuracy, time since last notification and distance since last query.  If the app is in
-	 *  debug mode, it always returns true
-	 *
-	 *  @param location The queried location
-	 *
-	 *  @return a boolean indicating whether or not to query
+	 * Logic dictating whether or not to query the Overpass api for a given location based on
+	 * location accuracy, time since last notification and distance since last query.  If the app is in
+	 * debug mode, it always returns true
 	 */
-	private boolean decideWhetherToQuery() {
-		boolean query = true;
+	private void decideWhetherToQuery() {
+		query = true;
+		notQueryReason = "";
+
 		boolean debug_mode = preferences.getBooleanPreference(PreferenceList.DEBUG_MODE);
-		long lastNotificationTime = preferences.getLongPreference(PreferenceList.LAST_NOTIFICATION_TIME);
 
-		String notQueryReason = "";
-
-		// Don't query Overpass if less than 1 hour has passed since the last notification
-		if (System.currentTimeMillis() - lastNotificationTime < MINQUERYINTERVAL) {
-			notQueryReason += String.format(Locale.getDefault(), "• Not long enough since last notification: %dmins\n", ((System.currentTimeMillis() - lastNotificationTime) / 60000));
-			query = false;
-		}
-
-		// Don't query Overpass is you've moved more than 20m from the last location query (5 mins ago)
-		// (indicates you're probably not in the same place as 5 mins ago)
-		if (location.distanceTo(lastLocation) > MINQUERYDISTANCE) {
-			notQueryReason += String.format(Locale.getDefault(), "• Too far from last location: %.0fm\n", location.distanceTo(lastLocation));
-			query = false;
-		}
-
-		// Don't query Overpass is youre still within 20m of the last location query that you were
-		// notified about (indicates you've probably still in the same place)
-		if (location.distanceTo(lastQueryLocation) < MINQUERYDISTANCE) {
-			notQueryReason += String.format(Locale.getDefault(), "• Not far enough from location of last query: %.0fm\n", location.distanceTo(lastQueryLocation));
-			query = false;
-		}
-
-		// Don't query if the number of times this location has been detected in a row has not met the threshold.
-		if (!checkNumberOfDetections()) {
-			notQueryReason += "• Not enough detections in a row";
-			query = false;
-		}
+		checkTimeSinceLastQuery();
+		checkDistanceSinceLastLocation();
+		checkDistanceSinceLastCheck();
+		checkNumberOfDetections();
 
 		// If we're in debug mode, query every time
 		if (debug_mode && BuildConfig.DEBUG) {
@@ -174,17 +149,46 @@ public class LocationJobPresenter
 		}
 
 		preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, notQueryReason);
+	}
 
-		return query;
+	/**
+	 * Don't query Overpass if less than 1 hour has passed since the last notificatio
+	 */
+	private void checkTimeSinceLastQuery() {
+		long lastNotificationTime = preferences.getLongPreference(PreferenceList.LAST_NOTIFICATION_TIME);
+		if (System.currentTimeMillis() - lastNotificationTime < MINQUERYINTERVAL) {
+			notQueryReason += String.format(Locale.getDefault(), "• Not long enough since last notification: %dmins\n", ((System.currentTimeMillis() - lastNotificationTime) / 60000));
+			query = false;
+		}
+	}
+
+	/**
+	 * Don't query Overpass is you've moved more than 20m from the last location query (5 mins ago)
+	 * (indicates you're probably not in the same place as 5 mins ago)
+	 */
+	private void checkDistanceSinceLastLocation() {
+		if (location.distanceTo(lastLocation) > MINQUERYDISTANCE) {
+			notQueryReason += String.format(Locale.getDefault(), "• Too far from last location: %.0fm\n", location.distanceTo(lastLocation));
+			query = false;
+		}
+	}
+
+	/**
+	 * Don't query Overpass is youre still within 20m of the last location query that you were
+	 * notified about (indicates you've probably still in the same place)
+	 */
+	private void checkDistanceSinceLastCheck() {
+		if (location.distanceTo(lastQueryLocation) < MINQUERYDISTANCE) {
+			notQueryReason += String.format(Locale.getDefault(), "• Not far enough from location of last query: %.0fm\n", location.distanceTo(lastQueryLocation));
+			query = false;
+		}
 	}
 
 	/**
 	 * Query based on the number of location detections close to this location in a row.
 	 * Decide how many detections are needed based on accuracy
-	 *
-	 * @return whether the required number of detections has been reached
 	 */
-	private boolean checkNumberOfDetections() {
+	private void checkNumberOfDetections() {
 
 		long detections = preferences.getLongPreference(PreferenceList.NUMBER_OF_VISITS);
 		float accuracy = location.getAccuracy();
@@ -203,7 +207,10 @@ public class LocationJobPresenter
 			preferences.setLongPreference(PreferenceList.NUMBER_OF_VISITS, 1);
 		}
 
-		return detections < numberOfDetectionsRequired;
+		if (detections < numberOfDetectionsRequired) {
+			query = false;
+			notQueryReason += "• Not enough detections in a row";
+		}
 	}
 
 	/**

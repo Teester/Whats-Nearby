@@ -30,11 +30,11 @@ public class LocationJobPresenterTest {
     }
 
     @Test
-    public void processLocationTest() {
+    public void processLocationTestWithGoodAccuracy() {
         Location location = new Location("dummyprovider");
         location.setLatitude(53);
         location.setLongitude(7);
-        location.setAccuracy(50);
+        location.setAccuracy(10);
 
         locationJobPresenter.processLocation(location);
 
@@ -43,5 +43,37 @@ public class LocationJobPresenterTest {
 
         assertEquals(53, (int) latitude);
         assertEquals(7, (int) longitude);
+    }
+
+    @Test
+    public void processLocationTestWithPoorAccuracy() {
+        Location location = new Location("dummyprovider");
+        location.setLatitude(54);
+        location.setLongitude(8);
+        location.setAccuracy(120);
+
+        locationJobPresenter.processLocation(location);
+
+        double latitude = preferences.getDoublePreference(PreferenceList.LATITUDE);
+        double longitude = preferences.getDoublePreference(PreferenceList.LONGITUDE);
+
+        assertEquals(54, (int) latitude);
+        assertEquals(8, (int) longitude);
+    }
+
+    @Test
+    public void processLocationTestWithTerribleAccuracy() {
+        Location location = new Location("dummyprovider");
+        location.setLatitude(55);
+        location.setLongitude(9);
+        location.setAccuracy(1200);
+
+        locationJobPresenter.processLocation(location);
+
+        double latitude = preferences.getDoublePreference(PreferenceList.LATITUDE);
+        double longitude = preferences.getDoublePreference(PreferenceList.LONGITUDE);
+
+        assertEquals(55, (int) latitude);
+        assertEquals(9, (int) longitude);
     }
 }
