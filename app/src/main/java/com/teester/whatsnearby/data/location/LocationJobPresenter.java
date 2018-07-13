@@ -75,7 +75,7 @@ public class LocationJobPresenter
 		decideWhetherToQuery();
 
 		if (query) {
-			performOverpassQuery();
+			new Thread(this).start();
 		}
 
 		setPreferences(query);
@@ -211,14 +211,6 @@ public class LocationJobPresenter
 			query = false;
 			notQueryReason += "• Not enough detections in a row";
 		}
-	}
-
-	/**
-	 *  Initiates an overpass query on a new thread
-	 */
-	@Override
-	public void performOverpassQuery() {
-		new Thread(this).start();
 	}
 
     /**

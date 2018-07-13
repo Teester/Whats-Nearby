@@ -8,8 +8,6 @@ public interface LocationContract {
 
 		void processLocation(Location location);
 
-		void performOverpassQuery();
-
 	}
 
 	interface Notifier {
