@@ -134,9 +134,7 @@ public class LocationJobPresenter
 
 		boolean debug_mode = preferences.getBooleanPreference(PreferenceList.DEBUG_MODE);
 
-		checkTimeSinceLastQuery();
-		checkDistanceSinceLastLocation();
-		checkDistanceSinceLastCheck();
+        checkTimeAndDistanceSinceLastLocation();
 		checkNumberOfDetections();
 
 		// If we're in debug mode, query every time
@@ -152,32 +150,25 @@ public class LocationJobPresenter
 	}
 
 	/**
-	 * Don't query Overpass if less than 1 hour has passed since the last notificatio
+     * Don't query Overpass if less than 1 hour has passed since the last notification
+     *
+     * Don't query Overpass is you've moved more than 20m from the last location query (5 mins ago)
+     * (indicates you're probably not in the same place as 5 mins ago)
+     *
+     * Don't query Overpass is youre still within 20m of the last location query that you were
+     * notified about (indicates you've probably still in the same place)
 	 */
-	private void checkTimeSinceLastQuery() {
+    private void checkTimeAndDistanceSinceLastLocation() {
 		long lastNotificationTime = preferences.getLongPreference(PreferenceList.LAST_NOTIFICATION_TIME);
-		if (System.currentTimeMillis() - lastNotificationTime < MINQUERYINTERVAL) {
+
+        if (System.currentTimeMillis() - lastNotificationTime < MINQUERYINTERVAL) {
 			notQueryReason += String.format(Locale.getDefault(), "• Not long enough since last notification: %dmins\n", ((System.currentTimeMillis() - lastNotificationTime) / 60000));
 			query = false;
 		}
-	}
-
-	/**
-	 * Don't query Overpass is you've moved more than 20m from the last location query (5 mins ago)
-	 * (indicates you're probably not in the same place as 5 mins ago)
-	 */
-	private void checkDistanceSinceLastLocation() {
 		if (location.distanceTo(lastLocation) > MINQUERYDISTANCE) {
 			notQueryReason += String.format(Locale.getDefault(), "• Too far from last location: %.0fm\n", location.distanceTo(lastLocation));
 			query = false;
 		}
-	}
-
-	/**
-	 * Don't query Overpass is youre still within 20m of the last location query that you were
-	 * notified about (indicates you've probably still in the same place)
-	 */
-	private void checkDistanceSinceLastCheck() {
 		if (location.distanceTo(lastQueryLocation) < MINQUERYDISTANCE) {
 			notQueryReason += String.format(Locale.getDefault(), "• Not far enough from location of last query: %.0fm\n", location.distanceTo(lastQueryLocation));
 			query = false;
