@@ -30,4 +30,5 @@ public class PreferenceList {
 	public final static String NOT_QUERY_REASON = "reason_not_to_query";
 	public final static String OSM_USER_NAME = "osm_user_name";
 	public final static String POILIST = "poilist";
+	public final static String NUMBER_OF_VISITS = "location_number_of_times";
 }
