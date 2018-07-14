@@ -29,10 +29,6 @@ public class QueryOrNot {
         return query;
     }
 
-    public String getNotQueryReason() {
-        return notQueryReason;
-    }
-
     /**
      * Logic dictating whether or not to query the Overpass api for a given location based on
      * location accuracy, time since last notification and distance since last query.  If the app is in
@@ -71,15 +67,28 @@ public class QueryOrNot {
     }
 
     /**
+     * Makes a location object from a latitude and longitude stored in Preferences
+     *
+     * @param latitudePreference  a preference containing a latitude
+     * @param longitudePreference a preference containing a longitude
+     * @return a location object
+     */
+    private Location getLocationFromPreferences(String latitudePreference, String longitudePreference) {
+        double latitude = preferences.getDoublePreference(latitudePreference);
+        double longitude = preferences.getDoublePreference(longitudePreference);
+        Location location = new Location("dummyprovider");
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+        return location;
+    }
+
+    /**
      * Don't query Overpass is you've moved more than 20m from the last location query (5 mins ago)
      * (indicates you're probably not in the same place as 5 mins ago)
      */
     private void checkDistanceSinceLastLocation() {
-        double latitude = preferences.getDoublePreference(PreferenceList.LAST_LOCATION_LATITUDE);
-        double longitude = preferences.getDoublePreference(PreferenceList.LAST_LOCATION_LONGITUDE);
-        Location lastLocation = new Location("dummyprovider");
-        lastLocation.setLatitude(latitude);
-        lastLocation.setLongitude(longitude);
+        Location lastLocation = getLocationFromPreferences(PreferenceList.LAST_LOCATION_LATITUDE, PreferenceList.LAST_LOCATION_LONGITUDE);
+
         if (location.distanceTo(lastLocation) > MINQUERYDISTANCE) {
             notQueryReason += String.format(Locale.getDefault(), "• Too far from last location: %.0fm\n", location.distanceTo(lastLocation));
             query = false;
@@ -91,11 +100,8 @@ public class QueryOrNot {
      * notified about (indicates you've probably still in the same place)
      */
     private void checkDistanceSinceLastCheck() {
-        double latitude = preferences.getDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LATITUDE);
-        double longitude = preferences.getDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LONGITUDE);
-        Location lastQueryLocation = new Location("dummyprovider");
-        lastQueryLocation.setLatitude(latitude);
-        lastQueryLocation.setLongitude(longitude);
+        Location lastQueryLocation = getLocationFromPreferences(PreferenceList.LAST_QUERY_LOCATION_LATITUDE, PreferenceList.LAST_QUERY_LOCATION_LONGITUDE);
+
         if (location.distanceTo(lastQueryLocation) < MINQUERYDISTANCE) {
             notQueryReason += String.format(Locale.getDefault(), "• Not far enough from location of last query: %.0fm\n", location.distanceTo(lastQueryLocation));
             query = false;
@@ -107,23 +113,10 @@ public class QueryOrNot {
      * Decide how many detections are needed based on accuracy
      */
     private void checkNumberOfDetections() {
-
-        double latitude = preferences.getDoublePreference(PreferenceList.LAST_LOCATION_LATITUDE);
-        double longitude = preferences.getDoublePreference(PreferenceList.LAST_LOCATION_LONGITUDE);
-        Location lastLocation = new Location("dummyprovider");
-        lastLocation.setLatitude(latitude);
-        lastLocation.setLongitude(longitude);
+        Location lastLocation = getLocationFromPreferences(PreferenceList.LAST_LOCATION_LATITUDE, PreferenceList.LAST_LOCATION_LONGITUDE);
 
         long detections = preferences.getLongPreference(PreferenceList.NUMBER_OF_VISITS);
-        float accuracy = location.getAccuracy();
-        int numberOfDetectionsRequired = 2;
-
-        if (accuracy > 100) {
-            numberOfDetectionsRequired = 3;
-        }
-        if (accuracy > 1000) {
-            numberOfDetectionsRequired = 4;
-        }
+        int numberOfDetectionsRequired = getNumberOfDetectionsRequired(location.getAccuracy());
 
         if (location.distanceTo(lastLocation) < 20) {
             preferences.setLongPreference(PreferenceList.NUMBER_OF_VISITS, detections + 1);
@@ -135,5 +128,23 @@ public class QueryOrNot {
             query = false;
             notQueryReason += "• Not enough detections in a row";
         }
+    }
+
+    /**
+     * Gets the numbers of repeat detections of the same location required to trigger a query
+     *
+     * @param accuracy the accuracy of the location fix
+     * @return the number of repeat detections required
+     */
+    private int getNumberOfDetectionsRequired(float accuracy) {
+        int numberRequired;
+        if (accuracy > 1000) {
+            numberRequired = 4;
+        } else if (accuracy > 100) {
+            numberRequired = 3;
+        } else {
+            numberRequired = 2;
+        }
+        return numberRequired;
     }
 }
