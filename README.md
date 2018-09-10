@@ -30,6 +30,7 @@ Download the beta from Google Play.
 ## What's the build status?
 
 [![Build Status](https://travis-ci.org/Teester/Whats-Nearby.svg?branch=master)](https://travis-ci.org/Teester/Whats-Nearby) [![codecov](https://codecov.io/gh/Teester/Whats-Nearby/branch/master/graph/badge.svg)](https://codecov.io/gh/Teester/Whats-Nearby) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6635ff22c9b240f79c6472dfd66b594e)](https://www.codacy.com/app/Teester/Whats-Nearby?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Teester/Whats-Nearby&amp;utm_campaign=Badge_Grade)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FTeester%2FWhats-Nearby.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FTeester%2FWhats-Nearby?ref=badge_shield)
 
 ## What's done
 - Basic location determination and notification logic
@@ -49,3 +50,5 @@ Download the beta from Google Play.
 
 ## Whats the licence?
 This software is released under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-3.0.html).
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FTeester%2FWhats-Nearby.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FTeester%2FWhats-Nearby?ref=badge_large)
