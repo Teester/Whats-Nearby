@@ -36,7 +36,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 		int button;
 		String userName = getUserName();
 		if (loggedIn) {
-			if (userName == "") {
+            if ("".equals(userName)) {
 				message = R.string.logged_in;
 			} else {
 				message = R.string.logged_in_as;
