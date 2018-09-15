@@ -11,14 +11,11 @@ import com.mapzen.android.lost.api.LocationListener;
 import com.mapzen.android.lost.api.LocationRequest;
 import com.mapzen.android.lost.api.LocationServices;
 import com.mapzen.android.lost.api.LostApiClient;
-import com.teester.whatsnearby.BuildConfig;
 import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.Preferences;
 import com.teester.whatsnearby.data.source.QueryOverpass;
 import com.teester.whatsnearby.data.source.SourceContract;
 import com.teester.whatsnearby.main.MainActivity;
-
-import java.util.Locale;
 
 import static android.support.v4.content.ContextCompat.startActivity;
 
@@ -28,9 +25,6 @@ public class LocationJobPresenter
 		LostApiClient.ConnectionCallbacks,
 		LocationListener,
 		Runnable {
-
-	private static final int MINQUERYINTERVAL = 60 * 60 * 1000;
-	private static final double MINQUERYDISTANCE = 20;
 
 	private Location location;
 	private Location lastLocation;
@@ -47,7 +41,7 @@ public class LocationJobPresenter
 	}
 
 	/**
-	 *  Creates a LostApiClient with a listener and connects to it
+	 * Creates a LostApiClient with a listener and connects to it
 	 */
 	public void getLocation() {
 		client = new LostApiClient.Builder(context).addConnectionCallbacks(this).build();
@@ -55,10 +49,10 @@ public class LocationJobPresenter
 	}
 
 	/**
-	 *  Sets preferences for the debug screen, updates the recent detected and queried locations
-	 *  and initiates an overpass query
+	 * Sets preferences for the debug screen, updates the recent detected and queried locations
+	 * and initiates an overpass query
 	 *
-	 *  @param location the queried location
+	 * @param location the queried location
 	 */
 	@Override
 	public void processLocation(Location location) {
@@ -70,23 +64,23 @@ public class LocationJobPresenter
 			lastQueryLocation = setPreviousLocation(PreferenceList.LAST_QUERY_LOCATION_LATITUDE, PreferenceList.LAST_QUERY_LOCATION_LONGITUDE);
 		}
 
-		boolean queried = decideWhetherToQuery();
+		QueryOrNot decision = new QueryOrNot(preferences, location);
+		boolean query = decision.getWhetherToQuery();
 
-		if (queried) {
-			performOverpassQuery();
+		if (query) {
+			new Thread(this).start();
 		}
 
-		setPreferences(queried);
+		setPreferences(query);
 	}
 
 	/**
-	 *  Returns a location, depending on whether there are stored preferences or not
+	 * Returns a location, depending on whether there are stored preferences or not
 	 *
-	 *  @param location The current location
-	 *  @param latitudePreference A previously stored latitudePreference
-	 *  @param longitudePreference A previously stored longitude
-	 *
-	 *  @return a location
+	 * @param location            The current location
+	 * @param latitudePreference  A previously stored latitudePreference
+	 * @param longitudePreference A previously stored longitude
+	 * @return a location
 	 */
 	private Location setPreviousLocation(String latitudePreference, String longitudePreference) {
 		double latitude = preferences.getDoublePreference(latitudePreference);
@@ -100,9 +94,9 @@ public class LocationJobPresenter
 	}
 
 	/**
-	 *  Set preferences relating to current location to persist them for the next location
+	 * Set preferences relating to current location to persist them for the next location
 	 *
-	 *  @param queried Whether or not an overpass query was performed
+	 * @param queried Whether or not an overpass query was performed
 	 */
 	private void setPreferences(boolean queried) {
 		preferences.setFloatPreference(PreferenceList.LOCATION_ACCURACY, location.getAccuracy());
@@ -120,65 +114,6 @@ public class LocationJobPresenter
 			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LATITUDE, location.getLatitude());
 			preferences.setDoublePreference(PreferenceList.LAST_QUERY_LOCATION_LONGITUDE, location.getLongitude());
 		}
-	}
-
-	/**
-	 *  Logic dictating whether or not to query the Overpass api for a given location based on
-	 *  location accuracy, time since last notification and distance since last query.  If the app is in
-	 *  debug mode, it always returns true
-	 *
-	 *  @param location The queried location
-	 *
-	 *  @return a boolean indicating whether or not to query
-	 */
-	private boolean decideWhetherToQuery() {
-		boolean query = true;
-		boolean debug_mode = preferences.getBooleanPreference(PreferenceList.DEBUG_MODE);
-		long lastNotificationTime = preferences.getLongPreference(PreferenceList.LAST_NOTIFICATION_TIME);
-
-		String notQueryReason = "";
-
-		// Don't query Overpass if less than 1 hour has passed since the last notification
-		if (System.currentTimeMillis() - lastNotificationTime < MINQUERYINTERVAL) {
-			notQueryReason += String.format(Locale.getDefault(), "• Not long enough since last notification: %dmins\n", ((System.currentTimeMillis() - lastNotificationTime) / 60000));
-			query = false;
-		}
-
-		// Don't query Overpass is you've moved more than 20m from the last location query (5 mins ago)
-		// (indicates you're probably not in the same place as 5 mins ago)
-		if (location.distanceTo(lastLocation) > MINQUERYDISTANCE) {
-			notQueryReason += String.format(Locale.getDefault(), "• Too far from last location: %.0fm\n", location.distanceTo(lastLocation));
-			query = false;
-		}
-
-		// Don't query Overpass is youre still within 20m of the last location query that you were
-		// notified about (indicates you've probably still in the same place)
-		if (location.distanceTo(lastQueryLocation) < MINQUERYDISTANCE) {
-			notQueryReason += String.format(Locale.getDefault(), "• Not far enough from location of last query: %.0fm\n", location.distanceTo(lastQueryLocation));
-			query = false;
-		}
-
-		// If we're in debug mode, query every time
-		if (debug_mode && BuildConfig.DEBUG) {
-			query = true;
-		}
-
-		if (query) {
-			notQueryReason += "• Queried";
-		}
-
-		preferences.setStringPreference(PreferenceList.NOT_QUERY_REASON, notQueryReason);
-		System.out.println(notQueryReason);
-
-		return query;
-	}
-
-	/**
-	 *  Initiates an overpass query on a new thread
-	 */
-	@Override
-	public void performOverpassQuery() {
-		new Thread(this).start();
 	}
 
     /**

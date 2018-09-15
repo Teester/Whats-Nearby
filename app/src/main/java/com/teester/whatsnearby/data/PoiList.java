@@ -1,5 +1,6 @@
 package com.teester.whatsnearby.data;
 
+import com.google.gson.Gson;
 import com.teester.whatsnearby.Utilities;
 
 import java.util.ArrayList;
@@ -68,6 +69,14 @@ public class PoiList {
 				return (int) (p1Distance - p2Distance);
 			}
 		});
+	}
+
+	public String serializePoiList() {
+		return new Gson().toJson(INSTANCE);
+	}
+
+	public void decodePoiList(String json) {
+		INSTANCE = new Gson().fromJson(json, PoiList.class);
 	}
 
 }

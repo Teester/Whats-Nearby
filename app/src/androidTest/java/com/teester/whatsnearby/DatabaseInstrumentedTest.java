@@ -92,4 +92,28 @@ public class DatabaseInstrumentedTest {
 		visitedLocationDao.delete(visitedLocationDao.findByOsmId(osmObject2.getId()));
 		assertNull(visitedLocationDao.findByOsmId(osmObject2.getId()));
 	}
+
+	@Test
+	public void onFindByLocationCheckLocationFound() {
+		visitedLocationDao.insert(new VisitedLocation(osmObject));
+		visitedLocationDao.insert(new VisitedLocation(osmObject2));
+		visitedLocationDao.insert(new VisitedLocation(osmObject3));
+		visitedLocationDao.insert(new VisitedLocation(osmObject4));
+		visitedLocationDao.insert(new VisitedLocation(osmObject5));
+
+		List<VisitedLocation> list = visitedLocationDao.findByLocation(1, 1);
+		assertEquals(5, list.size());
+	}
+
+	@Test
+	public void onFindByLocationCheckLocationNotFound() {
+		visitedLocationDao.insert(new VisitedLocation(osmObject));
+		visitedLocationDao.insert(new VisitedLocation(osmObject2));
+		visitedLocationDao.insert(new VisitedLocation(osmObject3));
+		visitedLocationDao.insert(new VisitedLocation(osmObject4));
+		visitedLocationDao.insert(new VisitedLocation(osmObject5));
+
+		List<VisitedLocation> list = visitedLocationDao.findByLocation(10, 10);
+		assertEquals(0, list.size());
+	}
 }

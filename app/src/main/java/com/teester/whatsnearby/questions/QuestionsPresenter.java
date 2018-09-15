@@ -23,24 +23,27 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 		this.view = view;
 		this.preferences = preferences;
 		Answers.clearAnswerList();
+		preferences.setLongPreference(PreferenceList.LAST_NOTIFICATION_TIME, System.currentTimeMillis());
 	}
 
 	@Override
 	public void addPoiNameToTextview() {
 		List<OsmObject> poiList = PoiList.getInstance().getPoiList();
-		String poiType = poiList.get(0).getType();
-		PoiContract listOfQuestions = PoiTypes.getPoiType(poiType);
-		listOfQuestions.shuffleQuestions();
+		if (poiList.size() != 0) {
+			String poiType = poiList.get(0).getType();
+			PoiContract listOfQuestions = PoiTypes.getPoiType(poiType);
+			listOfQuestions.shuffleQuestions();
 
-		if (preferences.getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM)) {
-			view.setViewPager(poiList.get(0), listOfQuestions);
-			if (poiList.size() == 1) {
-				view.makeTextViewInvisible();
+			if (preferences.getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM)) {
+				view.setViewPager(poiList.get(0), listOfQuestions);
+				if (poiList.size() == 1) {
+					view.makeTextViewInvisible();
+				} else {
+					view.setTextviewText(poiList.get(0).getName());
+				}
 			} else {
-				view.setTextviewText(poiList.get(0).getName());
+				view.startNewActivity();
 			}
-		} else {
-			view.startNewActivity();
 		}
 	}
 
@@ -58,6 +61,20 @@ public class QuestionsPresenter implements QuestionsActivityContract.Presenter {
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	@Override
+	public void savePoiList() {
+		String json = PoiList.getInstance().serializePoiList();
+		preferences.setStringPreference(PreferenceList.POILIST, json);
+	}
+
+	@Override
+	public void restorePoiList() {
+		String json = preferences.getStringPreference(PreferenceList.POILIST);
+		if (json != null) {
+			PoiList.getInstance().decodePoiList(json);
 		}
 	}
 }

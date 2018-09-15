@@ -2,6 +2,7 @@ package com.teester.whatsnearby.main;
 
 import com.teester.whatsnearby.R;
 import com.teester.whatsnearby.Utilities;
+import com.teester.whatsnearby.data.PoiList;
 import com.teester.whatsnearby.data.PreferenceList;
 import com.teester.whatsnearby.data.source.SourceContract;
 import com.teester.whatsnearby.data.source.UploadToOSM;
@@ -35,7 +36,11 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 		int button;
 		String userName = getUserName();
 		if (loggedIn) {
-			message = R.string.logged_in_as;
+            if ("".equals(userName)) {
+				message = R.string.logged_in;
+			} else {
+				message = R.string.logged_in_as;
+			}
 			button = R.string.log_out;
 		} else {
 			message = R.string.not_logged_in;
@@ -94,7 +99,8 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 		}
 	}
 
-	private String getUserName() {
+	@Override
+	public String getUserName() {
 		boolean loggedIn = preferences.getBooleanPreference(PreferenceList.LOGGED_IN_TO_OSM);
 		if (loggedIn) {
 			new Thread(new Runnable() {
@@ -108,5 +114,19 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
 		String preference = preferences.getStringPreference(PreferenceList.OSM_USER_NAME);
 		return preference;
+	}
+
+	@Override
+	public void savePoiList() {
+		String json = PoiList.getInstance().serializePoiList();
+		preferences.setStringPreference(PreferenceList.POILIST, json);
+	}
+
+	@Override
+	public void restorePoiList() {
+		String json = preferences.getStringPreference(PreferenceList.POILIST);
+		if (json != null) {
+			PoiList.getInstance().decodePoiList(json);
+		}
 	}
 }
