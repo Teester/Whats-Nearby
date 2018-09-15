@@ -41,6 +41,7 @@
     <string name="check_pois_instruction">Klicken Sie auf die Schaltfläche unten, um nach interessanten Orten in der Nähe Ihres aktuellen Standorts zu suchen.</string>
     <string name="check_now_button">Jetzt prüfen!</string>
     <string name="logged_in_as">Sie sind derzeit bei OpenStreetMap als %s angemeldet.\nWhat\'s Nearby? benachrichtigt Sie, wenn Sie sich an einem Ort befinden, an dem Informationen in OpenStreetMap fehlen.</string>
+    <string name="logged_in">Sie sind derzeit bei OpenStreetMap angemeldet.\nWhat\'s Nearby? benachrichtigt Sie, wenn Sie sich an einem Ort befinden, an dem Informationen in OpenStreetMap fehlen.</string>
     <string name="log_out">Ausloggen</string>
     <string name="changeset_comment">Details zu %s hinzugefügt</string>
     <string name="close">Schließen</string>
