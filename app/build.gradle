@@ -27,8 +27,8 @@ android {
         applicationId 'com.teester.whatsnearby'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 17
-        versionName '0.17'
+        versionCode 18
+        versionName '0.18'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -52,7 +52,7 @@ android {
             flavor.versionName = getVersionName()
         } else {
             //set properties for release
-            flavor.versionName = "0.17"
+            flavor.versionName = "0.18"
             variant.outputs.all {
                 outputFileName = "whatsnearby-" + flavor.versionName + "-release.apk"
             }
