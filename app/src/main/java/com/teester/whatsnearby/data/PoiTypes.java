@@ -41,6 +41,7 @@ import com.teester.whatsnearby.data.pois.ShopStationary;
 import com.teester.whatsnearby.data.pois.ShopSupermarket;
 import com.teester.whatsnearby.data.pois.ShopVariety;
 import com.teester.whatsnearby.data.pois.ShopVeterinary;
+import com.teester.whatsnearby.data.pois.TourismHotel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,6 +80,7 @@ public class PoiTypes {
 		map.put("fuel", new AmenityFuel());
 		map.put("furniture", new ShopFurniture());
 		map.put("hairdresser", new ShopHairdresser());
+        map.put("hotel", new TourismHotel());
 		map.put("jewelry", new ShopJewelry());
 		map.put("laundry", new ShopLaundry());
 		map.put("mobile_phone", new ShopMobilePhone());
