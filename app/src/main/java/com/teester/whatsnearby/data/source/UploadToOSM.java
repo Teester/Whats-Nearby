@@ -107,7 +107,7 @@ public class UploadToOSM implements SourceContract.upload {
         for (Map.Entry<String, String> pair : Answers.getAnswerMap().entrySet()) {
             String key = pair.getKey();
             String value = pair.getValue();
-            if (!"".equals(value) && !element.getTags().get(key).equals(value)) {
+            if (value != null && !element.getTags().get(key).equals(value)) {
                 element.getTags().put(key, value);
             }
         }
