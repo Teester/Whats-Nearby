@@ -2,6 +2,8 @@ package com.teester.whatsnearby.data.questions;
 
 import com.teester.whatsnearby.R;
 
+import java.util.ArrayList;
+
 public abstract class Question implements QuestionsContract {
 
 	public int question = 0;
