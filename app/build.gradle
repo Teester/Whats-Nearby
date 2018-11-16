@@ -21,14 +21,14 @@ def getVersionName = { ->
 }
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId 'com.teester.whatsnearby'
         minSdkVersion 21
-        targetSdkVersion 27
-        versionCode 19
-        versionName '0.19'
+        targetSdkVersion 28
+        versionCode 20
+        versionName '0.20'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -46,15 +46,16 @@ android {
         }
     }
     applicationVariants.all { variant ->
-        def flavor = variant.mergedFlavor
-        if (variant.buildType.isDebuggable()) {
-            //set properties for debug
-            flavor.versionName = getVersionName()
-        } else {
-            //set properties for release
-            flavor.versionName = "0.19"
-            variant.outputs.all {
-                outputFileName = "whatsnearby-" + flavor.versionName + "-release.apk"
+        variant.outputs.each { output ->
+            if (variant.buildType.isDebuggable()) {
+                //set properties for debug
+                output.versionNameOverride = getVersionName()
+            } else {
+                //set properties for release
+                output.versionNameOverride = "0.20"
+                variant.outputs.all {
+                    outputFileName = "whatsnearby-" + output.versionNameOverride + "-release.apk"
+                }
             }
         }
     }
@@ -65,9 +66,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'android.arch.persistence.room:runtime:1.1.1'

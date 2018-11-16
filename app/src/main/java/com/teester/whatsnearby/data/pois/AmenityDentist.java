@@ -1,6 +1,7 @@
 package com.teester.whatsnearby.data.pois;
 
 import com.teester.whatsnearby.R;
+import com.teester.whatsnearby.data.questions.Wheelchair;
 
 /**
  * Created by mark on 07/03/18.
@@ -12,8 +13,7 @@ public class AmenityDentist extends Poi {
 		objectName = "dentist";
 		objectClass = "amenity";
 		objectIcon = R.drawable.ic_dentist;
-		questions = new String[]{
-				"wheelchair"
-		};
+
+		questions.add(new Wheelchair());
 	}
 }

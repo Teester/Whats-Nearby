@@ -2,6 +2,7 @@ package com.teester.whatsnearby.data.pois;
 
 import com.teester.whatsnearby.data.questions.QuestionsContract;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface PoiContract {
@@ -13,9 +14,9 @@ public interface PoiContract {
 
 	int getObjectIcon();
 
-	String[] getQuestions();
+	ArrayList<QuestionsContract> getQuestions();
 
-	void setQuestions(String[] questions);
+	void setQuestions(ArrayList<QuestionsContract> questions);
 
 	void shuffleQuestions();
 
