@@ -111,7 +111,7 @@ public class UploadToOSM implements SourceContract.upload {
             if (elementValue == null) {
                 elementValue = "";
             }
-            if (value != null && !elementValue.equals(value)) {
+            if (!"".equals(value) && value != null && !elementValue.equals(value)) {
                 element.getTags().put(key, value);
             }
         }
