@@ -13,7 +13,7 @@ import de.westnordost.osmapi.map.MapDataDao;
 import de.westnordost.osmapi.map.data.Element;
 import de.westnordost.osmapi.user.UserDao;
 import oauth.signpost.OAuthConsumer;
-import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.basic.DefaultOAuthConsumer;
 
 /**
  * Handles uploading answers to OpenStreetMap
@@ -67,7 +67,7 @@ public class UploadToOSM implements SourceContract.upload {
         String oauth_token_secret = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN_SECRET);
         String oauth_token = preferences.getStringPreference(PreferenceList.OAUTH_TOKEN);
 
-        OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+        OAuthConsumer consumer = new DefaultOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
         consumer.setTokenWithSecret(oauth_token, oauth_token_secret);
 
         return new OsmConnection(

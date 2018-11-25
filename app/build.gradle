@@ -79,10 +79,6 @@ dependencies {
         exclude group: 'net.sf.kxml', module: 'kxml2'
     }
     implementation 'oauth.signpost:signpost-core:1.2.1.2'
-    implementation('oauth.signpost:signpost-commonshttp4:1.2.1.2') {
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-        exclude group: 'org.apache.httpcomponents', module: 'httpcore'
-    }
     implementation 'com.google.code.gson:gson:2.8.2'
 
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
