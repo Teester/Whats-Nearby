@@ -4,5 +4,6 @@
 /build
 app/libs/
 .idea/
-app/release/
+app/release/release
+app/release/output.json
 app/releasekeystore.jks
