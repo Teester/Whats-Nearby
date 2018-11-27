@@ -11,9 +11,9 @@ import com.teester.whatsnearby.data.questions.Wheelchair;
 public class ShopPerfumery extends Poi {
 
 	public ShopPerfumery() {
-		objectName = "optician";
+        objectName = "perfumery";
 		objectClass = "shop";
-		objectIcon = R.drawable.ic_optician;
+        objectIcon = R.drawable.ic_perfumery;
 
 		questions.add(new Wheelchair());
 		questions.add(new Cash());
